@@ -4,6 +4,10 @@ export const Route = createFileRoute('/about')({
   component: About,
 })
 
+/**
+ * About component
+ */
+
 function About() {
   return (
     <main className="page-wrap px-4 py-12">

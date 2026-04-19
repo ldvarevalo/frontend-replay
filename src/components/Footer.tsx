@@ -1,3 +1,7 @@
+/**
+ * Footer component
+ */
+
 export default function Footer() {
   const year = new Date().getFullYear()
 
