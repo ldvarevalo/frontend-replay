@@ -1,5 +1,5 @@
-import { render, screen } from '@test-utils'
-import { Header } from '../header'
+import { render, screen } from '@test-utils';
+import { Header } from '../header';
 
 /**
  * Header
@@ -7,20 +7,19 @@ import { Header } from '../header'
 
 describe('Header', () => {
   it('should render logo link', () => {
-    render(<Header />)
-    expect(screen.getByText('TanStack Start')).toBeInTheDocument()
-  })
+    render(<Header />);
+
+    expect(screen.getByText('Crate')).toBeInTheDocument();
+    expect(document.body).toMatchSnapshot();
+  });
 
   it('should render navigation links', () => {
-    render(<Header />)
-    expect(screen.getByRole('link', { name: 'Home' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'About' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Docs' })).toBeInTheDocument()
-  })
+    render(<Header />);
 
-  it('should render social links', () => {
-    render(<Header />)
-    expect(screen.getByRole('link', { name: /follow tanstack on x/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /go to tanstack github/i })).toBeInTheDocument()
-  })
-})
+    expect(screen.getByRole('link', { name: 'Dashboard' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'Collection' })
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Add' })).toBeInTheDocument();
+  });
+});
