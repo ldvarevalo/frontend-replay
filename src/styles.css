@@ -1,7 +1,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
 @import 'tailwindcss';
 @import 'tw-animate-css';
-@import "shadcn/tailwind.css";
+
+:root {
+  /* Surface & Background */
+  --color-background: #131313;
+  --color-surface: #131313;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-surface-container-high: #2a2a2a;
+
+  /* Primary */
+  --color-primary: #bbc3ff;
+  --color-primary-container: #3d5afe;
+  --color-on-primary-container: #ffffff;
+
+  /* On Surface */
+  --color-on-surface: #ffffff;
+  --color-on-surface-variant: #a8a8a8;
+
+  /* Alias shadcn (compatibilidad) */
+  --color-foreground: var(--color-on-surface);
+  --color-card: var(--color-surface);
+  --color-card-foreground: var(--color-on-surface);
+  --color-popover: var(--color-surface);
+  --color-popover-foreground: var(--color-on-surface);
+  --color-secondary: var(--color-surface-container-high);
+  --color-secondary-foreground: var(--color-on-surface);
+  --color-muted: var(--color-surface-container-high);
+  --color-muted-foreground: var(--color-on-surface-variant);
+  --color-accent: var(--color-primary);
+  --color-accent-foreground: var(--color-on-surface);
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-border: var(--color-surface-container-high);
+  --color-input: var(--color-surface-container-high);
+  --color-ring: var(--color-primary);
+  --radius: 0px;
+
+  /* Chart colors */
+  --color-chart-1: var(--color-primary);
+  --color-chart-2: var(--color-primary-container);
+  --color-chart-3: var(--color-on-surface-variant);
+  --color-chart-4: var(--color-on-surface);
+  --color-chart-5: var(--color-on-surface);
+}
 
 @theme inline {
   --font-sans: 'Inter', sans-serif;
@@ -11,5 +53,29 @@
 @layer base {
   html {
     @apply font-sans;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    border-color: var(--color-border);
+  }
+}
+
+@layer components {
+  .page-wrap {
+    container-type: inline-size;
+    margin-inline: auto;
+    width: 100%;
+    padding-inline: 1rem;
+  }
+
+  .display-title {
+    font-family: var(--font-heading);
   }
 }
