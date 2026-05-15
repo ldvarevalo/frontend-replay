@@ -2,10 +2,10 @@ import { useState, type FunctionComponent } from 'react';
 import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router';
 
 /**
- * Home
+ * Login
  */
 
-export const Home: FunctionComponent = () => {
+export const Login: FunctionComponent = () => {
   const [isChecked, setIsChecked] = useState(() => localStorage.getItem('is_authenticated') === 'true');
   const navigate = useNavigate();
   const { redirect } = useSearch({ from: '/' });
@@ -19,6 +19,7 @@ export const Home: FunctionComponent = () => {
   const handleLogin = (): void => {
     localStorage.setItem('is_authenticated', 'true');
     const target = redirect || '/inicio';
+
     navigate({
       to: target,
       replace: true,
@@ -47,9 +48,13 @@ export const Home: FunctionComponent = () => {
   );
 };
 
+/**
+ * Login Route
+ */
+
 export const Route = createFileRoute('/')({
   validateSearch: (search: Record<string, string | undefined>) => ({
     redirect: search.redirect,
   }),
-  component: Home,
+  component: Login,
 });
