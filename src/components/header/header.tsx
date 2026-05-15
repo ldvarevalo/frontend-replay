@@ -15,7 +15,7 @@ export const Header: FunctionComponent = () => (
 
       <div className="order-3 flex w-full items-center gap-x-4 gap-y-1 pb-1 text-sm font-semibold sm:order-2 sm:w-auto sm:flex-nowrap sm:pb-0">
         <Link
-          to="/"
+          to="/inicio"
           className="text-muted-foreground no-underline transition-colors hover:text-foreground"
           activeProps={{ className: 'text-foreground' }}
         >
@@ -34,6 +34,12 @@ export const Header: FunctionComponent = () => (
           activeProps={{ className: 'text-foreground' }}
         >
           Add
+        </Link>
+        <Link
+          to="/logout"
+          className="text-muted-foreground no-underline transition-colors hover:text-foreground"
+        >
+          Logout
         </Link>
       </div>
     </nav>
