@@ -50,6 +50,21 @@
 @theme inline {
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Newsreader', serif;
+
+  /* Base colors */
+  --color-background: #131313;
+  --color-surface: #131313;
+  --color-surface-container-lowest: #0e0e0e;
+  --color-surface-container-high: #2a2a2a;
+  --color-primary: #bbc3ff;
+  --color-primary-container: #3d5afe;
+  --color-on-primary-container: #ffffff;
+  --color-on-surface: #ffffff;
+  --color-on-surface-variant: #a8a8a8;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-outline: rgba(255, 255, 255, 0.15);
+  --color-outline-20: rgba(255, 255, 255, 0.20);
 }
 
 @layer base {
