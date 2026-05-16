@@ -12,6 +12,7 @@ interface TypographyProps extends VariantProps<typeof typographyVariants> {
   as?: TypographyAs;
   children: ReactNode;
   className?: string;
+  uppercase?: boolean;
 }
 
 /**
@@ -43,6 +44,7 @@ const typographyVariants = cva('', {
       xs: 'text-xs',
       sm: 'text-sm',
       base: 'text-base',
+      md: 'text-[18px] leading-tight',
       lg: 'text-xl',
       xl: 'text-2xl',
       '2xl': 'text-4xl',
@@ -60,7 +62,9 @@ const typographyVariants = cva('', {
     tracking: {
       normal: '',
       tight: 'tracking-tight',
+      tighter: 'tracking-tighter',
       wider: 'tracking-wider',
+      widest: 'tracking-widest',
     },
   },
   defaultVariants: {
@@ -83,18 +87,21 @@ export const Typography: FunctionComponent<TypographyProps> = ({
   weight,
   transform,
   tracking,
+  uppercase,
   className,
   children,
 }) => {
   const Component: ElementType = as ?? DEFAULT_ELEMENT[family ?? 'body'] ?? 'p';
   return (
     <Component
-      className={cn(typographyVariants({ family,
-size,
-weight,
-transform,
-tracking,
-className }))}
+      className={cn(typographyVariants({
+        family,
+        size,
+        weight,
+        transform: uppercase ? 'uppercase' : transform,
+        tracking,
+        className,
+      }))}
     >
       {children}
     </Component>

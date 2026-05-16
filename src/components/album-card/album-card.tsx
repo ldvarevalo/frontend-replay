@@ -27,23 +27,24 @@ export const AlbumCard: FunctionComponent<AlbumCardProps> = ({
   <button
     type="button"
     onClick={onClick}
-    className="flex flex-col items-start gap-1.5 text-left transition-opacity hover:opacity-80"
+    className="flex flex-col items-start text-left transition-opacity hover:opacity-80"
   >
-    <div className="aspect-square w-full overflow-hidden bg-muted">
-      <img
-        src={coverUrl}
-        alt={title}
-        className="h-full w-full object-cover"
-      />
+    <div className="aspect-square mb-4 w-full overflow-hidden bg-muted">
+      <img src={coverUrl} alt={title} className="h-full w-full object-cover" />
     </div>
-    <Typography family="heading" size="sm">
+    <Typography className="text-on-surface" as="h3" family="heading" size="md" weight="semibold">
       {title}
     </Typography>
-    <Typography size="xs">
+    <Typography
+      className="text-on-surface-variant"
+      size="xs"
+      tracking="widest"
+      uppercase
+    >
       {artist}
     </Typography>
     {year && (
-      <Typography size="xs">
+      <Typography className="text-on-surface-variant" size="2xs">
         {year}
       </Typography>
     )}
