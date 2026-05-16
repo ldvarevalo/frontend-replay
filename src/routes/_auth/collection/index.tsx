@@ -35,17 +35,30 @@ const TABS = [
 
 const CollectionPage: FunctionComponent = () => {
   const navigate = useNavigate();
-  const { filteredAlbums, searchQuery, setSearchQuery, activeTab, setActiveTab } =
-    useCollectionData();
+  const {
+    filteredAlbums,
+    searchQuery,
+    setSearchQuery,
+    activeTab,
+    setActiveTab,
+  } = useCollectionData();
 
   return (
     <main className="page-wrap space-y-6 py-6">
-      <SearchBar value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-      <div>
+      <SearchBar
+        value={searchQuery}
+        onChange={e => setSearchQuery(e.target.value)}
+      />
+      <div className="mb-8">
         <Typography family="heading" size="2xl">
           Archive
         </Typography>
-        <Typography size="xs" weight="medium" transform="uppercase" tracking="wider">
+        <Typography
+          size="xs"
+          weight="medium"
+          transform="uppercase"
+          tracking="wider"
+        >
           {filteredAlbums.length} RECORDS COLLECTED
         </Typography>
       </div>
@@ -56,7 +69,7 @@ const CollectionPage: FunctionComponent = () => {
       />
       <CollectionAlbumGrid
         albums={filteredAlbums}
-        onAlbumClick={(id) => navigate({ to: `/album/${id}` })}
+        onAlbumClick={id => navigate({ to: `/album/${id}` })}
       />
     </main>
   );
