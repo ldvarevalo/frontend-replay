@@ -5,7 +5,7 @@ import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router'
  * Login
  */
 
-export const Login: FunctionComponent = () => {
+const Login: FunctionComponent = () => {
   const [isChecked, setIsChecked] = useState(() => localStorage.getItem('is_authenticated') === 'true');
   const navigate = useNavigate();
   const { redirect } = useSearch({ from: '/' });
