@@ -80,4 +80,8 @@
   .display-title {
     font-family: var(--font-heading);
   }
+
+  .soul-gradient {
+    background: linear-gradient(135deg, var(--color-primary-container), #7c4dff);
+  }
 }
