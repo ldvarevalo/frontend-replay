@@ -1,6 +1,6 @@
 import type { FunctionComponent } from 'react';
 import { Link } from '@tanstack/react-router';
-import { House, Library, Plus } from 'lucide-react';
+import { House, Library, Plus, type LucideIcon } from 'lucide-react';
 import { Typography } from '#/components/ui/typography';
 import { cn } from '#/lib/utils';
 
@@ -10,6 +10,13 @@ import { cn } from '#/lib/utils';
 
 type TabId = 'home' | 'collection' | 'add';
 
+interface Tab {
+  id: TabId;
+  label: string;
+  icon: LucideIcon;
+  to: string;
+}
+
 interface BottomNavProps {
   activeTab: TabId;
 }
@@ -18,19 +25,25 @@ interface BottomNavProps {
  * Constants
  */
 
-const TABS: { id: TabId; label: string; icon: typeof House; to: string }[] = [
-  { id: 'home',
-label: 'Home',
-icon: House,
-to: '/inicio' },
-  { id: 'collection',
-label: 'Collection',
-icon: Library,
-to: '/collection' },
-  { id: 'add',
-label: 'Add',
-icon: Plus,
-to: '/add' },
+const TABS: Tab[] = [
+  {
+    id: 'home',
+    label: 'Home',
+    icon: House,
+    to: '/inicio',
+  },
+  {
+    id: 'collection',
+    label: 'Collection',
+    icon: Library,
+    to: '/collection',
+  },
+  {
+    id: 'add',
+    label: 'Add',
+    icon: Plus,
+    to: '/add',
+  },
 ];
 
 /**
@@ -46,11 +59,13 @@ export const BottomNav: FunctionComponent<BottomNavProps> = ({ activeTab }) => (
           to={to}
           className={cn(
             'flex flex-col items-center gap-0.5 no-underline transition-colors',
-            activeTab === id ? 'text-primary' : 'text-muted-foreground',
+            activeTab === id ? 'text-primary' : 'text-muted-foreground'
           )}
         >
           <Icon className="size-5" />
-          <Typography size="2xs" weight="medium">{label}</Typography>
+          <Typography size="2xs" weight="medium">
+            {label}
+          </Typography>
         </Link>
       ))}
     </div>
