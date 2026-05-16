@@ -1,9 +1,9 @@
 import type { FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Typography } from '#/components/ui/typography';
-import { SearchBar } from './-components/search-bar';
-import { FilterTabs } from './-components/filter-tabs';
 import { CollectionAlbumGrid } from './-components/collection-album-grid';
+import { FilterTabs } from './-components/filter-tabs';
+import { SearchBar } from './-components/search-bar';
 import { useCollectionData } from './-hooks/use-collection-data';
 
 /**
@@ -11,10 +11,22 @@ import { useCollectionData } from './-hooks/use-collection-data';
  */
 
 const TABS = [
-  { id: 'ALL', label: 'ALL' },
-  { id: 'WANT', label: 'WANT' },
-  { id: 'LISTENING', label: 'LISTENING' },
-  { id: 'LISTENED', label: 'LISTENED' },
+  {
+    id: 'ALL',
+    label: 'ALL',
+  },
+  {
+    id: 'WANT',
+    label: 'WANT',
+  },
+  {
+    id: 'LISTENING',
+    label: 'LISTENING',
+  },
+  {
+    id: 'LISTENED',
+    label: 'LISTENED',
+  },
 ];
 
 /**
