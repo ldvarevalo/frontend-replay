@@ -30,7 +30,7 @@ const Login: FunctionComponent = () => {
     <main className="page-wrap py-20">
       <button
         onClick={handleLogin}
-        className="inline-block px-6 py-3 bg-primary bg-primary-container text-on-primary-container font-semibold"
+        className="inline-block px-6 py-3 bg-primary-container text-on-primary-container font-semibold"
       >
         Entrar
       </button>

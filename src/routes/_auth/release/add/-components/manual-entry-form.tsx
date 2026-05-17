@@ -28,25 +28,33 @@ interface ManualEntryFormProps {
  */
 
 const FULL_FIELDS: ManualEntryFormField[] = [
-  { key: 'title',
-label: 'RELEASE TITLE',
-placeholder: 'e.g. A Love Supreme',
-width: 'full' },
-  { key: 'artist',
-label: 'ARTIST',
-placeholder: 'e.g. John Coltrane',
-width: 'full' },
+  {
+    key: 'title',
+    label: 'RELEASE TITLE',
+    placeholder: 'e.g. A Love Supreme',
+    width: 'full',
+  },
+  {
+    key: 'artist',
+    label: 'ARTIST',
+    placeholder: 'e.g. John Coltrane',
+    width: 'full',
+  },
 ];
 
 const HALF_FIELDS: ManualEntryFormField[] = [
-  { key: 'year',
-label: 'RELEASE YEAR',
-placeholder: '1965',
-width: 'half' },
-  { key: 'genre',
-label: 'GENRE',
-placeholder: 'Jazz',
-width: 'half' },
+  {
+    key: 'year',
+    label: 'RELEASE YEAR',
+    placeholder: '1965',
+    width: 'half',
+  },
+  {
+    key: 'genre',
+    label: 'GENRE',
+    placeholder: 'Jazz',
+    width: 'half',
+  },
 ];
 
 /**
@@ -64,16 +72,16 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
       <div key={key}>
         <Typography
           size="xs"
-          weight="medium"
+          weight="black"
           tracking="widest"
           transform="uppercase"
-          className="mb-1 text-on-surface-variant"
+          className="mb-2 text-primary"
         >
           {label}
         </Typography>
         <Input
           value={values[key]}
-          onChange={(e) => onFieldChange(key, e.target.value)}
+          onChange={e => onFieldChange(key, e.target.value)}
           placeholder={placeholder}
         />
       </div>
@@ -84,16 +92,16 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
         <div key={key} className="flex-1">
           <Typography
             size="xs"
-            weight="medium"
+            weight="black"
             tracking="widest"
             transform="uppercase"
-            className="mb-1 text-on-surface-variant"
+            className="mb-2 text-primary"
           >
             {label}
           </Typography>
           <Input
             value={values[key]}
-            onChange={(e) => onFieldChange(key, e.target.value)}
+            onChange={e => onFieldChange(key, e.target.value)}
             placeholder={placeholder}
           />
         </div>
@@ -104,26 +112,26 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
       <div className="flex-1">
         <Typography
           size="xs"
-          weight="medium"
+          weight="black"
           tracking="widest"
           transform="uppercase"
-          className="mb-1 text-on-surface-variant"
+          className="mb-2 text-primary"
         >
           ARTWORK URL
         </Typography>
         <Input
           value={values.artworkUrl}
-          onChange={(e) => onFieldChange('artworkUrl', e.target.value)}
+          onChange={e => onFieldChange('artworkUrl', e.target.value)}
           placeholder="https://..."
         />
       </div>
-      <div className="w-20 flex-shrink-0">
+      <div className="w-20 shrink-0">
         <ArtworkPreview imageUrl={values.artworkUrl} />
       </div>
     </div>
 
     <Button
-      variant="default"
+      variant="primary"
       size="lg"
       onClick={onSubmit}
       disabled={!isValid}
