@@ -2,8 +2,13 @@ import type { ReactNode } from 'react';
 import { TanStackDevtools } from '@tanstack/react-devtools';
 import { HeadContent, Outlet, createRootRoute } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
-
 import appCss from '../styles.css?url';
+
+/**
+ * Constants
+ */
+
+const showDevtools = import.meta.env.VITE_TANSTACK_DEVTOOLS_ENABLED === 'true';
 
 /**
  * Root
@@ -13,17 +18,19 @@ const RootDocument = (): ReactNode => (
   <>
     <HeadContent />
     <Outlet />
-    <TanStackDevtools
-      config={{
-        position: 'bottom-right',
-      }}
-      plugins={[
-        {
-          name: 'Tanstack Router',
-          render: <TanStackRouterDevtoolsPanel />,
-        },
-      ]}
-    />
+    {showDevtools && (
+      <TanStackDevtools
+        config={{
+          position: 'bottom-right',
+        }}
+        plugins={[
+          {
+            name: 'Tanstack Router',
+            render: <TanStackRouterDevtoolsPanel />,
+          },
+        ]}
+      />
+    )}
   </>
 );
 
