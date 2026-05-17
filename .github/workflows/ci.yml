@@ -19,3 +19,11 @@ jobs:
       - run: yarn lint
       - run: yarn typescript
       - run: yarn test
+
+  deploy:
+    needs: [validate]
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render Deploy
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
