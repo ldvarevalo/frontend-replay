@@ -2,7 +2,7 @@ import type { FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { AlbumCard } from '#/components/album-card';
 import { SectionHeader } from '#/components/section-header';
-import { TrackRow } from '#/components/track-row';
+import { AlbumRow } from '#/components/album-row';
 import { BannerCta } from './-components/banner-cta';
 import { StatsCard } from './-components/stats-card';
 import { useHomeData } from './-hooks/use-home-data';
@@ -40,8 +40,9 @@ const HomePage: FunctionComponent = () => {
       <SectionHeader title="Up Next" />
       <div className="flex flex-col">
         {tracks.map((track) => (
-          <TrackRow
+          <AlbumRow
             key={track.id}
+            thumbnail={track.thumbnail}
             title={track.title}
             artist={track.artist}
             duration={track.duration}

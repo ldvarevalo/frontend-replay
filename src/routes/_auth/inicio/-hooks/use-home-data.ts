@@ -11,6 +11,7 @@ export interface Album {
 
 export interface Track {
   id: string;
+  thumbnail: string;
   title: string;
   artist: string;
   duration: string;
@@ -63,18 +64,21 @@ const MOCK_ALBUMS: Album[] = [
 const MOCK_TRACKS: Track[] = [
   {
     id: 't1',
+    thumbnail: 'https://picsum.photos/seed/track1/200',
     title: 'Time',
     artist: 'Pink Floyd',
     duration: '6:53',
   },
   {
     id: 't2',
+    thumbnail: 'https://picsum.photos/seed/track2/200',
     title: 'Dreams',
     artist: 'Fleetwood Mac',
     duration: '4:17',
   },
   {
     id: 't3',
+    thumbnail: 'https://picsum.photos/seed/track3/200',
     title: 'Billie Jean',
     artist: 'Michael Jackson',
     duration: '4:54',
@@ -82,12 +86,14 @@ const MOCK_TRACKS: Track[] = [
   },
   {
     id: 't4',
+    thumbnail: 'https://picsum.photos/seed/track4/200',
     title: 'Hells Bells',
     artist: 'AC/DC',
     duration: '5:12',
   },
   {
     id: 't5',
+    thumbnail: 'https://picsum.photos/seed/track5/200',
     title: 'Bohemian Rhapsody',
     artist: 'Queen',
     duration: '5:55',
