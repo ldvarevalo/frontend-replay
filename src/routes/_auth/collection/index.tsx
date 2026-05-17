@@ -50,7 +50,7 @@ const CollectionPage: FunctionComponent = () => {
         onChange={e => setSearchQuery(e.target.value)}
       />
       <div className="mb-8">
-        <Typography family="heading" size="2xl">
+        <Typography as="h2" family="heading" size="2xl">
           Archive
         </Typography>
         <Typography
