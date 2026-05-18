@@ -6,7 +6,7 @@ import { cn } from '#/lib/utils';
  * Types
  */
 
-interface AlbumRowProps {
+export interface AlbumRowProps {
   thumbnail: string;
   title: string;
   artist: string;

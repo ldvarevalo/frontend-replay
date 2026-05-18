@@ -5,7 +5,7 @@ import { Typography } from '#/components/ui/typography';
  * Types
  */
 
-interface AlbumCardProps {
+export interface AlbumCardProps {
   coverUrl: string;
   title: string;
   artist: string;

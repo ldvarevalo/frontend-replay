@@ -6,7 +6,7 @@ import { cn } from '#/lib/utils';
  * Types
  */
 
-interface Tab {
+export interface Tab {
   id: string;
   label: string;
 }

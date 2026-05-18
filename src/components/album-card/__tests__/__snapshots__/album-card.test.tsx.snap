@@ -1,0 +1,33 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`AlbumCard > should render with year and match snapshot 1`] = `
+<button
+  class="flex flex-col items-start text-left transition-opacity hover:opacity-80"
+  type="button"
+>
+  <div
+    class="aspect-square mb-4 w-full overflow-hidden bg-muted"
+  >
+    <img
+      alt="A Love Supreme"
+      class="h-full w-full object-cover"
+      src="https://example.com/cover.jpg"
+    />
+  </div>
+  <h3
+    class="font-heading italic text-[18px] leading-tight font-semibold text-on-surface"
+  >
+    A Love Supreme
+  </h3>
+  <p
+    class="font-sans text-xs font-normal uppercase tracking-widest text-on-surface-variant"
+  >
+    John Coltrane
+  </p>
+  <p
+    class="font-sans text-[10px] font-normal text-on-surface-variant"
+  >
+    1965
+  </p>
+</button>
+`;
