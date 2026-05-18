@@ -2,6 +2,16 @@ import { render, screen } from '@test-utils';
 import type { CollectionAlbum } from '../../-hooks/use-collection-data';
 import { CollectionAlbumGrid } from '../collection-album-grid';
 
+/**
+ * Mocks
+ */
+
+const handleAlbumClickMock = vi.fn();
+
+/**
+ * Tests
+ */
+
 describe('CollectionAlbumGrid', () => {
   const albums: CollectionAlbum[] = [
     {
@@ -22,16 +32,32 @@ describe('CollectionAlbumGrid', () => {
     },
   ];
 
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('should render album cards for each album', () => {
-    render(<CollectionAlbumGrid albums={albums} onAlbumClick={vi.fn()} />);
+    render(
+      <CollectionAlbumGrid
+        albums={albums}
+        onAlbumClick={handleAlbumClickMock}
+      />
+    );
+
     expect(screen.getByText('Album 1')).toBeInTheDocument();
     expect(screen.getByText('Album 2')).toBeInTheDocument();
   });
 
   it('should fire onAlbumClick with album id', () => {
-    const onAlbumClick = vi.fn();
-    render(<CollectionAlbumGrid albums={albums} onAlbumClick={onAlbumClick} />);
+    render(
+      <CollectionAlbumGrid
+        albums={albums}
+        onAlbumClick={handleAlbumClickMock}
+      />
+    );
+
     screen.getByText('Album 1').closest('button')?.click();
-    expect(onAlbumClick).toHaveBeenCalledWith('1');
+
+    expect(handleAlbumClickMock).toHaveBeenCalledWith('1');
   });
 });

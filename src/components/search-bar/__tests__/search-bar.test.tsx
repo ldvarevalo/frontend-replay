@@ -2,27 +2,53 @@ import { fireEvent } from '@testing-library/react';
 import { render, screen } from '@test-utils';
 import { SearchBar } from '../search-bar';
 
+/**
+ * Mocks
+ */
+
+const handleChangeMock = vi.fn();
+
+/**
+ * Tests
+ */
+
 describe('SearchBar', () => {
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('should render input with default placeholder', () => {
-    render(<SearchBar value="" onChange={vi.fn()} />);
-    expect(screen.getByPlaceholderText('Search archive...')).toBeInTheDocument();
+    render(<SearchBar value="" onChange={handleChangeMock} />);
+
+    expect(
+      screen.getByPlaceholderText('Search archive...')
+    ).toBeInTheDocument();
   });
 
   it('should render custom placeholder', () => {
-    render(<SearchBar value="" onChange={vi.fn()} placeholder="Search albums..." />);
+    render(
+      <SearchBar
+        value=""
+        onChange={handleChangeMock}
+        placeholder="Search albums..."
+      />
+    );
+
     expect(screen.getByPlaceholderText('Search albums...')).toBeInTheDocument();
   });
 
   it('should pass value to input', () => {
-    render(<SearchBar value="test" onChange={vi.fn()} />);
+    render(<SearchBar value="test" onChange={handleChangeMock} />);
+
     expect(screen.getByDisplayValue('test')).toBeInTheDocument();
   });
 
   it('should fire onChange when input changes', () => {
-    const onChange = vi.fn();
-    render(<SearchBar value="" onChange={onChange} />);
+    render(<SearchBar value="" onChange={handleChangeMock} />);
+
     const input = screen.getByPlaceholderText('Search archive...');
     fireEvent.change(input, { target: { value: 'jazz' } });
-    expect(onChange).toHaveBeenCalledTimes(1);
+
+    expect(handleChangeMock).toHaveBeenCalledTimes(1);
   });
 });
