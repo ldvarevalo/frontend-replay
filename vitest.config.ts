@@ -22,6 +22,12 @@ export default defineConfig({
         '**/constants/**',
         '**/interfaces/**',
       ],
+      thresholds: {
+        statements: 70,
+        branches: 90,
+        functions: 50,
+        lines: 70,
+      },
     },
   },
 })
