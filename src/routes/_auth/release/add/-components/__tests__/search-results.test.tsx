@@ -3,8 +3,16 @@ import { SearchResults } from '../search-results';
 
 describe('SearchResults', () => {
   const results = [
-    { id: '1', title: 'Album 1', artist: 'Artist 1', thumbnail: 'https://example.com/1.jpg', isAdded: false },
-    { id: '2', title: 'Album 2', artist: 'Artist 2', thumbnail: 'https://example.com/2.jpg', isAdded: true },
+    { id: '1',
+title: 'Album 1',
+artist: 'Artist 1',
+thumbnail: 'https://example.com/1.jpg',
+isAdded: false },
+    { id: '2',
+title: 'Album 2',
+artist: 'Artist 2',
+thumbnail: 'https://example.com/2.jpg',
+isAdded: true },
   ];
 
   it('should render album rows for each result', () => {

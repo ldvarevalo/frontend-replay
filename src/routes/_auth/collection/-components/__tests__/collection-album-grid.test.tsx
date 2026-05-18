@@ -3,8 +3,22 @@ import { CollectionAlbumGrid } from '../collection-album-grid';
 
 describe('CollectionAlbumGrid', () => {
   const albums = [
-    { id: '1', coverUrl: 'https://example.com/1.jpg', title: 'Album 1', artist: 'Artist 1', year: '2001' },
-    { id: '2', coverUrl: 'https://example.com/2.jpg', title: 'Album 2', artist: 'Artist 2' },
+    {
+      id: '1',
+      coverUrl: 'https://example.com/1.jpg',
+      title: 'Album 1',
+      artist: 'Artist 1',
+      year: '2001',
+      status: 'owned' as const,
+    },
+    {
+      id: '2',
+      coverUrl: 'https://example.com/2.jpg',
+      title: 'Album 2',
+      artist: 'Artist 2',
+      year: '2002',
+      status: 'want' as const,
+    },
   ];
 
   it('should render album cards for each album', () => {

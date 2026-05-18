@@ -3,9 +3,12 @@ import { FilterTabs } from '../filter-tabs';
 
 describe('FilterTabs', () => {
   const tabs = [
-    { id: 'all', label: 'All' },
-    { id: 'vinyl', label: 'Vinyl' },
-    { id: 'cd', label: 'CD' },
+    { id: 'all',
+label: 'All' },
+    { id: 'vinyl',
+label: 'Vinyl' },
+    { id: 'cd',
+label: 'CD' },
   ];
 
   it('should render all tabs', () => {

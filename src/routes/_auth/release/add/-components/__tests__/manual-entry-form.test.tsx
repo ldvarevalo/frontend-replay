@@ -37,7 +37,8 @@ describe('ManualEntryForm', () => {
   });
 
   it('should show artwork preview with artworkUrl value', () => {
-    const values = { ...defaultValues, artworkUrl: 'https://example.com/art.jpg' };
+    const values = { ...defaultValues,
+artworkUrl: 'https://example.com/art.jpg' };
     render(<ManualEntryForm values={values} onFieldChange={() => {}} onSubmit={() => {}} isValid={false} />);
     expect(screen.getByAltText('Artwork preview')).toHaveAttribute('src', 'https://example.com/art.jpg');
   });
