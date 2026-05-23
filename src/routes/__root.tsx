@@ -1,6 +1,11 @@
 import type { ReactNode } from 'react';
 import { TanStackDevtools } from '@tanstack/react-devtools';
-import { HeadContent, Outlet, createRootRoute } from '@tanstack/react-router';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import {
+  HeadContent,
+  Outlet,
+  createRootRouteWithContext,
+} from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import appCss from '../styles.css?url';
 
@@ -28,6 +33,10 @@ const RootDocument = (): ReactNode => (
             name: 'Tanstack Router',
             render: <TanStackRouterDevtoolsPanel />,
           },
+          {
+            name: 'Tanstack Query',
+            render: <ReactQueryDevtools initialIsOpen={false} />,
+          },
         ]}
       />
     )}
@@ -38,7 +47,9 @@ const RootDocument = (): ReactNode => (
  * Root route
  */
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<{
+  queryClient: import('@tanstack/react-query').QueryClient;
+}>()({
   component: RootDocument,
   head: () => ({
     meta: [

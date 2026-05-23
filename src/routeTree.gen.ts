@@ -8,72 +8,72 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as AuthRouteImport } from './routes/_auth'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as LogoutIndexRouteImport } from './routes/logout/index'
-import { Route as AuthInicioIndexRouteImport } from './routes/_auth/inicio/index'
-import { Route as AuthCollectionIndexRouteImport } from './routes/_auth/collection/index'
-import { Route as AuthReleaseAddIndexRouteImport } from './routes/_auth/release/add/index'
+import { Route as rootRouteImport } from './routes/__root';
+import { Route as AuthRouteImport } from './routes/_auth';
+import { Route as IndexRouteImport } from './routes/index';
+import { Route as LogoutIndexRouteImport } from './routes/logout/index';
+import { Route as AuthInicioIndexRouteImport } from './routes/_auth/inicio/index';
+import { Route as AuthCollectionIndexRouteImport } from './routes/_auth/collection/index';
+import { Route as AuthReleaseAddIndexRouteImport } from './routes/_auth/release/add/index';
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const LogoutIndexRoute = LogoutIndexRouteImport.update({
   id: '/logout/',
   path: '/logout/',
   getParentRoute: () => rootRouteImport,
-} as any)
+} as any);
 const AuthInicioIndexRoute = AuthInicioIndexRouteImport.update({
   id: '/inicio/',
   path: '/inicio/',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthCollectionIndexRoute = AuthCollectionIndexRouteImport.update({
   id: '/collection/',
   path: '/collection/',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 const AuthReleaseAddIndexRoute = AuthReleaseAddIndexRouteImport.update({
   id: '/release/add/',
   path: '/release/add/',
   getParentRoute: () => AuthRoute,
-} as any)
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/logout/': typeof LogoutIndexRoute
-  '/collection/': typeof AuthCollectionIndexRoute
-  '/inicio/': typeof AuthInicioIndexRoute
-  '/release/add/': typeof AuthReleaseAddIndexRoute
+  '/': typeof IndexRoute;
+  '/logout/': typeof LogoutIndexRoute;
+  '/collection/': typeof AuthCollectionIndexRoute;
+  '/inicio/': typeof AuthInicioIndexRoute;
+  '/release/add/': typeof AuthReleaseAddIndexRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/logout': typeof LogoutIndexRoute
-  '/collection': typeof AuthCollectionIndexRoute
-  '/inicio': typeof AuthInicioIndexRoute
-  '/release/add': typeof AuthReleaseAddIndexRoute
+  '/': typeof IndexRoute;
+  '/logout': typeof LogoutIndexRoute;
+  '/collection': typeof AuthCollectionIndexRoute;
+  '/inicio': typeof AuthInicioIndexRoute;
+  '/release/add': typeof AuthReleaseAddIndexRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/_auth': typeof AuthRouteWithChildren
-  '/logout/': typeof LogoutIndexRoute
-  '/_auth/collection/': typeof AuthCollectionIndexRoute
-  '/_auth/inicio/': typeof AuthInicioIndexRoute
-  '/_auth/release/add/': typeof AuthReleaseAddIndexRoute
+  __root__: typeof rootRouteImport;
+  '/': typeof IndexRoute;
+  '/_auth': typeof AuthRouteWithChildren;
+  '/logout/': typeof LogoutIndexRoute;
+  '/_auth/collection/': typeof AuthCollectionIndexRoute;
+  '/_auth/inicio/': typeof AuthInicioIndexRoute;
+  '/_auth/release/add/': typeof AuthReleaseAddIndexRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/logout/' | '/collection/' | '/inicio/' | '/release/add/'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/logout' | '/collection' | '/inicio' | '/release/add'
+  fileRoutesByFullPath: FileRoutesByFullPath;
+  fullPaths: '/' | '/logout/' | '/collection/' | '/inicio/' | '/release/add/';
+  fileRoutesByTo: FileRoutesByTo;
+  to: '/' | '/logout' | '/collection' | '/inicio' | '/release/add';
   id:
     | '__root__'
     | '/'
@@ -81,81 +81,81 @@ export interface FileRouteTypes {
     | '/logout/'
     | '/_auth/collection/'
     | '/_auth/inicio/'
-    | '/_auth/release/add/'
-  fileRoutesById: FileRoutesById
+    | '/_auth/release/add/';
+  fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AuthRoute: typeof AuthRouteWithChildren
-  LogoutIndexRoute: typeof LogoutIndexRoute
+  IndexRoute: typeof IndexRoute;
+  AuthRoute: typeof AuthRouteWithChildren;
+  LogoutIndexRoute: typeof LogoutIndexRoute;
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/_auth': {
-      id: '/_auth'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/_auth';
+      path: '';
+      fullPath: '/';
+      preLoaderRoute: typeof AuthRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof IndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/logout/': {
-      id: '/logout/'
-      path: '/logout'
-      fullPath: '/logout/'
-      preLoaderRoute: typeof LogoutIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
+      id: '/logout/';
+      path: '/logout';
+      fullPath: '/logout/';
+      preLoaderRoute: typeof LogoutIndexRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     '/_auth/inicio/': {
-      id: '/_auth/inicio/'
-      path: '/inicio'
-      fullPath: '/inicio/'
-      preLoaderRoute: typeof AuthInicioIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/inicio/';
+      path: '/inicio';
+      fullPath: '/inicio/';
+      preLoaderRoute: typeof AuthInicioIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/collection/': {
-      id: '/_auth/collection/'
-      path: '/collection'
-      fullPath: '/collection/'
-      preLoaderRoute: typeof AuthCollectionIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/collection/';
+      path: '/collection';
+      fullPath: '/collection/';
+      preLoaderRoute: typeof AuthCollectionIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
     '/_auth/release/add/': {
-      id: '/_auth/release/add/'
-      path: '/release/add'
-      fullPath: '/release/add/'
-      preLoaderRoute: typeof AuthReleaseAddIndexRouteImport
-      parentRoute: typeof AuthRoute
-    }
+      id: '/_auth/release/add/';
+      path: '/release/add';
+      fullPath: '/release/add/';
+      preLoaderRoute: typeof AuthReleaseAddIndexRouteImport;
+      parentRoute: typeof AuthRoute;
+    };
   }
 }
 
 interface AuthRouteChildren {
-  AuthCollectionIndexRoute: typeof AuthCollectionIndexRoute
-  AuthInicioIndexRoute: typeof AuthInicioIndexRoute
-  AuthReleaseAddIndexRoute: typeof AuthReleaseAddIndexRoute
+  AuthCollectionIndexRoute: typeof AuthCollectionIndexRoute;
+  AuthInicioIndexRoute: typeof AuthInicioIndexRoute;
+  AuthReleaseAddIndexRoute: typeof AuthReleaseAddIndexRoute;
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthCollectionIndexRoute: AuthCollectionIndexRoute,
   AuthInicioIndexRoute: AuthInicioIndexRoute,
   AuthReleaseAddIndexRoute: AuthReleaseAddIndexRoute,
-}
+};
 
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
   LogoutIndexRoute: LogoutIndexRoute,
-}
+};
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();

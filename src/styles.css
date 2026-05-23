@@ -36,7 +36,7 @@
   --color-input: var(--color-surface-container-high);
   --color-ring: var(--color-primary);
   --color-outline: rgba(255, 255, 255, 0.15);
-  --color-outline-20: rgba(255, 255, 255, 0.20);
+  --color-outline-20: rgba(255, 255, 255, 0.2);
   --radius: 0px;
 
   /* Chart colors */
@@ -64,7 +64,7 @@
   --color-destructive: #ef4444;
   --color-destructive-foreground: #ffffff;
   --color-outline: rgba(255, 255, 255, 0.15);
-  --color-outline-20: rgba(255, 255, 255, 0.20);
+  --color-outline-20: rgba(255, 255, 255, 0.2);
 
   --tracking-wider: 0.2em;
 }
@@ -99,7 +99,11 @@
   }
 
   .soul-gradient {
-    background: linear-gradient(135deg, var(--color-primary-container), #7c4dff);
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-container),
+      #7c4dff
+    );
   }
 
   .hide-scrollbar {

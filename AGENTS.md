@@ -3,92 +3,82 @@
 ## Commands
 
 ```bash
-yarn dev          # Start dev server
-yarn build       # Build (validates syntax + imports)
-yarn lint        # ESLint
-yarn lint:fix    # ESLint auto-fix
-yarn typescript  # TypeScript check
-yarn test        # Run tests
-yarn test:watch  # Watch mode
+yarn dev          # Dev server (port 3000)
+yarn build        # Build (validates syntax + imports)
+yarn lint         # ESLint
+yarn lint:fix     # ESLint auto-fix
+yarn typescript   # TypeScript check (tsc --noEmit)
+yarn test         # Vitest run
+yarn test:watch   # Vitest watch mode
+yarn test:cov     # Coverage (70/90/50 thresholds)
 ```
 
 ## Verification Order
 
-`lint → typescript → test`
+`lint → typescript → test` (CI enforces this exact order)
 
 ## Workflow
 
-- **Branch first:** crear branch (`feat/<name>`) antes de implementar
-- **Brainstorming first:** usar `brainstorming` skill para diseñar antes de tocar código
+- **Branch first:** `feat/<name>` antes de implementar
+- **Brainstorming:** usar `brainstorming` skill para diseñar antes de tocar código
 - **Plan approval:** presentar diseño/plan y obtener aprobación antes de implementar
-- **No commitear specs ni plans:** archivos de diseño y planificación no se commitean
-- **Commits granulares:** un commit por componente/grupo lógico — no commits masivos
+- **Commits granulares:** un commit por componente/grupo lógico
+- **No commitear specs ni plans** (en `docs/superpowers/`)
 
-## UI Conventions
+## TypeScript
 
-- Seguir `docs/ui-spec.md` estrictamente: solo tokens CSS, `--radius: 0px`, sin hex hardcodeados
-- Seguir `.claude/skills/new-page` para estructura de rutas: `-components/`, `-hooks/`, `-helpers/`
-- **Component directory pattern:** cada componente en su carpeta con `{component}.tsx` + `index.ts` + `__tests__/` (ej: `src/components/header/`)
-- **Typography:** usar `<Typography>` de `#/components/ui/typography` con props `family`, `size`, `weight`, `transform`, `tracking`, `as`. El color lo define el contenedor, no el componente
-- **Button links:** usar `<Button variant="text">` para links inline ("VIEW ALL"). La variant `text` usa Typography internamente
-- **Navigation activeTab:** usar array lookup (`TAB_ROUTES.find`) en vez de ternary chains
+- `verbatimModuleSyntax: true` — usar `import type` para imports solo de tipos
+- **NO `any`** — usar `unknown` + type guards
+- `strict: true`, `noUnusedLocals: true`, `noUnusedParameters: true`
+- `max-params: 3` por función (ESLint)
 
-## Data Layer
+## ESLint (non-obvious)
 
-- **Mock data primero:** empezar con datos mock en hooks; GraphQL solo cuando se necesite
+- `object-property-newline`: cada propiedad en su propia línea
+- `max-statements: 12` por función, `max-nested-callbacks: 2`, `max-depth: 3`
+- `complexity: 12` como máximo
+- `import/order`: react → externals → internals (con alias `#/`, `@/`, `@test-utils`)
+- `react/function-component-definition`: arrow functions siempre
+- `react/destructuring-assignment`: error
+- kebab-case obligatorio en filenames (`unicorn/filename-case`)
 
-## Git Workflow
+## Conventions
 
-- **Never use `git add`** — only commit already staged files
-- Use `git commit --no-verify -m "<message>"` with staged files
-- Use `yarn add -E <package>` for exact versions
-
-## Naming
-
-| Type | Convention | Example |
-|------|------------|---------|
-| Files | kebab-case | `footer.tsx`, `theme-toggle.tsx` |
-| Components | PascalCase | `ThemeToggle` |
-| Hooks | use + PascalCase | `useThemeToggle` |
-| Types | Use[Nombre]Props/Hook | `UseThemeToggleProps` |
+- **Component directory:** `{component}.tsx` + `index.ts` + `__tests__/` (ej: `src/components/header/`)
+- **Typography:** `<Typography>` con props `family`, `size`, `weight`, `as`. Color lo define el contenedor
+- **Button links:** `<Button variant="text">` para links inline. Usa Typography internamente
+- **Sección en archivos TS:** Types → Constants → Helpers → named export (hook/component)
 
 ## TanStack Router
 
-- `routeTree.gen.ts` is **auto-generated** — never edit manually
-- Exclude it from linter/formatter in `eslint.config.js`
-- Tests require `RouterContextProvider` wrapper (see `test-utils`)
+- `routeTree.gen.ts` es **auto-generado** — nunca editar manualmente
+- `autoCodeSplitting: true` en la config de Vite
+- Tests requieren `RouterContextProvider` wrapper (ver `test-utils`)
+
+## Data Layer
+
+- **@tanstack/react-query** configurado (ver `src/core/clients/react-query/`)
+  - `query-client.ts`: factory con `staleTime: 30s`, `retry: 1`, `refetchOnWindowFocus: false`
+  - `api.ts`: fetch wrapper con base URL desde `VITE_API_URL`
+  - QueryClient disponible en route loaders via router context
+- **Mock data primero:** hooks locales con datos mock; migrar a queries reales cuando el backend esté listo
 
 ## Testing
 
-- Test utilities: `src/lib/test-utils/index.tsx`
-- Import via `@test-utils`: `import { render, screen } from '@test-utils'`
-- Render wraps components with `RouterContextProvider`
+- **Import:** `import { render, screen } from '@test-utils'`
+- Wrappers: `QueryClientProvider` + `RouterContextProvider` compuestos
+- `QueryClient` de test con `retry: false`
+- `vitest.setup.ts` mockea `matchMedia` y hace `clearAllMocks` en cada `beforeEach`
+- Coverage thresholds: statements 70%, branches 90%, functions 50%, lines 70%
 
-## Section Order (TypeScript)
+## Git Workflow
 
-```typescript
-/**
- * Types
- */
-interface MyProps { ... }
+- **Never use `git add`** — solo commitear archivos ya staged. Nunca `git add -A` ni `git add .`
+- **Solo lo definido en el plan/task** — sin archivos extra
+- `git commit --no-verify -m "<mensaje>"`
+- `yarn add -E <package>` para versiones exactas
 
-/**
- * Constants
- */
-const MAX_ITEMS = 10;
+## CI / Deploy
 
-/**
- * Helpers
- */
-const formatDate = () => { ... };
-
-/**
- * MyComponent
- */
-export const MyComponent = () => { ... };
-```
-
-## TypeScript Rules
-
-- **NO `any`** — use `unknown` + type guards
-- Keep type imports separate
+- **Validate (push/PR a master):** lint → typescript → test (Node 22, yarn frozen-lockfile)
+- **Deploy:** push a master → Render webhook (vía `secrets.RENDER_DEPLOY_HOOK_URL`)
