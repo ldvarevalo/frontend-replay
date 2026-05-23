@@ -4,8 +4,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouterProvider } from '@tanstack/react-router';
 import { createRoot } from 'react-dom/client';
 
-import { getRouter } from './router';
 import { createQueryClient } from './core/clients/react-query/query-client';
+import { getRouter } from './router';
 
 const queryClient = createQueryClient();
 const router = getRouter(queryClient);

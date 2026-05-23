@@ -9,8 +9,8 @@ import {
 } from '@testing-library/react'
 import type { RenderOptions, RenderHookOptions } from '@testing-library/react'
 import { vi } from 'vitest'
-import { routeTree } from '#/routeTree.gen'
 import { createTestQueryClient } from '#/core/clients/react-query/query-client'
+import { routeTree } from '#/routeTree.gen'
 
 /**
  * Constants
@@ -31,10 +31,10 @@ export const routerMock = createRouter({
  * AllTheProviders
  */
 
-const AllTheProviders = (props: { children: ReactNode }) => (
+const AllTheProviders = ({ children }: { children: ReactNode }) => (
   <QueryClientProvider client={testQueryClient}>
     <RouterContextProvider router={routerMock}>
-      {props.children}
+      {children}
     </RouterContextProvider>
   </QueryClientProvider>
 )

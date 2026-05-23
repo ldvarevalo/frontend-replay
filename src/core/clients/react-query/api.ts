@@ -52,7 +52,11 @@ const request = async <T>(
 
   const data = (await response.json()) as T;
 
-  return { data, status: response.status, ok: response.ok };
+  return {
+    data,
+    status: response.status,
+    ok: response.ok,
+  };
 };
 
 /**
@@ -60,7 +64,10 @@ const request = async <T>(
  */
 
 export const apiClient = {
-  get: <T>(endpoint: string) => request<T>(endpoint, { method: 'GET' }),
+  get: <T>(endpoint: string) =>
+    request<T>(endpoint, {
+      method: 'GET',
+    }),
 
   post: <T>(endpoint: string, body: unknown) =>
     request<T>(endpoint, {
@@ -75,5 +82,7 @@ export const apiClient = {
     }),
 
   delete: <T>(endpoint: string) =>
-    request<T>(endpoint, { method: 'DELETE' }),
+    request<T>(endpoint, {
+      method: 'DELETE',
+    }),
 };
