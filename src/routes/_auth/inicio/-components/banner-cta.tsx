@@ -24,10 +24,20 @@ export const BannerCta: FunctionComponent<BannerCtaProps> = ({
     className="soul-gradient flex w-full items-center justify-between rounded-sm px-5 py-4 text-left transition-opacity hover:opacity-90"
   >
     <div className="flex flex-col gap-1">
-      <Typography size="xs" transform="uppercase" tracking="wider" weight="medium" className="text-on-primary-container">
+      <Typography
+        size="xs"
+        transform="uppercase"
+        tracking="wider"
+        weight="medium"
+        className="text-on-primary-container"
+      >
         WANT TO LISTEN
       </Typography>
-      <Typography family="heading" size="xl" className="text-on-primary-container">
+      <Typography
+        family="heading"
+        size="xl"
+        className="text-on-primary-container"
+      >
         {count} items waiting
       </Typography>
     </div>

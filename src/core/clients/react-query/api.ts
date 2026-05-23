@@ -32,7 +32,7 @@ const getBaseUrl = (): string => {
 
 const request = async <T>(
   endpoint: string,
-  options: RequestInit = {},
+  options: RequestInit = {}
 ): Promise<ApiResponse<T>> => {
   const url = `${getBaseUrl()}${endpoint}`;
   const response = await fetch(url, {
@@ -46,7 +46,7 @@ const request = async <T>(
   if (!response.ok) {
     throw new ApiError(
       `Request failed: ${response.statusText}`,
-      response.status,
+      response.status
     );
   }
 

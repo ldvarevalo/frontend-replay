@@ -1,5 +1,10 @@
 import type { FunctionComponent } from 'react';
-import { createFileRoute, redirect, Outlet, useMatchRoute } from '@tanstack/react-router';
+import {
+  createFileRoute,
+  redirect,
+  Outlet,
+  useMatchRoute,
+} from '@tanstack/react-router';
 import { type TabId, BottomNav } from '#/components/bottom-nav';
 import { Header } from '#/components/header';
 import type { FileRouteTypes } from '#/routeTree.gen';
@@ -23,7 +28,8 @@ const TAB_ROUTES: [TabId, FileRouteTypes['to']][] = [
 
 const AuthenticatedLayout: FunctionComponent = () => {
   const matchRoute = useMatchRoute();
-  const activeTab = TAB_ROUTES.find(([, to]) => matchRoute({ to }))?.[0] ?? 'home';
+  const activeTab =
+    TAB_ROUTES.find(([, to]) => matchRoute({ to }))?.[0] ?? 'home';
 
   return (
     <div className="min-h-screen bg-background pb-20">

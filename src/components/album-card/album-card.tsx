@@ -32,7 +32,13 @@ export const AlbumCard: FunctionComponent<AlbumCardProps> = ({
     <div className="aspect-square mb-4 w-full overflow-hidden bg-muted">
       <img src={coverUrl} alt={title} className="h-full w-full object-cover" />
     </div>
-    <Typography className="text-on-surface" as="h3" family="heading" size="md" weight="semibold">
+    <Typography
+      className="text-on-surface"
+      as="h3"
+      family="heading"
+      size="md"
+      weight="semibold"
+    >
       {title}
     </Typography>
     <Typography

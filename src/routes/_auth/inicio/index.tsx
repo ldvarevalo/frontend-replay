@@ -25,9 +25,12 @@ const HomePage: FunctionComponent = () => {
         count={stats.wantToListen}
         onClick={() => navigate({ to: '/want-to-listen' })}
       />
-      <SectionHeader title="Recently Listened" onLinkClick={() => navigate({ to: '/recent' })} />
+      <SectionHeader
+        title="Recently Listened"
+        onLinkClick={() => navigate({ to: '/recent' })}
+      />
       <div className="grid grid-cols-2 gap-4">
-        {albums.map((album) => (
+        {albums.map(album => (
           <AlbumCard
             key={album.id}
             coverUrl={album.coverUrl}
@@ -39,7 +42,7 @@ const HomePage: FunctionComponent = () => {
       </div>
       <SectionHeader title="Up Next" />
       <div className="flex flex-col">
-        {tracks.map((track) => (
+        {tracks.map(track => (
           <AlbumRow
             key={track.id}
             thumbnail={track.thumbnail}

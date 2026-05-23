@@ -1,5 +1,9 @@
 import { useState, type FunctionComponent } from 'react';
-import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router';
+import {
+  createFileRoute,
+  useNavigate,
+  useSearch,
+} from '@tanstack/react-router';
 import { Button } from '#/components/ui/button';
 
 /**
@@ -7,11 +11,15 @@ import { Button } from '#/components/ui/button';
  */
 
 const Login: FunctionComponent = () => {
-  const [isChecked, setIsChecked] = useState(() => localStorage.getItem('is_authenticated') === 'true');
+  const [isChecked, setIsChecked] = useState(
+    () => localStorage.getItem('is_authenticated') === 'true'
+  );
   const navigate = useNavigate();
   const { redirect } = useSearch({ from: '/' });
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleCheckboxChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const checked = e.target.checked;
     localStorage.setItem('is_authenticated', String(checked));
     setIsChecked(checked);
