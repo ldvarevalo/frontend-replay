@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import type { ReactElement, ReactNode } from 'react'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { RouterContextProvider, createRouter } from '@tanstack/react-router'
 import {
   render as rtlRender,
@@ -9,28 +10,44 @@ import {
 import type { RenderOptions, RenderHookOptions } from '@testing-library/react'
 import { vi } from 'vitest'
 import { routeTree } from '#/routeTree.gen'
+import { createTestQueryClient } from '#/core/clients/react-query/query-client'
+
+/**
+ * Constants
+ */
+
+const testQueryClient = createTestQueryClient()
 
 /**
  * Router
  */
 
 export const routerMock = createRouter({
-    routeTree
+    routeTree,
+    context: { queryClient: testQueryClient },
 })
 
 /**
- * Render with Router
+ * AllTheProviders
+ */
+
+const AllTheProviders = (props: { children: ReactNode }) => (
+  <QueryClientProvider client={testQueryClient}>
+    <RouterContextProvider router={routerMock}>
+      {props.children}
+    </RouterContextProvider>
+  </QueryClientProvider>
+)
+
+/**
+ * Render with providers
  */
 
 const render = (
   ui: ReactElement,
   options?: Omit<RenderOptions, 'wrapper'>
 ) => rtlRender(ui, {
-    wrapper: (props: { children: ReactNode }) => (
-      <RouterContextProvider router={routerMock}>
-        {props.children}
-      </RouterContextProvider>
-    ),
+    wrapper: AllTheProviders,
     ...options,
   })
 
@@ -38,11 +55,7 @@ const renderHook = <T,>(
   callback: () => T,
   options?: Omit<RenderHookOptions<T>, 'wrapper'>
 ) => rtlRenderHook(callback, {
-    wrapper: (props: { children: ReactNode }) => (
-      <RouterContextProvider router={routerMock}>
-        {props.children}
-      </RouterContextProvider>
-    ),
+    wrapper: AllTheProviders,
     ...options,
   })
 
