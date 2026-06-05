@@ -17,8 +17,10 @@ Convenciones para escribir tests unitarios en este proyecto.
 import { render, screen, renderHook } from '@test-utils';
 ```
 
-- `render` envuelve automáticamente el componente en `<RouterContextProvider>` (TanStack Router)
+- `render` envuelve automáticamente el componente en `<QueryClientProvider>` + `<RouterContextProvider>`
 - `screen` exportado directamente de `@testing-library/react`
+- `renderHook` para hooks que necesitan providers
+- `mockFn` exporta `vi.fn()` directamente
 - No importar `render`/`screen` desde rutas relativas ni desde `@testing-library/react` directamente
 - Excepción: `fireEvent` se importa directo de `@testing-library/react` cuando es necesario
 

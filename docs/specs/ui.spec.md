@@ -88,7 +88,7 @@ import { Button } from '#/components/ui/button'
 
 | Prop | Valores | Default |
 |---|---|---|
-| `variant` | `default` / `outline` / `secondary` / `ghost` / `destructive` / `link` / `text` | `default` |
+| `variant` | `default` / `primary` / `outline` / `secondary` / `ghost` / `destructive` / `link` / `text` | `default` |
 | `size` | `default` / `xs` / `sm` / `lg` / `icon` / `icon-xs` / `icon-sm` / `icon-lg` | `default` |
 
 **Ejemplos:**
@@ -117,10 +117,11 @@ import { Typography } from '#/components/ui/typography'
 | Prop | Valores | Default |
 |---|---|---|
 | `family` | `sans` / `heading` | `sans` |
-| `size` | `2xs` / `xs` / `sm` / `base` / `lg` / `xl` / `2xl` | `sm` |
-| `weight` | `normal` / `medium` / `semibold` / `bold` | `normal` |
+| `size` | `2xs` / `xs` / `sm` / `base` / `md` / `lg` / `xl` / `2xl` | `sm` |
+| `weight` | `normal` / `medium` / `semibold` / `bold` / `black` | `normal` |
 | `transform` | `none` / `uppercase` | `none` |
-| `tracking` | `normal` / `tight` / `wider` | `normal` |
+| `uppercase` | `boolean` | — | Atajo para `transform="uppercase"` |
+| `tracking` | `normal` / `tight` / `tighter` / `wider` / `widest` | `normal` |
 
 **Prop `as`** — elemento HTML renderizado. Si no se pasa, se infiere de `family`:
 
@@ -234,25 +235,52 @@ Renderiza un título con `Typography family="heading" size="lg"` y un `Button va
 
 ---
 
-### TrackRow
+### SearchBar
 
 ```
-import { TrackRow } from '#/components/track-row'
+import { SearchBar } from '#/components/search-bar'
 ```
 
 **Props:**
 
 | Prop | Tipo | Default |
 |---|---|---|
+| `value` | `string` | — |
+| `onChange` | `(e: ChangeEvent<HTMLInputElement>) => void` | — |
+| `placeholder?` | `string` | `'Search archive...'` |
+
+**Ejemplo:**
+```tsx
+<SearchBar value={query} onChange={handleChange} />
+```
+
+Renderiza un `Input` con icono de búsqueda (`Search` de Lucide) superpuesto a la izquierda.
+
+---
+
+### AlbumRow
+
+```
+import { AlbumRow } from '#/components/album-row'
+```
+
+**Props:**
+
+| Prop | Tipo | Default |
+|---|---|---|
+| `thumbnail` | `string` | — |
 | `title` | `string` | — |
 | `artist` | `string` | — |
-| `duration` | `string` | — |
+| `duration?` | `string` | — |
 | `isActive?` | `boolean` | `false` |
+| `isAdded?` | `boolean` | `false` |
+| `actionIcon?` | `ReactNode` | — |
 | `onClick` | `() => void` | — |
 
 **Ejemplo:**
 ```tsx
-<TrackRow
+<AlbumRow
+  thumbnail="https://picsum.photos/seed/album1/400"
   title="Time"
   artist="Pink Floyd"
   duration="6:53"
@@ -261,7 +289,7 @@ import { TrackRow } from '#/components/track-row'
 />
 ```
 
-Track activo muestra fondo `bg-secondary`, inactivo `hover:bg-secondary/50`.
+Fila activa: `bg-secondary`, inactiva: `hover:bg-secondary/50`. Si `isAdded` es `true`, muestra borde izquierdo `border-primary-container`. Si hay `actionIcon`, se muestra en lugar de la duración.
 
 ---
 
@@ -328,6 +356,13 @@ Contenido principal + panel informativo/detalle fijo a la derecha.
 
 Sidebar + contenido + panel derecho.
 
+### Clases utilitarias adicionales
+
+| Clase | Propósito |
+|---|---|
+| `.display-title` | Títulos display con `font-heading` |
+| `.hide-scrollbar` | Oculta scrollbar sin perder scroll (IE/FF/WebKit) |
+
 ---
 
 ## 7. Reglas de implementación
@@ -367,7 +402,7 @@ export const MyComponent = () => { ... };
 
 ### Testing
 
-- Wrapper: `RouterContextProvider` (ver `@test-utils`)
+- Wrapper: `QueryClientProvider` + `RouterContextProvider` (ver `@test-utils`)
 - Import: `import { render, screen } from '@test-utils'`
 - Los tests se colocan en `__tests__/` junto al componente
 

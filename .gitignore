@@ -1,14 +1,27 @@
+# Dependencies
 node_modules
-.DS_Store
+
+# Build output
 dist
 dist-ssr
-*.local
-.env
 .nitro
-.tanstack
-.wrangler
 .output
 .vinxi
-__unconfig*
-todos.json
 coverage/
+
+# Environment
+.env
+*.local
+
+# Development
+.DS_Store
+todos.json
+docs/superpowers
+.codegraph/
+
+# Framework
+.tanstack
+
+# Config
+.wrangler
+__unconfig*
