@@ -5,19 +5,26 @@ import { RouterProvider } from '@tanstack/react-router';
 import { createRoot } from 'react-dom/client';
 
 import { createQueryClient } from './core/clients/react-query/query-client';
+import { createSupabaseClient } from './core/clients/supabase/client';
+import { createSupabaseAdapter } from './core/auth/adapters/supabase';
+import { AuthProvider } from './core/auth/auth-context';
 import { getRouter } from './router';
 
 const queryClient = createQueryClient();
 const router = getRouter(queryClient);
+const supabase = createSupabaseClient();
+const adapter = createSupabaseAdapter(supabase);
 
 const rootElement = document.getElementById('root');
 if (rootElement && !rootElement.innerHTML) {
   createRoot(rootElement).render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
+      <AuthProvider adapter={adapter}>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </AuthProvider>
     </StrictMode>
   );
 }
