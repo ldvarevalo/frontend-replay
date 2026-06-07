@@ -18,7 +18,11 @@ import type {
  */
 
 const EMPTY_HOME: HomeData = {
-  stats: { totalReleases: 0, thisMonth: 0, wantToListen: 0 },
+  stats: {
+    totalReleases: 0,
+    thisMonth: 0,
+    wantToListen: 0,
+  },
   albums: [],
   tracks: [],
 };
@@ -31,14 +35,18 @@ export const createTestRepositories = (
   overrides?: Partial<Repositories>
 ): Repositories => {
   const noopReleases: ReleasesRepository = {
-    findByQuery: async () => ({ results: [], totalPages: 0 }),
+    findByQuery: async () => ({
+      results: [],
+      totalPages: 0,
+    }),
   };
 
   const noopUserReleases: UserReleasesRepository = {
     findHomeData: async () => EMPTY_HOME,
     findRecent: async (): Promise<Album[]> => [],
     findAllByUser: async (): Promise<CollectionAlbum[]> => [],
-    create: async () => {},
+    create: async () => {
+    },
   };
 
   const noopTracks: TracksRepository = {

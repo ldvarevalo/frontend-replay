@@ -5,6 +5,7 @@
 import type {
   Album,
   CollectionAlbum,
+  CollectionStatus,
   HomeData,
   HomeStats,
   SearchResult,
@@ -31,7 +32,7 @@ export interface UserReleasesRepository {
   create(data: {
     userId: string;
     releaseId: string;
-    status: string;
+    status: CollectionStatus;
   }): Promise<void>;
 }
 

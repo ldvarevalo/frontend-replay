@@ -154,7 +154,7 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
   async create(data: {
     userId: string;
     releaseId: string;
-    status: string;
+    status: CollectionStatus;
   }): Promise<void> {
     const { error } = await this.supabase.from('user_releases').insert({
       user_id: data.userId,
