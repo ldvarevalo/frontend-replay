@@ -8,12 +8,17 @@ import { createSupabaseAdapter } from './core/auth/adapters/supabase';
 import { AuthProvider } from './core/auth/auth-context';
 import { createQueryClient } from './core/clients/react-query/query-client';
 import { createSupabaseClient } from './core/clients/supabase/client';
+import { setRepositories } from './repositories/instance';
+import { createSupabaseRepositories } from './repositories/supabase';
 import { getRouter } from './router';
 
 const queryClient = createQueryClient();
 const router = getRouter(queryClient);
 const supabase = createSupabaseClient();
 const adapter = createSupabaseAdapter(supabase);
+const repositories = createSupabaseRepositories(supabase);
+
+setRepositories(repositories);
 
 const rootElement = document.getElementById('root');
 if (rootElement && !rootElement.innerHTML) {
