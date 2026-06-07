@@ -1,5 +1,5 @@
 import { render, screen } from '@test-utils';
-import type { ManualEntryData } from '../../-hooks/use-manual-entry';
+import type { ManualEntryData } from '#/types/domain';
 import { ManualEntryForm } from '../manual-entry-form';
 
 /**

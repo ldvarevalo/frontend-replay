@@ -1,5 +1,5 @@
 import { render, screen } from '@test-utils';
-import type { CollectionAlbum } from '../../-hooks/use-collection-data';
+import type { CollectionAlbum } from '#/types/domain';
 import { CollectionAlbumGrid } from '../collection-album-grid';
 
 /**

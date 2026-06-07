@@ -1,16 +1,10 @@
 import { useState, useMemo } from 'react';
 
+import type { SearchResult } from '#/types/domain';
+
 /**
  * Types
  */
-
-export interface SearchResult {
-  id: string;
-  thumbnail: string;
-  title: string;
-  artist: string;
-  isAdded: boolean;
-}
 
 export interface UseSearchReleasesHook {
   query: string;

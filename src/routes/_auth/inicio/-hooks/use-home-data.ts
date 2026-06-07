@@ -1,34 +1,9 @@
-/**
- * Types
- */
-
-export interface Album {
-  id: string;
-  coverUrl: string;
-  title: string;
-  artist: string;
-}
-
-export interface Track {
-  id: string;
-  thumbnail: string;
-  title: string;
-  artist: string;
-  duration: string;
-  isActive?: boolean;
-}
-
-export interface HomeStats {
-  totalReleases: number;
-  thisMonth: number;
-  wantToListen: number;
-}
-
-export interface HomeData {
-  stats: HomeStats;
-  albums: Album[];
-  tracks: Track[];
-}
+import type {
+  Album,
+  HomeData,
+  HomeStats,
+  Track,
+} from '#/types/domain';
 
 /**
  * Constants

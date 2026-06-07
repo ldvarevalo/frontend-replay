@@ -1,5 +1,5 @@
 import { render, screen } from '@test-utils';
-import type { SearchResult } from '../../-hooks/use-search-releases';
+import type { SearchResult } from '#/types/domain';
 import { SearchResults } from '../search-results';
 
 /**

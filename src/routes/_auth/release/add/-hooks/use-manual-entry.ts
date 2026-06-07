@@ -1,16 +1,10 @@
 import { useState } from 'react';
 
+import type { ManualEntryData } from '#/types/domain';
+
 /**
  * Types
  */
-
-export interface ManualEntryData {
-  title: string;
-  artist: string;
-  year: string;
-  genre: string;
-  artworkUrl: string;
-}
 
 export interface UseManualEntryHook {
   values: ManualEntryData;

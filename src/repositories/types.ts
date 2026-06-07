@@ -2,15 +2,15 @@
  * Types
  */
 
-import type { CollectionAlbum } from '#/routes/_auth/collection/-hooks/use-collection-data';
 import type {
   Album,
+  CollectionAlbum,
   HomeData,
   HomeStats,
+  ManualEntryData,
+  SearchResult,
   Track,
-} from '#/routes/_auth/inicio/-hooks/use-home-data';
-import type { ManualEntryData } from '#/routes/_auth/release/add/-hooks/use-manual-entry';
-import type { SearchResult } from '#/routes/_auth/release/add/-hooks/use-search-releases';
+} from '#/types/domain';
 
 export interface SearchResults {
   results: SearchResult[];

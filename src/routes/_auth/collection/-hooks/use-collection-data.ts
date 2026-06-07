@@ -1,19 +1,13 @@
 import { useState } from 'react';
 
+import type {
+  CollectionAlbum,
+  CollectionStatus,
+} from '#/types/domain';
+
 /**
  * Types
  */
-
-type CollectionStatus = 'owned' | 'want' | 'listening' | 'listened';
-
-export interface CollectionAlbum {
-  id: string;
-  coverUrl: string;
-  title: string;
-  artist: string;
-  year: string;
-  status: CollectionStatus;
-}
 
 export interface CollectionData {
   albums: CollectionAlbum[];

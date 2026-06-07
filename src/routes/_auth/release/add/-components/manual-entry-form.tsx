@@ -2,8 +2,8 @@ import type { FunctionComponent } from 'react';
 import { Button } from '#/components/ui/button';
 import { Input } from '#/components/ui/input';
 import { Typography } from '#/components/ui/typography';
+import type { ManualEntryData } from '#/types/domain';
 import { ArtworkPreview } from './artwork-preview';
-import type { ManualEntryData } from '../-hooks/use-manual-entry';
 
 /**
  * Types

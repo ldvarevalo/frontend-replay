@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'react';
 import { Plus, Check } from 'lucide-react';
 import { AlbumRow } from '#/components/album-row';
-import type { SearchResult } from '../-hooks/use-search-releases';
+import type { SearchResult } from '#/types/domain';
 
 /**
  * Types

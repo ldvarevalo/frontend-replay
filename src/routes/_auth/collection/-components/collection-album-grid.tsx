@@ -1,6 +1,6 @@
 import type { FunctionComponent } from 'react';
 import { AlbumCard } from '#/components/album-card';
-import type { CollectionAlbum } from '../-hooks/use-collection-data';
+import type { CollectionAlbum } from '#/types/domain';
 
 /**
  * Types
