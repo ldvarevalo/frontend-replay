@@ -1,5 +1,7 @@
 import { vi } from 'vitest'
 import '@testing-library/jest-dom/vitest'
+import { createTestRepositories } from '#/repositories/__tests__/test-repositories'
+import { setRepositories } from '#/repositories/instance'
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -17,4 +19,5 @@ Object.defineProperty(window, 'matchMedia', {
 
 beforeEach(() => {
   vi.clearAllMocks()
+  setRepositories(createTestRepositories())
 })
