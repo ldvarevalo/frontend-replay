@@ -8,7 +8,9 @@ import {
   screen,
 } from '@testing-library/react';
 import type { RenderOptions, RenderHookOptions } from '@testing-library/react';
-import { vi } from 'vitest';
+import { createTestAuthAdapter } from '#/core/auth/adapters/__tests__/test-adapter';
+import { AuthProvider } from '#/core/auth/auth-context';
+import type { AuthUser } from '#/core/auth/types';
 import { createTestQueryClient } from '#/core/clients/react-query/query-client';
 import { routeTree } from '#/routeTree.gen';
 
@@ -17,9 +19,10 @@ import { routeTree } from '#/routeTree.gen';
  */
 
 const testQueryClient = createTestQueryClient();
+const testAdapter = createTestAuthAdapter();
 
 /**
- * Router
+ * routerMock
  */
 
 export const routerMock = createRouter({
@@ -28,19 +31,21 @@ export const routerMock = createRouter({
 });
 
 /**
- * AllTheProviders
+ * Components
  */
 
 const AllTheProviders = ({ children }: { children: ReactNode }) => (
-  <QueryClientProvider client={testQueryClient}>
-    <RouterContextProvider router={routerMock}>
-      {children}
-    </RouterContextProvider>
-  </QueryClientProvider>
+  <AuthProvider adapter={testAdapter}>
+    <QueryClientProvider client={testQueryClient}>
+      <RouterContextProvider router={routerMock}>
+        {children}
+      </RouterContextProvider>
+    </QueryClientProvider>
+  </AuthProvider>
 );
 
 /**
- * Render with providers
+ * render
  */
 
 const render = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
@@ -48,6 +53,10 @@ const render = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>) =>
     wrapper: AllTheProviders,
     ...options,
   });
+
+/**
+ * renderHook
+ */
 
 const renderHook = <T,>(
   callback: () => T,
@@ -58,7 +67,38 @@ const renderHook = <T,>(
     ...options,
   });
 
+/**
+ * renderWithAuth
+ */
+
+const renderWithAuth = (
+  ui: ReactElement,
+  authUser: AuthUser | null,
+  options?: Omit<RenderOptions, 'wrapper'>
+) => {
+  const adapter = createTestAuthAdapter(authUser);
+
+  const Wrapper = ({ children }: { children: ReactNode }) => (
+    <AuthProvider adapter={adapter}>
+      <QueryClientProvider client={testQueryClient}>
+        <RouterContextProvider router={routerMock}>
+          {children}
+        </RouterContextProvider>
+      </QueryClientProvider>
+    </AuthProvider>
+  );
+
+  return rtlRender(ui, {
+    wrapper: Wrapper,
+    ...options,
+  });
+};
+
+/**
+ * mockFn
+ */
+
 const mockFn = vi.fn();
 
-export { render, renderHook, mockFn, screen };
+export { render, renderHook, renderWithAuth, mockFn, screen };
 export type { ReactNode };

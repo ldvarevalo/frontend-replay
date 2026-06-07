@@ -7,14 +7,12 @@ import {
 } from '@tanstack/react-router';
 import { type TabId, BottomNav } from '#/components/bottom-nav';
 import { Header } from '#/components/header';
+import { authStore } from '#/core/auth/store';
 import type { FileRouteTypes } from '#/routeTree.gen';
 
 /**
- * Helpers
+ * Constants
  */
-
-const isAuthenticated = (): boolean =>
-  localStorage.getItem('is_authenticated') === 'true';
 
 const TAB_ROUTES: [TabId, FileRouteTypes['to']][] = [
   ['home', '/inicio'],
@@ -23,7 +21,7 @@ const TAB_ROUTES: [TabId, FileRouteTypes['to']][] = [
 ];
 
 /**
- * AuthenticatedLayout
+ * Components
  */
 
 const AuthenticatedLayout: FunctionComponent = () => {
@@ -46,7 +44,7 @@ const AuthenticatedLayout: FunctionComponent = () => {
 
 export const Route = createFileRoute('/_auth')({
   beforeLoad: ({ location }) => {
-    if (!isAuthenticated()) {
+    if (!authStore.getUser()) {
       throw redirect({
         to: '/',
         search: { redirect: location.href },

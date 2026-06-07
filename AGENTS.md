@@ -49,6 +49,11 @@ yarn test:cov     # Coverage (70/90/50 thresholds)
 - **Button links:** `<Button variant="text">` para links inline. Usa Typography internamente
 - **Sección en archivos TS:** Types → Constants → Helpers → named export (hook/component)
 
+## Code Integrity
+
+- **Nunca borrar comentarios, secciones JSDoc, o separadores existentes** — solo modificar el código que la tarea requiere
+- Los separadores de secciones (`/** SectionName */`) deben mantenerse incluso al reordenar o modificar el archivo
+
 ## TanStack Router
 
 - `routeTree.gen.ts` es **auto-generado** — nunca editar manualmente
