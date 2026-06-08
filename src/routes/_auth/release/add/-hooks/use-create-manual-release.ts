@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useUser } from '#/core/auth/auth-context';
 import { useRepositories } from '#/repositories/hooks';
 import type { ManualEntryData } from '#/types/domain';
-import { useUser } from '#/core/auth/auth-context';
 
 /**
  * Types

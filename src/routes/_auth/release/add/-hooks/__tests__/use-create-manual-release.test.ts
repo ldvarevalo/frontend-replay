@@ -1,6 +1,6 @@
 import { renderHook } from '@test-utils';
-import { setRepositories } from '#/repositories/instance';
 import { createTestRepositories } from '#/repositories/__tests__/test-repositories';
+import { setRepositories } from '#/repositories/instance';
 import type { ManualEntryData } from '#/types/domain';
 import { useCreateManualRelease } from '../use-create-manual-release';
 
@@ -13,7 +13,8 @@ vi.mock('#/core/auth/auth-context', async () => {
 
   return {
     ...actual,
-    useUser: () => ({ id: 'auth-user-1', email: 'test@example.com' }),
+    useUser: () => ({ id: 'auth-user-1',
+email: 'test@example.com' }),
   };
 });
 
@@ -22,7 +23,8 @@ const mockArtistId = 'artist-uuid-1';
 const mockGenreId = 'genre-uuid-1';
 
 const mockReleases = {
-  findByQuery: async () => ({ results: [], totalPages: 0 }),
+  findByQuery: async () => ({ results: [],
+totalPages: 0 }),
   create: vi.fn().mockResolvedValue(mockReleaseId),
   linkArtist: vi.fn().mockResolvedValue(undefined),
   linkGenre: vi.fn().mockResolvedValue(undefined),
