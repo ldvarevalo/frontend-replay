@@ -5,6 +5,8 @@ import type {
   Track,
 } from '#/types/domain';
 import type {
+  ArtistsRepository,
+  GenresRepository,
   Repositories,
   ReleasesRepository,
   StatsRepository,
@@ -45,10 +47,22 @@ export const createTestRepositories = (
     }),
   };
 
+  const noopArtists: ArtistsRepository = {
+    findByName: async (): Promise<string | null> => null,
+    create: async (name: string): Promise<string> => name,
+  };
+
+  const noopGenres: GenresRepository = {
+    findByName: async (): Promise<string | null> => null,
+    create: async (name: string): Promise<string> => name,
+  };
+
   return {
     releases: overrides?.releases ?? noopReleases,
     userReleases: overrides?.userReleases ?? noopUserReleases,
     tracks: overrides?.tracks ?? noopTracks,
     stats: overrides?.stats ?? noopStats,
+    artists: overrides?.artists ?? noopArtists,
+    genres: overrides?.genres ?? noopGenres,
   };
 };
