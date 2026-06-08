@@ -5,14 +5,54 @@ import type {
   Track,
 } from '#/types/domain';
 import type {
-  ArtistsRepository,
-  GenresRepository,
   Repositories,
-  ReleasesRepository,
-  StatsRepository,
-  TracksRepository,
-  UserReleasesRepository,
 } from '../types';
+
+/**
+ * Helpers
+ */
+
+const createNoopRepositories = (): Repositories => {
+  const noop: Repositories = {
+    releases: {
+      findByQuery: async () => ({
+        results: [],
+        totalPages: 0,
+      }),
+      create: async () => '',
+      linkArtist: async () => {
+      },
+      linkGenre: async () => {
+      },
+    },
+    userReleases: {
+      findRecent: async (): Promise<Album[]> => [],
+      findAllByUser: async (): Promise<CollectionAlbum[]> => [],
+      create: async () => {
+      },
+    },
+    tracks: {
+      findRecentByUser: async (): Promise<Track[]> => [],
+    },
+    stats: {
+      findStats: async (): Promise<HomeStats> => ({
+        totalReleases: 0,
+        thisMonth: 0,
+        wantToListen: 0,
+      }),
+    },
+    artists: {
+      findByName: async (): Promise<string | null> => null,
+      create: async (name: string): Promise<string> => name,
+    },
+    genres: {
+      findByName: async (): Promise<string | null> => null,
+      create: async (name: string): Promise<string> => name,
+    },
+  };
+
+  return noop;
+};
 
 /**
  * createTestRepositories
@@ -20,49 +60,7 @@ import type {
 
 export const createTestRepositories = (
   overrides?: Partial<Repositories>
-): Repositories => {
-  const noopReleases: ReleasesRepository = {
-    findByQuery: async () => ({
-      results: [],
-      totalPages: 0,
-    }),
-  };
-
-  const noopUserReleases: UserReleasesRepository = {
-    findRecent: async (): Promise<Album[]> => [],
-    findAllByUser: async (): Promise<CollectionAlbum[]> => [],
-    create: async () => {
-    },
-  };
-
-  const noopTracks: TracksRepository = {
-    findRecentByUser: async (): Promise<Track[]> => [],
-  };
-
-  const noopStats: StatsRepository = {
-    findStats: async (): Promise<HomeStats> => ({
-      totalReleases: 0,
-      thisMonth: 0,
-      wantToListen: 0,
-    }),
-  };
-
-  const noopArtists: ArtistsRepository = {
-    findByName: async (): Promise<string | null> => null,
-    create: async (name: string): Promise<string> => name,
-  };
-
-  const noopGenres: GenresRepository = {
-    findByName: async (): Promise<string | null> => null,
-    create: async (name: string): Promise<string> => name,
-  };
-
-  return {
-    releases: overrides?.releases ?? noopReleases,
-    userReleases: overrides?.userReleases ?? noopUserReleases,
-    tracks: overrides?.tracks ?? noopTracks,
-    stats: overrides?.stats ?? noopStats,
-    artists: overrides?.artists ?? noopArtists,
-    genres: overrides?.genres ?? noopGenres,
-  };
-};
+): Repositories => ({
+  ...createNoopRepositories(),
+  ...overrides,
+});

@@ -21,6 +21,7 @@ interface ManualEntryFormProps {
   onFieldChange: (field: keyof ManualEntryData, value: string) => void;
   onSubmit: () => void;
   isValid: boolean;
+  isPending?: boolean;
 }
 
 /**
@@ -66,6 +67,7 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
   onFieldChange,
   onSubmit,
   isValid,
+  isPending = false,
 }) => (
   <div className="space-y-4">
     {FULL_FIELDS.map(({ key, label, placeholder }) => (
@@ -130,8 +132,8 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
       </div>
     </div>
 
-    <Button variant="primary" size="lg" onClick={onSubmit} disabled={!isValid}>
-      SAVE
+    <Button variant="primary" size="lg" onClick={onSubmit} disabled={!isValid || isPending}>
+      {isPending ? 'SAVING…' : 'SAVE'}
     </Button>
   </div>
 );

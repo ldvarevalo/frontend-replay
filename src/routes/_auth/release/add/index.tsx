@@ -1,13 +1,26 @@
-import type { FunctionComponent } from 'react';
+import { useState, type FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { SearchBar } from '#/components/search-bar';
 import { Typography } from '#/components/ui/typography';
+import type { ManualEntryData } from '#/types/domain';
 import { ManualEntryForm } from './-components/manual-entry-form';
 import { Pagination } from './-components/pagination';
 import { SearchResults } from './-components/search-results';
 import { SectionDivider } from './-components/section-divider';
-import { useManualEntry } from './-hooks/use-manual-entry';
+import { useCreateManualRelease } from './-hooks/use-create-manual-release';
 import { useSearchReleases } from './-hooks/use-search-releases';
+
+/**
+ * Constants
+ */
+
+const INITIAL_VALUES: ManualEntryData = {
+  title: '',
+  artist: '',
+  year: '',
+  genre: '',
+  artworkUrl: '',
+};
 
 /**
  * AddReleasePage
@@ -24,7 +37,24 @@ const AddReleasePage: FunctionComponent = () => {
     setCurrentPage,
     toggleResult,
   } = useSearchReleases();
-  const { values, setField, isValid, handleSubmit } = useManualEntry();
+  const [values, setValues] = useState<ManualEntryData>(INITIAL_VALUES);
+  const { mutateAsync, isPending } = useCreateManualRelease();
+
+  const setField = (field: keyof ManualEntryData, value: string): void => {
+    setValues(prev => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const isValid = values.title.trim() !== '' && values.artist.trim() !== '';
+
+  const handleSubmit = (): void => {
+    mutateAsync(values).then(() => {
+      setValues(INITIAL_VALUES);
+      navigate({ to: '/collection' });
+    });
+  };
 
   return (
     <main className="page-wrap space-y-6 py-6">
@@ -65,11 +95,9 @@ const AddReleasePage: FunctionComponent = () => {
       <ManualEntryForm
         values={values}
         onFieldChange={setField}
-        onSubmit={() => {
-          handleSubmit();
-          navigate({ to: '/collection' });
-        }}
+        onSubmit={handleSubmit}
         isValid={isValid}
+        isPending={isPending}
       />
     </main>
   );
