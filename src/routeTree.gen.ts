@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LogoutIndexRouteImport } from './routes/logout/index'
 import { Route as AuthInicioIndexRouteImport } from './routes/_auth/inicio/index'
 import { Route as AuthCollectionIndexRouteImport } from './routes/_auth/collection/index'
+import { Route as AuthAlbumChar123IdChar125RouteImport } from './routes/_auth/album/{-$id}'
 import { Route as AuthReleaseAddIndexRouteImport } from './routes/_auth/release/add/index'
 
 const AuthRoute = AuthRouteImport.update({
@@ -40,6 +41,12 @@ const AuthCollectionIndexRoute = AuthCollectionIndexRouteImport.update({
   path: '/collection/',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthAlbumChar123IdChar125Route =
+  AuthAlbumChar123IdChar125RouteImport.update({
+    id: '/album/{-$id}',
+    path: '/album/{-$id}',
+    getParentRoute: () => AuthRoute,
+  } as any)
 const AuthReleaseAddIndexRoute = AuthReleaseAddIndexRouteImport.update({
   id: '/release/add/',
   path: '/release/add/',
@@ -49,6 +56,7 @@ const AuthReleaseAddIndexRoute = AuthReleaseAddIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/logout/': typeof LogoutIndexRoute
+  '/album/{-$id}': typeof AuthAlbumChar123IdChar125Route
   '/collection/': typeof AuthCollectionIndexRoute
   '/inicio/': typeof AuthInicioIndexRoute
   '/release/add/': typeof AuthReleaseAddIndexRoute
@@ -56,6 +64,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/logout': typeof LogoutIndexRoute
+  '/album/{-$id}': typeof AuthAlbumChar123IdChar125Route
   '/collection': typeof AuthCollectionIndexRoute
   '/inicio': typeof AuthInicioIndexRoute
   '/release/add': typeof AuthReleaseAddIndexRoute
@@ -65,20 +74,34 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/logout/': typeof LogoutIndexRoute
+  '/_auth/album/{-$id}': typeof AuthAlbumChar123IdChar125Route
   '/_auth/collection/': typeof AuthCollectionIndexRoute
   '/_auth/inicio/': typeof AuthInicioIndexRoute
   '/_auth/release/add/': typeof AuthReleaseAddIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/logout/' | '/collection/' | '/inicio/' | '/release/add/'
+  fullPaths:
+    | '/'
+    | '/logout/'
+    | '/album/{-$id}'
+    | '/collection/'
+    | '/inicio/'
+    | '/release/add/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/logout' | '/collection' | '/inicio' | '/release/add'
+  to:
+    | '/'
+    | '/logout'
+    | '/album/{-$id}'
+    | '/collection'
+    | '/inicio'
+    | '/release/add'
   id:
     | '__root__'
     | '/'
     | '/_auth'
     | '/logout/'
+    | '/_auth/album/{-$id}'
     | '/_auth/collection/'
     | '/_auth/inicio/'
     | '/_auth/release/add/'
@@ -127,6 +150,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCollectionIndexRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/album/{-$id}': {
+      id: '/_auth/album/{-$id}'
+      path: '/album/{-$id}'
+      fullPath: '/album/{-$id}'
+      preLoaderRoute: typeof AuthAlbumChar123IdChar125RouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/release/add/': {
       id: '/_auth/release/add/'
       path: '/release/add'
@@ -138,12 +168,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthRouteChildren {
+  AuthAlbumChar123IdChar125Route: typeof AuthAlbumChar123IdChar125Route
   AuthCollectionIndexRoute: typeof AuthCollectionIndexRoute
   AuthInicioIndexRoute: typeof AuthInicioIndexRoute
   AuthReleaseAddIndexRoute: typeof AuthReleaseAddIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthAlbumChar123IdChar125Route: AuthAlbumChar123IdChar125Route,
   AuthCollectionIndexRoute: AuthCollectionIndexRoute,
   AuthInicioIndexRoute: AuthInicioIndexRoute,
   AuthReleaseAddIndexRoute: AuthReleaseAddIndexRoute,
