@@ -1,5 +1,6 @@
 import type {
   Album,
+  AlbumDetail,
   CollectionAlbum,
   CollectionStatus,
   HomeStats,
@@ -40,6 +41,7 @@ export interface ReleasesRepository {
     role?: ArtistRole
   ): Promise<void>;
   linkGenre(releaseId: string, genreId: string): Promise<void>;
+  findById(id: string): Promise<AlbumDetail>;
 }
 
 export interface ArtistsRepository {
