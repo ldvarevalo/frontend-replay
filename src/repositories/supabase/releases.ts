@@ -157,17 +157,17 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
         title,
         cover_url,
         release_year,
-        release_artists:release_id (
+        release_artists (
           artists:artist_id (
             name
           )
         ),
-        release_genres:release_id (
+        release_genres (
           genres:genre_id (
             name
           )
         ),
-        tracks:release_id (
+        tracks (
           id,
           title,
           duration_seconds,
