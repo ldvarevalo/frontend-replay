@@ -1,7 +1,35 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { AlbumDetail, SearchResult, Track } from '#/types/domain';
 import { formatDuration } from '#/core/helpers/format-duration';
+import type { AlbumDetail, SearchResult, Track } from '#/types/domain';
 import type { ArtistRole, ReleasesRepository, SearchResults } from '../types';
+
+/**
+ * Helpers
+ */
+
+const getPrimaryName = (
+  items: Array<Record<string, unknown>> | undefined,
+  key: string
+): string =>
+  ((items?.[0]?.[key] as Record<string, unknown>)?.name as string) ?? '';
+
+const sortByPosition = (
+  a: Record<string, unknown>,
+  b: Record<string, unknown>
+): number => ((a.position as number) ?? 0) - ((b.position as number) ?? 0);
+
+const mapTrackRow = (
+  t: Record<string, unknown>,
+  ctx: { coverUrl: string; artist: string },
+  index: number
+): Track => ({
+  id: t.id as string,
+  thumbnail: ctx.coverUrl,
+  title: t.title as string,
+  artist: ctx.artist,
+  duration: formatDuration(t.duration_seconds as number | null),
+  isActive: index === 0,
+});
 
 /**
  * SupabaseReleasesRepository
@@ -162,36 +190,29 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
     const releaseGenres = row.release_genres as
       | Array<Record<string, unknown>>
       | undefined;
-    const tracksData = row.tracks as Array<Record<string, unknown>> | undefined;
+    const artist = getPrimaryName(releaseArtists, 'artists');
+    const coverUrl = (row.cover_url as string) ?? '';
 
-    const tracks: Track[] = (tracksData ?? [])
-      .sort((a, b) => {
-        const aPos = (a.position as number) ?? 0;
-        const bPos = (b.position as number) ?? 0;
-        return aPos - bPos;
-      })
-      .map((t, index) => ({
-        id: t.id as string,
-        thumbnail: (row.cover_url as string) ?? '',
-        title: t.title as string,
-        artist:
-          ((releaseArtists?.[0]?.artists as Record<string, unknown>)
-            ?.name as string) ?? '',
-        duration: formatDuration(t.duration_seconds as number | null),
-        isActive: index === 0,
-      }));
+    const tracks: Track[] = ((row.tracks as Array<Record<string, unknown>> | undefined) ?? [])
+      .sort(sortByPosition)
+      .map((t, index) =>
+        mapTrackRow(
+          t,
+          {
+            coverUrl,
+            artist,
+          },
+          index
+        )
+      );
 
     return {
       id: row.id as string,
-      coverUrl: (row.cover_url as string) ?? '',
+      coverUrl,
       title: row.title as string,
-      artist:
-        ((releaseArtists?.[0]?.artists as Record<string, unknown>)
-          ?.name as string) ?? '',
+      artist,
       year: (row.release_year as string) ?? '',
-      genre:
-        ((releaseGenres?.[0]?.genres as Record<string, unknown>)
-          ?.name as string) ?? '',
+      genre: getPrimaryName(releaseGenres, 'genres'),
       tracks,
       status: null,
     };

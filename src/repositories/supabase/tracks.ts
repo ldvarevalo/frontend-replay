@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { formatDuration } from '#/core/helpers/format-duration';
 import type { Track } from '#/types/domain';
 import type { TracksRepository } from '../types';
-import { formatDuration } from '#/core/helpers/format-duration';
 
 /**
  * Helpers

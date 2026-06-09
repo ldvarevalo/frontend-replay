@@ -1,6 +1,6 @@
 import type { FunctionComponent } from 'react';
-import type { Track } from '#/types/domain';
 import { Typography } from '#/components/ui/typography';
+import type { Track } from '#/types/domain';
 
 /**
  * Types

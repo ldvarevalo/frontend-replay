@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'react';
-import type { CollectionStatus } from '#/types/domain';
-import { cn } from '#/lib/utils';
 import { Typography } from '#/components/ui/typography';
+import { cn } from '#/lib/utils';
+import type { CollectionStatus } from '#/types/domain';
 
 /**
  * Types

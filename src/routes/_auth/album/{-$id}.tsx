@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/filename-case */
 import type { FunctionComponent } from 'react';
 import { createFileRoute, useNavigate, useParams } from '@tanstack/react-router';
 import { ArrowLeft, EllipsisVertical, Share } from 'lucide-react';
@@ -25,7 +26,9 @@ interface AlbumParams {
 
 const AlbumDetailPage: FunctionComponent = () => {
   const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
   const { $id } = useParams({ from: Route.fullPath }) as AlbumParams;
+  const { album, isLoading, isError, error } = useAlbumData($id);
 
   if (!$id) {
     return (
@@ -46,8 +49,6 @@ const AlbumDetailPage: FunctionComponent = () => {
       </main>
     );
   }
-
-  const { album, isLoading, isError, error } = useAlbumData($id);
 
   if (isLoading) {
     return (

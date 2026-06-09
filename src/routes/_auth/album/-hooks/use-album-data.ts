@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import type { AlbumDetail } from '#/types/domain';
 import { useRepositories } from '#/repositories/hooks';
+import type { AlbumDetail } from '#/types/domain';
 
 /**
  * useAlbumData
