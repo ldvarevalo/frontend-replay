@@ -2,7 +2,7 @@
  * Types
  */
 
-export type CollectionStatus = 'owned' | 'want' | 'listening' | 'listened';
+export type CollectionStatus = 'owned' | 'want' | 'listened';
 
 export interface Album {
   id: string;

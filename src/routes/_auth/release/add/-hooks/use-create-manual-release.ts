@@ -72,7 +72,7 @@ export const useCreateManualRelease = (): UseCreateManualReleaseResult => {
       await userReleases.create({
         userId: user.id,
         releaseId,
-        status: 'want',
+        status: 'owned',
       });
     },
     onSuccess: () => {

@@ -3,7 +3,7 @@
 
 -- Enums
 
-CREATE TYPE release_status AS ENUM ('owned', 'want', 'listening', 'listened');
+CREATE TYPE release_status AS ENUM ('owned', 'want', 'listened');
 CREATE TYPE priority_level AS ENUM ('low', 'medium', 'high');
 CREATE TYPE artist_role AS ENUM ('primary', 'featured', 'remixer');
 CREATE TYPE listening_scope AS ENUM ('full', 'partial', 'sampled');

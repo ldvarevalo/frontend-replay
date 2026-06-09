@@ -4,7 +4,7 @@ import { useUser } from '#/core/auth';
 import { useRepositories } from '#/repositories/hooks';
 import type { CollectionAlbum } from '#/types/domain';
 
-type CollectionStatus = 'owned' | 'want' | 'listening' | 'listened';
+type CollectionStatus = 'owned' | 'want' | 'listened';
 
 export interface CollectionData {
   albums: CollectionAlbum[];
@@ -17,7 +17,6 @@ export interface CollectionData {
 
 const STATUS_MAP: Record<string, CollectionStatus> = {
   WANT: 'want',
-  LISTENING: 'listening',
   LISTENED: 'listened',
 };
 

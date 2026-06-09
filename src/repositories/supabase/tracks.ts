@@ -57,7 +57,7 @@ export class SupabaseTracksRepository implements TracksRepository {
       .from('user_releases')
       .select('release_id')
       .eq('user_id', userId)
-      .in('status', ['listened', 'listening'])
+      .eq('status', 'listened')
       .order('created_at', { ascending: false })
       .limit(limit);
 

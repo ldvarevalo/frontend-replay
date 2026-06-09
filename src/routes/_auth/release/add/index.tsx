@@ -40,8 +40,8 @@ const AddReleasePage: FunctionComponent = () => {
     toggleResult,
   } = useSearchReleases();
   const { artists, genres } = useRepositories();
-  const artistSearch = useSearchLookup({ searchFn: (q) => artists.search(q) });
-  const genreSearch = useSearchLookup({ searchFn: (q) => genres.search(q) });
+  const artistSearch = useSearchLookup({ searchFn: q => artists.search(q) });
+  const genreSearch = useSearchLookup({ searchFn: q => genres.search(q) });
   const [values, setValues] = useState<ManualEntryData>(INITIAL_VALUES);
   const { mutateAsync, isPending } = useCreateManualRelease();
 
@@ -54,11 +54,12 @@ const AddReleasePage: FunctionComponent = () => {
 
   const isValid = values.title.trim() !== '' && values.artist.trim() !== '';
 
-  const handleSubmit = (): void => {
-    mutateAsync(values).then(() => {
-      setValues(INITIAL_VALUES);
-      navigate({ to: '/collection' });
-    });
+  const handleSubmit = async (): Promise<void> => {
+    // TODO: show toast on error
+    await mutateAsync(values);
+
+    setValues(INITIAL_VALUES);
+    navigate({ to: '/collection' });
   };
 
   return (

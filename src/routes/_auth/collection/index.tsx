@@ -20,10 +20,6 @@ const TABS = [
     label: 'WANT',
   },
   {
-    id: 'LISTENING',
-    label: 'LISTENING',
-  },
-  {
     id: 'LISTENED',
     label: 'LISTENED',
   },

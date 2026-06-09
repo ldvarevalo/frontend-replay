@@ -101,7 +101,7 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
       .from('user_releases')
       .select(RECENT_ALBUM_SELECT)
       .eq('user_id', userId)
-      .in('status', ['listened', 'listening'])
+      .eq('status', 'listened')
       .order('created_at', { ascending: false })
       .limit(limit);
 
