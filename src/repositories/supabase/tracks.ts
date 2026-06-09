@@ -1,21 +1,11 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Track } from '#/types/domain';
 import type { TracksRepository } from '../types';
+import { formatDuration } from '#/core/helpers/format-duration';
 
 /**
  * Helpers
  */
-
-const formatDuration = (seconds: number | null): string => {
-  if (seconds === null || seconds === undefined) {
-    return '--:--';
-  }
-
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-
-  return `${m}:${s.toString().padStart(2, '0')}`;
-};
 
 const mapTrack = (row: Record<string, unknown>, index: number): Track => {
   const releases = row.releases as Record<string, unknown> | undefined;
