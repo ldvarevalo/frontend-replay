@@ -13,6 +13,9 @@ const createNoopRepositories = (): Repositories => {
         totalPages: 0,
       }),
       create: async () => '',
+      findById: async () => {
+        throw new Error('not implemented');
+      },
       linkArtist: async () => {},
       linkGenre: async () => {},
     },

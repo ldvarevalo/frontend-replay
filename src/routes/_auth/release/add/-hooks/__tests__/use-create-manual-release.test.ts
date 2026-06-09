@@ -26,6 +26,7 @@ const mockReleases = {
   findByQuery: async () => ({ results: [],
 totalPages: 0 }),
   create: vi.fn().mockResolvedValue(mockReleaseId),
+  findById: vi.fn(),
   linkArtist: vi.fn().mockResolvedValue(undefined),
   linkGenre: vi.fn().mockResolvedValue(undefined),
 };
