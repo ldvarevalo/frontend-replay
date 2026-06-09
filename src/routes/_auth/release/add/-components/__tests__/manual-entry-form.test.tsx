@@ -27,6 +27,7 @@ describe('ManualEntryForm', () => {
     year: '',
     genre: '',
     artworkUrl: '',
+    status: 'want',
   };
 
   afterEach(() => {

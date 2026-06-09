@@ -16,6 +16,7 @@ export interface CollectionData {
 }
 
 const STATUS_MAP: Record<string, CollectionStatus> = {
+  OWNED: 'owned',
   WANT: 'want',
   LISTENED: 'listened',
 };

@@ -16,6 +16,10 @@ const TABS = [
     label: 'ALL',
   },
   {
+    id: 'OWNED',
+    label: 'OWNED',
+  },
+  {
     id: 'WANT',
     label: 'WANT',
   },

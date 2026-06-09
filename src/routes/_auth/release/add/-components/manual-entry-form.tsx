@@ -164,6 +164,38 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
       })}
     </div>
 
+    <div>
+      <Typography
+        size="xs"
+        weight="black"
+        tracking="widest"
+        transform="uppercase"
+        className="mb-2 text-primary"
+      >
+        STATUS
+      </Typography>
+      <div className="flex gap-4">
+        <div className="flex-1">
+          <Button
+            variant={values.status === 'want' ? 'primary' : 'outline'}
+            size="lg"
+            onClick={() => onFieldChange('status', 'want')}
+          >
+            WANT
+          </Button>
+        </div>
+        <div className="flex-1">
+          <Button
+            variant={values.status === 'owned' ? 'primary' : 'outline'}
+            size="lg"
+            onClick={() => onFieldChange('status', 'owned')}
+          >
+            OWNED
+          </Button>
+        </div>
+      </div>
+    </div>
+
     <div className="flex flex-col gap-4">
       <Typography
         size="xs"

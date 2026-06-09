@@ -22,6 +22,7 @@ const INITIAL_VALUES: ManualEntryData = {
   year: '',
   genre: '',
   artworkUrl: '',
+  status: 'want',
 };
 
 /**

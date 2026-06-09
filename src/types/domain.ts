@@ -55,4 +55,5 @@ export interface ManualEntryData {
   year: string;
   genre: string;
   artworkUrl: string;
+  status: CollectionStatus;
 }

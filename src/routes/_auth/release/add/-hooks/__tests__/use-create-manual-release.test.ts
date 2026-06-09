@@ -54,6 +54,7 @@ const mockEntry: ManualEntryData = {
   year: '2024',
   genre: 'Jazz',
   artworkUrl: 'https://example.com/cover.jpg',
+  status: 'want',
 };
 
 const mockEntryNoGenre: ManualEntryData = {
@@ -62,6 +63,7 @@ const mockEntryNoGenre: ManualEntryData = {
   year: '',
   genre: '',
   artworkUrl: '',
+  status: 'want',
 };
 
 /**
