@@ -39,7 +39,9 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
           head: false,
         }
       )
-      .or(`title.ilike.%${query}%,release_artists.artists.name.ilike.%${query}%`)
+      .or(
+        `title.ilike.%${query}%,release_artists.artists.name.ilike.%${query}%`
+      )
       .range(from, to);
 
     if (error) {
@@ -53,10 +55,11 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
         id: r.id as string,
         thumbnail: (r.cover_url as string) ?? '',
         title: r.title as string,
-        artist: (
-          (r.release_artists as Array<Record<string, unknown>>)?.[0]
-            ?.artists as Record<string, unknown>
-        )?.name as string ?? '',
+        artist:
+          ((
+            (r.release_artists as Array<Record<string, unknown>>)?.[0]
+              ?.artists as Record<string, unknown>
+          )?.name as string) ?? '',
         isAdded: false,
       };
     });
@@ -94,29 +97,22 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
     artistId: string,
     role: ArtistRole = 'primary'
   ): Promise<void> {
-    const { error } = await this.supabase
-      .from('release_artists')
-      .insert({
-        release_id: releaseId,
-        artist_id: artistId,
-        role,
-      });
+    const { error } = await this.supabase.from('release_artists').insert({
+      release_id: releaseId,
+      artist_id: artistId,
+      role,
+    });
 
     if (error) {
       throw error;
     }
   }
 
-  async linkGenre(
-    releaseId: string,
-    genreId: string
-  ): Promise<void> {
-    const { error } = await this.supabase
-      .from('release_genres')
-      .insert({
-        release_id: releaseId,
-        genre_id: genreId,
-      });
+  async linkGenre(releaseId: string, genreId: string): Promise<void> {
+    const { error } = await this.supabase.from('release_genres').insert({
+      release_id: releaseId,
+      genre_id: genreId,
+    });
 
     if (error) {
       throw error;

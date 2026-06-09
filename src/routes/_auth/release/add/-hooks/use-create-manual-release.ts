@@ -39,7 +39,9 @@ export const useCreateManualRelease = (): UseCreateManualReleaseResult => {
         return artists.create(name);
       };
 
-      const findOrCreateGenre = async (name: string): Promise<string | null> => {
+      const findOrCreateGenre = async (
+        name: string
+      ): Promise<string | null> => {
         if (!name.trim()) {
           return null;
         }

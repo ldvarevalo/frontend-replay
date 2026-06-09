@@ -47,7 +47,7 @@ name: 'Rock' }]);
 
   it('should set isSearching during fetch', async () => {
     let resolvePromise: (value: unknown) => void = () => {};
-    const promise = new Promise((resolve) => {
+    const promise = new Promise(resolve => {
       resolvePromise = resolve;
     });
     mockSearchFn.mockReturnValue(promise);

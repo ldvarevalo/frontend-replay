@@ -49,9 +49,7 @@ describe('ManualEntryForm', () => {
     expect(
       screen.getByPlaceholderText('e.g. A Love Supreme')
     ).toBeInTheDocument();
-    expect(
-      screen.getByText('e.g. John Coltrane')
-    ).toBeInTheDocument();
+    expect(screen.getByText('e.g. John Coltrane')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('1965')).toBeInTheDocument();
     expect(screen.getByText('Jazz')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('https://...')).toBeInTheDocument();

@@ -20,7 +20,9 @@ export const setRepositories = (repos: Repositories): void => {
 
 export const getRepositories = (): Repositories => {
   if (!instance) {
-    throw new Error('Repositories not initialized. Call setRepositories() first.');
+    throw new Error(
+      'Repositories not initialized. Call setRepositories() first.'
+    );
   }
 
   return instance;

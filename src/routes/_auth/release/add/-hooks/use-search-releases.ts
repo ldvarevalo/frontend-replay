@@ -32,7 +32,7 @@ export const useSearchReleases = (): UseSearchReleasesHook => {
     queryKey: ['search-releases', queryValue, currentPage],
     queryFn: () => releases.findByQuery(queryValue, currentPage, PAGE_SIZE),
     enabled: queryValue.length > 0,
-    placeholderData: (prev) => prev,
+    placeholderData: prev => prev,
   });
 
   const totalPages = data?.totalPages ?? 1;

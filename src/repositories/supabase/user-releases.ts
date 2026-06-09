@@ -1,9 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type {
-  Album,
-  CollectionAlbum,
-  CollectionStatus,
-} from '#/types/domain';
+import type { Album, CollectionAlbum, CollectionStatus } from '#/types/domain';
 import type { UserReleasesRepository } from '../types';
 
 /**
@@ -54,8 +50,9 @@ const getArtistName = (releases: Record<string, unknown>): string => {
     | undefined;
 
   return (
-    (releaseArtists?.[0]?.artists as Record<string, unknown>)?.name as string
-  ) ?? '';
+    ((releaseArtists?.[0]?.artists as Record<string, unknown>)
+      ?.name as string) ?? ''
+  );
 };
 
 const mapCollectionAlbum = (row: Record<string, unknown>): CollectionAlbum => {
@@ -93,10 +90,7 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
     this.supabase = supabase;
   }
 
-  async findRecent(
-    userId: string,
-    limit: number
-  ): Promise<Album[]> {
+  async findRecent(userId: string, limit: number): Promise<Album[]> {
     const { data, error } = await this.supabase
       .from('user_releases')
       .select(RECENT_ALBUM_SELECT)

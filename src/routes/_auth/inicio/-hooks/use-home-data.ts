@@ -1,10 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useUser } from '#/core/auth';
 import { useRepositories } from '#/repositories/hooks';
-import type {
-  HomeData,
-  HomeStats,
-} from '#/types/domain';
+import type { HomeData, HomeStats } from '#/types/domain';
 
 /**
  * Constants

@@ -14,7 +14,7 @@
     "test:cov": "vitest run --coverage",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "format": "prettier --write . && yarn lint:fix",
+    "format": "prettier --write 'src/**/*.{ts,tsx}' && yarn lint:fix",
     "typescript": "tsc --noEmit"
   },
   "dependencies": {

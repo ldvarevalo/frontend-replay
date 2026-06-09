@@ -17,22 +17,19 @@ const formatDuration = (seconds: number | null): string => {
   return `${m}:${s.toString().padStart(2, '0')}`;
 };
 
-const mapTrack = (
-  row: Record<string, unknown>,
-  index: number
-): Track => {
+const mapTrack = (row: Record<string, unknown>, index: number): Track => {
   const releases = row.releases as Record<string, unknown> | undefined;
-  const releaseArtists = (
-    row.release_artists as Array<Record<string, unknown>> | undefined
-  );
+  const releaseArtists = row.release_artists as
+    | Array<Record<string, unknown>>
+    | undefined;
 
   return {
     id: row.id as string,
     thumbnail: (releases?.cover_url as string) ?? '',
     title: row.title as string,
-    artist: (
-      releaseArtists?.[0]?.artists as Record<string, unknown>
-    )?.name as string ?? '',
+    artist:
+      ((releaseArtists?.[0]?.artists as Record<string, unknown>)
+        ?.name as string) ?? '',
     duration: formatDuration(row.duration_seconds as number | null),
     isActive: index === 0,
   };
@@ -49,10 +46,7 @@ export class SupabaseTracksRepository implements TracksRepository {
     this.supabase = supabase;
   }
 
-  async findRecentByUser(
-    userId: string,
-    limit: number
-  ): Promise<Track[]> {
+  async findRecentByUser(userId: string, limit: number): Promise<Track[]> {
     const { data: userReleases, error: urError } = await this.supabase
       .from('user_releases')
       .select('release_id')

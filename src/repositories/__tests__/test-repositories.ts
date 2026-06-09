@@ -1,13 +1,5 @@
-import type {
-  Album,
-  CollectionAlbum,
-  HomeStats,
-  Track,
-} from '#/types/domain';
-import type {
-  Repositories,
-  LookupResult,
-} from '../types';
+import type { Album, CollectionAlbum, HomeStats, Track } from '#/types/domain';
+import type { Repositories, LookupResult } from '../types';
 
 /**
  * Helpers
@@ -21,16 +13,13 @@ const createNoopRepositories = (): Repositories => {
         totalPages: 0,
       }),
       create: async () => '',
-      linkArtist: async () => {
-      },
-      linkGenre: async () => {
-      },
+      linkArtist: async () => {},
+      linkGenre: async () => {},
     },
     userReleases: {
       findRecent: async (): Promise<Album[]> => [],
       findAllByUser: async (): Promise<CollectionAlbum[]> => [],
-      create: async () => {
-      },
+      create: async () => {},
     },
     tracks: {
       findRecentByUser: async (): Promise<Track[]> => [],

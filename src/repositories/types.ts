@@ -39,10 +39,7 @@ export interface ReleasesRepository {
     artistId: string,
     role?: ArtistRole
   ): Promise<void>;
-  linkGenre(
-    releaseId: string,
-    genreId: string
-  ): Promise<void>;
+  linkGenre(releaseId: string, genreId: string): Promise<void>;
 }
 
 export interface ArtistsRepository {

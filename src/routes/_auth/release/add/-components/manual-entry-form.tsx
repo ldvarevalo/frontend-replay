@@ -76,8 +76,12 @@ const searchLookupFor = (
   artistSearch: SearchLookupState,
   genreSearch: SearchLookupState
 ): SearchLookupState | undefined => {
-  if (key === 'artist') {return artistSearch;}
-  if (key === 'genre') {return genreSearch;}
+  if (key === 'artist') {
+    return artistSearch;
+  }
+  if (key === 'genre') {
+    return genreSearch;
+  }
 
   return undefined;
 };
@@ -115,12 +119,12 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
               results={search.results}
               isSearching={search.isSearching}
               onSearch={search.onSearch}
-              onChange={(v) => onFieldChange(key, v)}
+              onChange={v => onFieldChange(key, v)}
             />
           ) : (
             <Input
               value={values[key]}
-              onChange={(e) => onFieldChange(key, e.target.value)}
+              onChange={e => onFieldChange(key, e.target.value)}
               placeholder={placeholder}
             />
           )}
@@ -150,12 +154,12 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
                 results={search.results}
                 isSearching={search.isSearching}
                 onSearch={search.onSearch}
-                onChange={(v) => onFieldChange(key, v)}
+                onChange={v => onFieldChange(key, v)}
               />
             ) : (
               <Input
                 value={values[key]}
-                onChange={(e) => onFieldChange(key, e.target.value)}
+                onChange={e => onFieldChange(key, e.target.value)}
                 placeholder={placeholder}
               />
             )}
@@ -209,7 +213,7 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
       <div className="flex flex-1 flex-col gap-4">
         <Input
           value={values.artworkUrl}
-          onChange={(e) => onFieldChange('artworkUrl', e.target.value)}
+          onChange={e => onFieldChange('artworkUrl', e.target.value)}
           placeholder="https://..."
         />
         <div className="w-full shrink-0">
@@ -218,7 +222,12 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
       </div>
     </div>
 
-    <Button variant="primary" size="lg" onClick={onSubmit} disabled={!isValid || isPending}>
+    <Button
+      variant="primary"
+      size="lg"
+      onClick={onSubmit}
+      disabled={!isValid || isPending}
+    >
       {isPending ? 'SAVING…' : 'SAVE'}
     </Button>
   </div>

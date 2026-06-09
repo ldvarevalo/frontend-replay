@@ -9,11 +9,7 @@ import {
   CommandItem,
   CommandList,
 } from './command';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from './popover';
+import { Popover, PopoverContent, PopoverTrigger } from './popover';
 
 /** Types */
 
@@ -29,7 +25,10 @@ interface SearchableSelectProps {
 
 /** SearchableSelect */
 
-const usePopoverWidth = (): [React.RefObject<HTMLDivElement | null>, number | undefined] => {
+const usePopoverWidth = (): [
+  React.RefObject<HTMLDivElement | null>,
+  number | undefined,
+] => {
   const ref = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState<number | undefined>(undefined);
 
@@ -63,9 +62,11 @@ export const SearchableSelect: FunctionComponent<SearchableSelectProps> = ({
 
   const textColor = value ? 'text-on-surface' : 'text-gray-500';
 
-  const shouldShowCreate = !isSearching && results.length === 0 && inputValue.length >= 2;
+  const shouldShowCreate =
+    !isSearching && results.length === 0 && inputValue.length >= 2;
 
-  const shouldShowEmpty = !isSearching && results.length === 0 && inputValue.length < 2;
+  const shouldShowEmpty =
+    !isSearching && results.length === 0 && inputValue.length < 2;
 
   return (
     <div ref={wrapperRef}>
@@ -75,9 +76,7 @@ export const SearchableSelect: FunctionComponent<SearchableSelectProps> = ({
           aria-expanded={open}
           disabled={disabled}
         >
-          <span className={textColor}>
-            {value || placeholder}
-          </span>
+          <span className={textColor}>{value || placeholder}</span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </PopoverTrigger>
         <PopoverContent
@@ -89,25 +88,23 @@ export const SearchableSelect: FunctionComponent<SearchableSelectProps> = ({
               autoFocus
               placeholder={placeholder}
               value={inputValue}
-              onValueChange={(q) => {
+              onValueChange={q => {
                 setInputValue(q);
                 onSearch(q);
               }}
             />
             <CommandList>
-              {isSearching && (
-                <CommandItem disabled>Searching...</CommandItem>
+              {isSearching && <CommandItem disabled>Searching...</CommandItem>}
+              {shouldShowEmpty && (
+                <CommandEmpty>Type at least 2 characters</CommandEmpty>
               )}
-              {shouldShowEmpty && <CommandEmpty>Type at least 2 characters</CommandEmpty>}
               {shouldShowCreate && (
-                <CommandItem
-                  onSelect={() => handleSelect(inputValue)}
-                >
+                <CommandItem onSelect={() => handleSelect(inputValue)}>
                   Create &ldquo;{inputValue}&rdquo;
                 </CommandItem>
               )}
               <CommandGroup>
-                {results.map((result) => (
+                {results.map(result => (
                   <CommandItem
                     key={result.id}
                     value={result.name}

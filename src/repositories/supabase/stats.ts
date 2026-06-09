@@ -32,17 +32,11 @@ export class SupabaseStatsRepository implements StatsRepository {
 
     const rows = data ?? [];
 
-    const totalReleases = rows.filter(
-      r => r.status !== 'want'
-    ).length;
+    const totalReleases = rows.filter(r => r.status !== 'want').length;
 
-    const thisMonth = rows.filter(
-      r => r.created_at >= firstOfMonth
-    ).length;
+    const thisMonth = rows.filter(r => r.created_at >= firstOfMonth).length;
 
-    const wantToListen = rows.filter(
-      r => r.status === 'want'
-    ).length;
+    const wantToListen = rows.filter(r => r.status === 'want').length;
 
     return {
       totalReleases,

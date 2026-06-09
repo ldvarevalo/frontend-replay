@@ -29,10 +29,14 @@ describe('SearchableSelect', () => {
       <SearchableSelect
         {...defaultProps}
         results={[
-          { id: '1',
-name: 'Rock' },
-          { id: '2',
-name: 'Jazz' },
+          {
+            id: '1',
+            name: 'Rock',
+          },
+          {
+            id: '2',
+            name: 'Jazz',
+          },
         ]}
         onChange={onChange}
       />
