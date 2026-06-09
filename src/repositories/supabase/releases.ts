@@ -193,7 +193,9 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
     const artist = getPrimaryName(releaseArtists, 'artists');
     const coverUrl = (row.cover_url as string) ?? '';
 
-    const tracks: Track[] = ((row.tracks as Array<Record<string, unknown>> | undefined) ?? [])
+    const tracks: Track[] = (
+      (row.tracks as Array<Record<string, unknown>> | undefined) ?? []
+    )
       .sort(sortByPosition)
       .map((t, index) =>
         mapTrackRow(

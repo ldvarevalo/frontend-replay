@@ -1,11 +1,6 @@
 /* eslint-disable unicorn/filename-case, @typescript-eslint/no-use-before-define */
 import type { FunctionComponent } from 'react';
-import {
-  createFileRoute,
-  useNavigate,
-} from '@tanstack/react-router';
-import { ArrowLeft, EllipsisVertical, Share } from 'lucide-react';
-import { Button } from '#/components/ui/button';
+import { createFileRoute } from '@tanstack/react-router';
 import { Typography } from '#/components/ui/typography';
 import { AlbumHero } from './-components/album-hero';
 import { AlbumListeningHistory } from './-components/album-listening-history';
@@ -28,7 +23,6 @@ interface AlbumParams {
  */
 
 const AlbumDetailPage: FunctionComponent = () => {
-  const navigate = useNavigate();
   const { id } = Route.useParams() as AlbumParams;
   const { album, isLoading, isError, error } = useAlbumData(id);
 
@@ -82,24 +76,6 @@ const AlbumDetailPage: FunctionComponent = () => {
 
   return (
     <div className="flex flex-col">
-      {/* Header */}
-      <header className="flex items-center justify-between px-4 py-4">
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          onClick={() => navigate({ to: '..' })}
-        >
-          <ArrowLeft className="size-5" />
-        </Button>
-        <h2 className="font-heading text-2xl font-bold italic tracking-tight">
-          Crate
-        </h2>
-        <div className="flex items-center gap-2">
-          <Share className="size-5 text-on-surface-variant" />
-          <EllipsisVertical className="size-5 text-on-surface-variant" />
-        </div>
-      </header>
-
       {/* Hero */}
       <AlbumHero
         coverUrl={album.coverUrl}
@@ -141,6 +117,7 @@ export const Route = createFileRoute('/_auth/album/{-$id}')({
   loader: () => ({
     pageHeader: {
       title: 'Crate',
+      showBack: true,
     },
   }),
 });

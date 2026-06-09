@@ -1,4 +1,10 @@
-import type { Album, AlbumDetail, CollectionAlbum, HomeStats, Track } from '#/types/domain';
+import type {
+  Album,
+  AlbumDetail,
+  CollectionAlbum,
+  HomeStats,
+  Track,
+} from '#/types/domain';
 import type { Repositories, LookupResult } from '../types';
 
 /**

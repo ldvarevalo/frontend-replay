@@ -6,16 +6,20 @@ exports[`Header > should render logo link 1`] = `
     <header
       class="sticky top-0 z-50 flex items-center justify-between bg-background/80 px-4 py-4 backdrop-blur-sm"
     >
-      <h2
-        class="font-heading text-2xl font-bold italic tracking-tight"
+      <div
+        class="flex items-center gap-2"
       >
-        <a
-          class="text-foreground no-underline"
-          href="/inicio"
+        <h2
+          class="font-heading text-2xl font-bold italic tracking-tight"
         >
-          Crate
-        </a>
-      </h2>
+          <a
+            class="text-foreground no-underline"
+            href="/inicio"
+          >
+            Crate
+          </a>
+        </h2>
+      </div>
       <a
         aria-label="Log out"
         class="text-muted-foreground transition-colors hover:text-foreground"

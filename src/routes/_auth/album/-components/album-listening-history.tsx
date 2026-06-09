@@ -17,7 +17,10 @@ export const AlbumListeningHistory: FunctionComponent = () => (
       >
         LISTENING HISTORY
       </Typography>
-      <Button variant="ghost" className="flex items-center gap-1 border border-outline-20">
+      <Button
+        variant="ghost"
+        className="flex items-center gap-1 border border-outline-20"
+      >
         <Play className="size-3" />
         <Typography size="xs" transform="uppercase">
           NEW SESSION

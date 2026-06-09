@@ -21,7 +21,11 @@ export const AlbumTags: FunctionComponent<AlbumTagsProps> = ({
   <div className="space-y-1">
     {year && (
       <div className="inline-flex items-center gap-1 bg-surface-container-high px-2 py-1">
-        <Typography size="xs" transform="uppercase" className="text-on-surface-variant">
+        <Typography
+          size="xs"
+          transform="uppercase"
+          className="text-on-surface-variant"
+        >
           YEAR{' '}
         </Typography>
         <Typography
@@ -36,7 +40,11 @@ export const AlbumTags: FunctionComponent<AlbumTagsProps> = ({
     )}
     {genre && (
       <div className="inline-flex items-center gap-1 bg-surface-container-high px-2 py-1">
-        <Typography size="xs" transform="uppercase" className="text-on-surface-variant">
+        <Typography
+          size="xs"
+          transform="uppercase"
+          className="text-on-surface-variant"
+        >
           GENRE{' '}
         </Typography>
         <Typography

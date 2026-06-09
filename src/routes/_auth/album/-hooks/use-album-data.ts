@@ -6,7 +6,9 @@ import type { AlbumDetail } from '#/types/domain';
  * useAlbumData
  */
 
-export const useAlbumData = (id: string | undefined): {
+export const useAlbumData = (
+  id: string | undefined
+): {
   album: AlbumDetail | null;
   isLoading: boolean;
   isError: boolean;
