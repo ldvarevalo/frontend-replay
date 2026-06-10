@@ -20,8 +20,9 @@ export const DurationInput: FunctionComponent<DurationInputProps> = ({
 }) => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const raw = e.target.value.replace(/[^0-9]/g, '').slice(0, 6);
-    const formatted = raw.replace(/^(\d{0,2})(\d{0,2})(\d{0,2})$/, (_m, h, m, s) =>
-      [h, m, s].filter(Boolean).join(':')
+    const formatted = raw.replace(
+      /^(\d{0,2})(\d{0,2})(\d{0,2})$/,
+      (_, ...parts) => parts.filter(Boolean).join(':')
     );
     onChange(formatted);
   };

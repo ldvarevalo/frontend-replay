@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/filename-case, @typescript-eslint/no-use-before-define */
 import type { FunctionComponent } from 'react';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { AlbumHero } from '#/components/album-hero';
 import { Typography } from '#/components/ui/typography';
 import { router } from '#/router';
@@ -26,6 +26,7 @@ interface AlbumParams {
 
 const AlbumDetailPage: FunctionComponent = () => {
   const { id } = Route.useParams() as AlbumParams;
+  const navigate = useNavigate();
   const { album, isLoading, isError, error } = useAlbumData(id);
   const { mutate: setStatus } = useSetCollectionStatus();
 
@@ -99,6 +100,23 @@ const AlbumDetailPage: FunctionComponent = () => {
             });
           }}
         />
+
+        <button
+          type="button"
+          onClick={() => navigate({ to: '/album/$id/session',
+params: { id } })}
+          className="mx-4 block w-[calc(100%-2rem)] bg-gradient-to-br from-primary/80 to-primary py-4 text-center"
+        >
+          <Typography
+            size="sm"
+            weight="bold"
+            transform="uppercase"
+            tracking="widest"
+            className="text-on-primary"
+          >
+            NEW SESSION
+          </Typography>
+        </button>
 
         <AlbumRating />
 
