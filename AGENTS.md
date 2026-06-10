@@ -48,6 +48,8 @@ yarn test:cov     # Coverage (70/90/50 thresholds)
 - **Typography:** `<Typography>` con props `family`, `size`, `weight`, `as`. Color lo define el contenedor
 - **Button links:** `<Button variant="text">` para links inline. Usa Typography internamente
 - **Sección en archivos TS:** Types → Constants → Helpers → named export (hook/component)
+- **Return types:** Extraer a `interface` con sufijo `Hook` para hooks y `Result` para funciones. Ej: `UseAlbumDataHook`, `FormatDurationResult`
+- **Evitar return type inline:** No escribir tipos de retorno como objetos literales inline (`): { ... }`). Siempre extraer a una interface nombrada.
 
 ## Code Integrity
 
