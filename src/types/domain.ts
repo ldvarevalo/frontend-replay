@@ -68,3 +68,16 @@ export interface ManualEntryData {
   artworkUrl: string;
   status: CollectionStatus;
 }
+
+export type ListeningScope = 'full_release' | 'side_a' | 'side_b' | 'side_c' | 'side_d';
+
+export type SourceFormat = 'vinyl' | 'digital';
+
+export interface ListeningSession {
+  id: string;
+  userReleaseId: string;
+  scope: ListeningScope;
+  durationSeconds: number | null;
+  listenedAt: string;
+  createdAt: string;
+}
