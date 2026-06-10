@@ -1,8 +1,12 @@
 import { render, screen } from '@test-utils';
-import { usePageHeader } from '#/core/hooks/use-page-header';
+import * as pageHeaderModule from '#/core/hooks/use-page-header';
 import { Header } from '../header';
 
-vi.mock('#/core/hooks/use-page-header');
+/**
+ * Mocks
+ */
+
+const usePageHeaderMock = vi.spyOn(pageHeaderModule, 'usePageHeader');
 
 /**
  * Header
@@ -10,9 +14,7 @@ vi.mock('#/core/hooks/use-page-header');
 
 describe('Header', () => {
   beforeEach(() => {
-    vi.mocked(usePageHeader).mockReturnValue({
-      title: 'Crate',
-    });
+    usePageHeaderMock.mockReturnValue({ title: 'Crate' });
   });
 
   it('should render logo link', () => {
@@ -29,11 +31,11 @@ describe('Header', () => {
   });
 
   it('should render back button when onBack is provided', () => {
-    const onBack = vi.fn();
+    const handleBackMock = vi.fn();
 
-    vi.mocked(usePageHeader).mockReturnValue({
+    usePageHeaderMock.mockReturnValue({
       title: 'Album',
-      onBack,
+      onBack: handleBackMock,
     });
 
     render(<Header />);
@@ -41,6 +43,6 @@ describe('Header', () => {
     expect(screen.getByLabelText('Go back')).toBeInTheDocument();
     expect(screen.getByText('Album')).toBeInTheDocument();
     screen.getByLabelText('Go back').click();
-    expect(onBack).toHaveBeenCalledTimes(1);
+    expect(handleBackMock).toHaveBeenCalledTimes(1);
   });
 });
