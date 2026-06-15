@@ -5,7 +5,9 @@ import type {
   CollectionStatus,
   HomeStats,
   ListeningScope,
+  ListeningSession,
   SearchResult,
+  SourceFormat,
   Track,
 } from '#/types/domain';
 
@@ -88,8 +90,14 @@ export interface ListeningSessionsRepository {
   create(data: {
     userReleaseId: string;
     scope: ListeningScope;
+    sourceFormat: SourceFormat;
     durationSeconds: number | null;
   }): Promise<void>;
+
+  findByRelease(
+    releaseId: string,
+    userId: string
+  ): Promise<ListeningSession[]>;
 }
 
 /**

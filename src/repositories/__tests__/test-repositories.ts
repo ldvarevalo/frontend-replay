@@ -61,6 +61,7 @@ const createNoopRepositories = (): Repositories => {
     },
     sessions: {
       create: async () => {},
+      findByRelease: async () => [],
     },
   };
 
