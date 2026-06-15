@@ -26,6 +26,7 @@ export const CollectionAlbumGrid: FunctionComponent<
         title={album.title}
         artist={album.artist}
         year={album.year}
+        isListened={album.isListened}
         onClick={() => onAlbumClick(album.id)}
       />
     ))}

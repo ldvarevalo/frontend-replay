@@ -1,4 +1,5 @@
 import type { FunctionComponent } from 'react';
+import { Check } from 'lucide-react';
 import { Typography } from '#/components/ui/typography';
 
 /**
@@ -10,6 +11,7 @@ export interface AlbumCardProps {
   title: string;
   artist: string;
   year?: string;
+  isListened?: boolean;
   onClick: () => void;
 }
 
@@ -22,6 +24,7 @@ export const AlbumCard: FunctionComponent<AlbumCardProps> = ({
   title,
   artist,
   year,
+  isListened = false,
   onClick,
 }) => (
   <button
@@ -29,8 +32,19 @@ export const AlbumCard: FunctionComponent<AlbumCardProps> = ({
     onClick={onClick}
     className="flex flex-col items-start text-left transition-opacity hover:opacity-80"
   >
-    <div className="aspect-square mb-4 w-full overflow-hidden bg-muted">
-      <img src={coverUrl} alt={title} className="h-full w-full object-cover" />
+    <div className="relative mb-4 w-full overflow-hidden bg-muted">
+      <div className="aspect-square">
+        <img
+          src={coverUrl}
+          alt={title}
+          className="h-full w-full object-cover"
+        />
+      </div>
+      {isListened && (
+        <span className="absolute bottom-1 right-1 flex size-5 items-center justify-center rounded-full bg-primary text-[10px] text-on-primary">
+          <Check className="size-3" />
+        </span>
+      )}
     </div>
     <Typography
       className="text-on-surface"
