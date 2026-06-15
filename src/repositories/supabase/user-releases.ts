@@ -99,7 +99,10 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
       .select(RECENT_ALBUM_SELECT)
       .eq('user_id', userId)
       .eq('is_listened', true)
-      .order('listened_at', { ascending: false, nullsFirst: false })
+      .order('listened_at', {
+        ascending: false,
+        nullsFirst: false,
+      })
       .limit(limit);
 
     if (error) {

@@ -6,13 +6,17 @@ exports[`AlbumCard > should render with year and match snapshot 1`] = `
   type="button"
 >
   <div
-    class="aspect-square mb-4 w-full overflow-hidden bg-muted"
+    class="relative mb-4 w-full overflow-hidden bg-muted"
   >
-    <img
-      alt="A Love Supreme"
-      class="h-full w-full object-cover"
-      src="https://example.com/cover.jpg"
-    />
+    <div
+      class="aspect-square"
+    >
+      <img
+        alt="A Love Supreme"
+        class="h-full w-full object-cover"
+        src="https://example.com/cover.jpg"
+      />
+    </div>
   </div>
   <h3
     class="font-heading italic text-[18px] leading-tight font-semibold text-on-surface"

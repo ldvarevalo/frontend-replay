@@ -42,7 +42,10 @@ export class SupabaseTracksRepository implements TracksRepository {
       .select('release_id')
       .eq('user_id', userId)
       .eq('is_listened', true)
-      .order('listened_at', { ascending: false, nullsFirst: false })
+      .order('listened_at', {
+        ascending: false,
+        nullsFirst: false,
+      })
       .limit(limit);
 
     if (urError) {

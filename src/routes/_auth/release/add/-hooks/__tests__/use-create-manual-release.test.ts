@@ -49,6 +49,7 @@ const mockUserReleases = {
   create: vi.fn().mockResolvedValue(undefined),
   upsert: vi.fn().mockResolvedValue(undefined),
   findByRelease: vi.fn().mockResolvedValue(null),
+  markAsListened: vi.fn().mockResolvedValue(undefined),
 };
 
 const mockEntry: ManualEntryData = {
