@@ -65,6 +65,7 @@ const mapAlbumDetailRow = (row: Record<string, unknown>): AlbumDetail => {
     | Array<Record<string, unknown>>
     | undefined;
   const status = (userReleases?.[0]?.status as CollectionStatus | null) ?? null;
+  const isListened = (userReleases?.[0]?.is_listened as boolean) ?? false;
 
   return {
     id: row.id as string,
@@ -75,6 +76,7 @@ const mapAlbumDetailRow = (row: Record<string, unknown>): AlbumDetail => {
     genre: getPrimaryName(releaseGenres, 'genres'),
     tracks,
     status,
+    isListened,
   };
 };
 
@@ -222,7 +224,9 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
           position
         ),
         user_releases!left (
-          status
+          status,
+          is_listened,
+          listened_at
         )
       `
       )
