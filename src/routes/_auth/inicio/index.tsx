@@ -1,7 +1,6 @@
 import type { FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { AlbumCard } from '#/components/album-card';
-import { AlbumRow } from '#/components/album-row';
 import { SectionHeader } from '#/components/section-header';
 import { BannerCta } from './-components/banner-cta';
 import { StatsCard } from './-components/stats-card';
@@ -13,7 +12,7 @@ import { useHomeData } from './-hooks/use-home-data';
 
 const HomePage: FunctionComponent = () => {
   const navigate = useNavigate();
-  const { stats, albums, tracks } = useHomeData();
+  const { stats, albums, upNext } = useHomeData();
 
   return (
     <main className="page-wrap space-y-6 py-6">
@@ -38,16 +37,14 @@ const HomePage: FunctionComponent = () => {
         ))}
       </div>
       <SectionHeader title="Up Next" />
-      <div className="flex flex-col">
-        {tracks.map(track => (
-          <AlbumRow
-            key={track.id}
-            thumbnail={track.thumbnail}
-            title={track.title}
-            artist={track.artist}
-            duration={track.duration}
-            isActive={track.isActive}
-            onClick={() => navigate({ to: `/album/${track.id}` })}
+      <div className="grid grid-cols-2 gap-4">
+        {upNext.map(album => (
+          <AlbumCard
+            key={album.id}
+            coverUrl={album.coverUrl}
+            title={album.title}
+            artist={album.artist}
+            onClick={() => navigate({ to: `/album/${album.id}` })}
           />
         ))}
       </div>
