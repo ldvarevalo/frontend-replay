@@ -26,13 +26,6 @@ interface TracksParams {
 
 const SIDES = ['side_a', 'side_b', 'side_c', 'side_d'];
 
-const SIDE_LABELS: Record<string, string> = {
-  side_a: 'Side A',
-  side_b: 'Side B',
-  side_c: 'Side C',
-  side_d: 'Side D',
-};
-
 let nextRowId = 1;
 
 const createEmptyRow = (side: string, position: number): TrackRowData => ({
@@ -97,8 +90,6 @@ const TracksPage: FunctionComponent = () => {
     createEmptyRow('side_a', 1),
   ]);
 
-  const [activeSide, setActiveSide] = useState<string>('side_a');
-
   if (!id) {
     return (
       <main className="page-wrap flex items-center justify-center py-20">
@@ -161,7 +152,7 @@ const TracksPage: FunctionComponent = () => {
   const handleAddRow = (): void => {
     setRows(prev => [
       ...prev,
-      createEmptyRow(activeSide, getNextPosition(prev, activeSide)),
+      createEmptyRow('side_a', getNextPosition(prev, 'side_a')),
     ]);
   };
 
@@ -210,23 +201,6 @@ const TracksPage: FunctionComponent = () => {
           <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">
             TRACKS
           </p>
-
-          <div className="flex gap-1">
-            {SIDES.map(side => (
-              <button
-                key={side}
-                type="button"
-                onClick={() => setActiveSide(side)}
-                className={`flex-1 border py-2 text-center text-xs font-bold uppercase tracking-widest transition-colors ${
-                  activeSide === side
-                    ? 'border-primary bg-primary-container text-on-primary-container'
-                    : 'border-outline-20 text-on-surface-variant'
-                }`}
-              >
-                {SIDE_LABELS[side]}
-              </button>
-            ))}
-          </div>
 
           <div className="space-y-3">
             {rows.map(row => (
