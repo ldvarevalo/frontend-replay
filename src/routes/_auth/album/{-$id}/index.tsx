@@ -2,6 +2,7 @@
 import type { FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { AlbumHero } from '#/components/album-hero';
+import { Button } from '#/components/ui/button';
 import { Typography } from '#/components/ui/typography';
 import { router } from '#/router';
 import { AlbumListeningHistory } from '../-components/album-listening-history';
@@ -118,6 +119,20 @@ const AlbumDetailPage: FunctionComponent = () => {
         <AlbumRating />
 
         <AlbumTracklist tracks={album.tracks} />
+
+        <Button
+          variant="ghost"
+          className="flex w-full items-center justify-center gap-2 border border-outline-20 py-6"
+          onClick={() =>
+            navigate({
+              to: `/album/${id}/tracks`,
+            })
+          }
+        >
+          <Typography size="xs" transform="uppercase">
+            ADD TRACKS
+          </Typography>
+        </Button>
 
         <AlbumListeningHistory
           sessions={sessions.map(s => ({
