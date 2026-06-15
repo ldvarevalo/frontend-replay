@@ -2,14 +2,98 @@ import type { FunctionComponent } from 'react';
 import { Play } from 'lucide-react';
 import { Button } from '#/components/ui/button';
 import { Typography } from '#/components/ui/typography';
+import type { SourceFormat } from '#/types/domain';
 
 /**
  * Types
  */
 
+interface SessionDisplay {
+  id: string;
+  listenedAt: string;
+  scopeLabel: string;
+  sourceFormat: SourceFormat;
+}
+
 interface AlbumListeningHistoryProps {
+  sessions: SessionDisplay[];
+  isLoading: boolean;
   onNewSessionClick: () => void;
 }
+
+/**
+ * Helpers
+ */
+
+const formatDate = (iso: string): string => {
+  const date = new Date(iso);
+
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+};
+
+/**
+ * LoadingState
+ */
+
+const LoadingState: FunctionComponent = () => (
+  <div className="flex items-center justify-center bg-surface-container-high py-8">
+    <Typography size="sm" className="text-on-surface-variant">
+      Loading...
+    </Typography>
+  </div>
+);
+
+/**
+ * EmptyState
+ */
+
+const EmptyState: FunctionComponent = () => (
+  <div className="flex flex-col items-center gap-1 bg-surface-container-high py-8">
+    <Typography
+      family="heading"
+      size="lg"
+      className="text-center text-on-surface-variant"
+    >
+      No sessions recorded yet
+    </Typography>
+    <Typography size="sm" className="text-center text-on-surface-variant">
+      Start your first spin of this record.
+    </Typography>
+  </div>
+);
+
+/**
+ * SessionList
+ */
+
+const SessionList: FunctionComponent<{ sessions: SessionDisplay[] }> = ({
+  sessions,
+}) => (
+  <ul className="divide-y divide-outline-20">
+    {sessions.map(session => (
+      <li
+        key={session.id}
+        className="flex items-center justify-between bg-surface-container-high px-4 py-3"
+      >
+        <div>
+          <Typography size="sm" className="text-foreground">
+            {session.scopeLabel}
+          </Typography>
+          <Typography size="xs" className="text-on-surface-variant">
+            {session.sourceFormat}
+          </Typography>
+        </div>
+        <Typography size="xs" className="text-on-surface-variant">
+          {formatDate(session.listenedAt)}
+        </Typography>
+      </li>
+    ))}
+  </ul>
+);
 
 /**
  * AlbumListeningHistory
@@ -17,7 +101,7 @@ interface AlbumListeningHistoryProps {
 
 export const AlbumListeningHistory: FunctionComponent<
   AlbumListeningHistoryProps
-> = ({ onNewSessionClick }) => (
+> = ({ sessions, isLoading, onNewSessionClick }) => (
   <section className="space-y-2">
     <div className="flex items-center justify-between">
       <Typography
@@ -38,19 +122,11 @@ export const AlbumListeningHistory: FunctionComponent<
         </Typography>
       </Button>
     </div>
-    <div className="flex items-center justify-center bg-surface-container-high py-8">
-      <div className="flex flex-col items-center justify-center gap-1 bg-surface-container-high py-8">
-        <Typography
-          family="heading"
-          size="lg"
-          className="text-center text-on-surface-variant"
-        >
-          No sessions recorded yet
-        </Typography>
-        <Typography size="sm" className="text-center text-on-surface-variant">
-          Start your first spin of this record.
-        </Typography>
-      </div>
-    </div>
+
+    {isLoading && <LoadingState />}
+    {!isLoading && sessions.length === 0 && <EmptyState />}
+    {!isLoading && sessions.length > 0 && (
+      <SessionList sessions={sessions} />
+    )}
   </section>
 );
