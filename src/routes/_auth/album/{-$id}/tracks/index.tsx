@@ -3,6 +3,7 @@ import { useState, type FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { AlbumHero } from '#/components/album-hero';
 import { Button } from '#/components/ui/button';
+import { TRACK_SIDE_OPTIONS } from '#/core/helpers/listening-scope-labels';
 import { router } from '#/router';
 import { TrackActionButtons } from './-components/track-action-buttons';
 import {
@@ -23,8 +24,6 @@ interface TracksParams {
 /**
  * Constants
  */
-
-const SIDES = ['side_a', 'side_b', 'side_c', 'side_d'];
 
 let nextRowId = 1;
 
@@ -207,7 +206,7 @@ const TracksPage: FunctionComponent = () => {
               <TrackEntryRow
                 key={row.id}
                 track={row}
-                sides={SIDES}
+                sideOptions={TRACK_SIDE_OPTIONS}
                 onChange={handleRowChange}
                 onRemove={handleRemoveRow}
               />

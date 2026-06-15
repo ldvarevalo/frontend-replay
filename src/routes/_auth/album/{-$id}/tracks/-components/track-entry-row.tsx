@@ -1,6 +1,14 @@
 import type { FunctionComponent } from 'react';
 import { X } from 'lucide-react';
 import { Button } from '#/components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '#/components/ui/select';
+import type { SideOption } from '#/core/helpers/listening-scope-labels';
 
 /**
  * Types
@@ -16,7 +24,7 @@ export interface TrackRowData {
 
 interface TrackEntryRowProps {
   track: TrackRowData;
-  sides: string[];
+  sideOptions: SideOption[];
   onChange: (id: string, field: keyof TrackRowData, value: string | number) => void;
   onRemove: (id: string) => void;
 }
@@ -27,7 +35,7 @@ interface TrackEntryRowProps {
 
 export const TrackEntryRow: FunctionComponent<TrackEntryRowProps> = ({
   track,
-  sides,
+  sideOptions,
   onChange,
   onRemove,
 }) => (
@@ -60,17 +68,25 @@ export const TrackEntryRow: FunctionComponent<TrackEntryRowProps> = ({
         className="w-20 border border-outline-20 bg-transparent px-3 py-2 text-sm text-on-surface outline-none focus:border-primary"
       />
 
-      <select
+      <Select
         value={track.side}
-        onChange={e => onChange(track.id, 'side', e.target.value)}
-        className="border border-outline-20 bg-transparent px-3 py-2 text-sm text-on-surface outline-none focus:border-primary"
+        onValueChange={v => {
+          if (v !== null) {
+            onChange(track.id, 'side', v);
+          }
+        }}
       >
-        {sides.map(s => (
-          <option key={s} value={s}>
-            {s}
-          </option>
-        ))}
-      </select>
+        <SelectTrigger className="w-32" aria-label="Track side">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {sideOptions.map(opt => (
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
       <input
         type="number"
