@@ -147,7 +147,7 @@ export const Route = createFileRoute('/_auth/album/{-$id}/')({
   loader: () => ({
     pageHeader: {
       title: 'Crate',
-      onBack: () => router.navigate({ to: '/collection' }),
+      onBack: () => router.history.back(),
     },
   }),
 });
