@@ -44,6 +44,8 @@ const createNoopRepositories = (): Repositories => {
     },
     tracks: {
       findRecentByUser: async (): Promise<Track[]> => [],
+      createMany: async () => {},
+      findByRelease: async (): Promise<Track[]> => [],
     },
     stats: {
       findStats: async (): Promise<HomeStats> => ({

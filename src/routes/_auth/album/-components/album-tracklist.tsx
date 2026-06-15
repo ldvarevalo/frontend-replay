@@ -1,5 +1,6 @@
 import type { FunctionComponent } from 'react';
 import { Typography } from '#/components/ui/typography';
+import { formatDuration } from '#/core/helpers/format-duration';
 import type { Track } from '#/types/domain';
 
 /**
@@ -56,7 +57,7 @@ export const AlbumTracklist: FunctionComponent<AlbumTracklistProps> = ({
               </div>
             </div>
             <Typography size="sm" className="text-on-surface-variant">
-              {track.duration}
+              {formatDuration(track.durationSeconds)}
             </Typography>
           </div>
         ))}
