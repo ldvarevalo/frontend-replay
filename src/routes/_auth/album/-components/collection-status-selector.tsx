@@ -16,7 +16,7 @@ interface CollectionStatusSelectorProps {
  * Constants
  */
 
-const OPTIONS: CollectionStatus[] = ['owned', 'want', 'listened'];
+const OPTIONS: CollectionStatus[] = ['discover', 'want', 'owned'];
 
 /**
  * CollectionStatusSelector
