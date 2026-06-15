@@ -60,6 +60,7 @@ export const useCreateSession = (
       await sessions.create({
         userReleaseId: userRelease.id,
         scope: data.scope,
+        sourceFormat: data.sourceFormat,
         durationSeconds: durationToSeconds(data.duration),
       });
     },
