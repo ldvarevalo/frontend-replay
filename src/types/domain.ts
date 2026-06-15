@@ -29,7 +29,7 @@ export interface HomeStats {
 export interface HomeData {
   stats: HomeStats;
   albums: Album[];
-  tracks: Track[];
+  upNext: Album[];
 }
 
 export interface CollectionAlbum {
