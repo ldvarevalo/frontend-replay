@@ -181,6 +181,15 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
       <div className="flex gap-4">
         <div className="flex-1">
           <Button
+            variant={values.status === 'discover' ? 'primary' : 'outline'}
+            size="lg"
+            onClick={() => onFieldChange('status', 'discover')}
+          >
+            DISCOVER
+          </Button>
+        </div>
+        <div className="flex-1">
+          <Button
             variant={values.status === 'want' ? 'primary' : 'outline'}
             size="lg"
             onClick={() => onFieldChange('status', 'want')}
