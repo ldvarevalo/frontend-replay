@@ -112,6 +112,22 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
     return (data ?? []).map(mapToAlbum);
   }
 
+  async findUpNext(userId: string, limit: number): Promise<Album[]> {
+    const { data, error } = await this.supabase
+      .from('user_releases')
+      .select(RECENT_ALBUM_SELECT)
+      .eq('user_id', userId)
+      .eq('is_listened', false)
+      .in('status', ['discover', 'owned'])
+      .limit(limit);
+
+    if (error) {
+      throw error;
+    }
+
+    return (data ?? []).map(mapToAlbum);
+  }
+
   async findAllByUser(userId: string): Promise<CollectionAlbum[]> {
     const { data, error } = await this.supabase
       .from('user_releases')
