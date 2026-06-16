@@ -27,3 +27,10 @@ export const TRACK_SIDE_OPTIONS: SideOption[] = (
   value: side,
   label: LISTENING_SCOPE_LABELS[side],
 }));
+
+/**
+ * getListeningScopeLabel
+ */
+
+export const getListeningScopeLabel = (scope: string): string =>
+  LISTENING_SCOPE_LABELS[scope as ListeningScope] ?? scope;
