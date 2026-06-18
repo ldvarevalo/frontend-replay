@@ -60,12 +60,12 @@ export const TrackEntryRow: FunctionComponent<TrackEntryRowProps> = ({
       </Button>
     </div>
 
-    <div className="flex gap-2">
+    <div className="flex min-w-0 gap-2">
       <Input
         placeholder="M:SS"
         value={track.durationMinutes}
         onChange={e => onChange(track.id, 'durationMinutes', e.target.value)}
-        className="w-24"
+        className="min-w-20 flex-1"
         aria-label="Track duration"
       />
 
@@ -77,7 +77,7 @@ export const TrackEntryRow: FunctionComponent<TrackEntryRowProps> = ({
           }
         }}
       >
-        <SelectTrigger className="w-32" aria-label="Track side">
+        <SelectTrigger className="min-w-28 flex-1" aria-label="Track side">
           <SelectValue>
             {sideOptions.find(o => o.value === track.side)?.label}
           </SelectValue>
@@ -98,7 +98,7 @@ export const TrackEntryRow: FunctionComponent<TrackEntryRowProps> = ({
         onChange={e =>
           onChange(track.id, 'position', Number(e.target.value))
         }
-        className="w-20"
+        className="min-w-16 flex-1"
         aria-label="Track position"
       />
     </div>
