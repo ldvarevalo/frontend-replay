@@ -69,28 +69,6 @@ export const TrackEntryRow: FunctionComponent<TrackEntryRowProps> = ({
         aria-label="Track duration"
       />
 
-      <Select
-        value={track.side}
-        onValueChange={v => {
-          if (v !== null) {
-            onChange(track.id, 'side', v);
-          }
-        }}
-      >
-        <SelectTrigger className="min-w-28 flex-1" aria-label="Track side">
-          <SelectValue>
-            {sideOptions.find(o => o.value === track.side)?.label}
-          </SelectValue>
-        </SelectTrigger>
-        <SelectContent>
-          {sideOptions.map(opt => (
-            <SelectItem key={opt.value} value={opt.value}>
-              {opt.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-
       <Input
         type="number"
         placeholder="#"
@@ -102,5 +80,27 @@ export const TrackEntryRow: FunctionComponent<TrackEntryRowProps> = ({
         aria-label="Track position"
       />
     </div>
+
+    <Select
+      value={track.side}
+      onValueChange={v => {
+        if (v !== null) {
+          onChange(track.id, 'side', v);
+        }
+      }}
+    >
+      <SelectTrigger className="w-full" aria-label="Track side">
+        <SelectValue>
+          {sideOptions.find(o => o.value === track.side)?.label}
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {sideOptions.map(opt => (
+          <SelectItem key={opt.value} value={opt.value}>
+            {opt.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   </div>
 );
