@@ -158,7 +158,7 @@ describe('AddTracksDialog', () => {
 
     renderDialog({ onOpenChange });
 
-    screen.getByRole('button', { name: /cancel/i }).click();
+    fireEvent.click(screen.getByRole('button', { name: /cancel/i }));
 
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });
