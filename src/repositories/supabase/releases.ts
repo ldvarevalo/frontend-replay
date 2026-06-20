@@ -83,6 +83,7 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
   ): Promise<SearchResults> {
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
+    const escapedQuery = query.replaceAll('%', '\\%').replaceAll('_', '\\_');
 
     const { data, error, count } = await this.supabase
       .from('releases')
@@ -91,8 +92,14 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
         id,
         title,
         cover_url,
-        release_artists!inner (
-          artists!inner (
+        release_year,
+        release_artists (
+          artists (
+            name
+          )
+        ),
+        artist_match:release_artists (
+          artists (
             name
           )
         )
@@ -102,9 +109,8 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
           head: false,
         }
       )
-      .or(
-        `title.ilike.%${query}%,release_artists.artists.name.ilike.%${query}%`
-      )
+      .ilike('artist_match.artists.name', `%${escapedQuery}%`)
+      .or(`title.ilike.%${escapedQuery}%,artist_match.not.is.null`)
       .range(from, to);
 
     if (error) {
