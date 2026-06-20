@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { useState, type FunctionComponent } from 'react';
+import { useEffect, useMemo, useState, type FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { AlbumHero } from '#/components/album-hero';
 import { Typography } from '#/components/ui/typography';
@@ -41,6 +41,42 @@ const SessionPage: FunctionComponent = () => {
   const [activeMode, setActiveMode] = useState<ListeningScope>('full_release');
   const [sourceFormat, setSourceFormat] = useState<SourceFormat>('vinyl');
   const [duration, setDuration] = useState<string>('');
+
+  const totalSeconds = useMemo(() => {
+    if (!album?.tracks || album.tracks.length === 0) {
+      return '';
+    }
+
+    const filtered =
+      activeMode === 'full_release'
+        ? album.tracks
+        : album.tracks.filter(t => t.side === activeMode);
+
+    if (filtered.length === 0) {
+      return '';
+    }
+
+    const total = filtered.reduce(
+      (sum, t) => sum + (t.durationSeconds ?? 0),
+      0
+    );
+
+    if (total === 0) {
+      return '';
+    }
+
+    const h = Math.floor(total / 3600);
+    const m = Math.floor((total % 3600) / 60);
+    const s = total % 60;
+
+    return `${h.toString().padStart(2, '0')}${m.toString().padStart(2, '0')}${s.toString().padStart(2, '0')}`;
+  }, [activeMode, album?.tracks]);
+
+  useEffect(() => {
+    if (totalSeconds) {
+      setDuration(totalSeconds);
+    }
+  }, [totalSeconds]);
 
   if (!id) {
     return (

@@ -16,6 +16,7 @@ import { Route as AuthInicioIndexRouteImport } from './routes/_auth/inicio/index
 import { Route as AuthCollectionIndexRouteImport } from './routes/_auth/collection/index'
 import { Route as AuthReleaseAddIndexRouteImport } from './routes/_auth/release/add/index'
 import { Route as AuthAlbumChar123IdChar125IndexRouteImport } from './routes/_auth/album/{-$id}/index'
+import { Route as AuthAlbumChar123IdChar125TracksIndexRouteImport } from './routes/_auth/album/{-$id}/tracks/index'
 import { Route as AuthAlbumChar123IdChar125SessionIndexRouteImport } from './routes/_auth/album/{-$id}/session/index'
 
 const AuthRoute = AuthRouteImport.update({
@@ -53,6 +54,12 @@ const AuthAlbumChar123IdChar125IndexRoute =
     path: '/album/{-$id}/',
     getParentRoute: () => AuthRoute,
   } as any)
+const AuthAlbumChar123IdChar125TracksIndexRoute =
+  AuthAlbumChar123IdChar125TracksIndexRouteImport.update({
+    id: '/album/{-$id}/tracks/',
+    path: '/album/{-$id}/tracks/',
+    getParentRoute: () => AuthRoute,
+  } as any)
 const AuthAlbumChar123IdChar125SessionIndexRoute =
   AuthAlbumChar123IdChar125SessionIndexRouteImport.update({
     id: '/album/{-$id}/session/',
@@ -68,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/album/{-$id}/': typeof AuthAlbumChar123IdChar125IndexRoute
   '/release/add/': typeof AuthReleaseAddIndexRoute
   '/album/{-$id}/session/': typeof AuthAlbumChar123IdChar125SessionIndexRoute
+  '/album/{-$id}/tracks/': typeof AuthAlbumChar123IdChar125TracksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -77,6 +85,7 @@ export interface FileRoutesByTo {
   '/album/{-$id}': typeof AuthAlbumChar123IdChar125IndexRoute
   '/release/add': typeof AuthReleaseAddIndexRoute
   '/album/{-$id}/session': typeof AuthAlbumChar123IdChar125SessionIndexRoute
+  '/album/{-$id}/tracks': typeof AuthAlbumChar123IdChar125TracksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -88,6 +97,7 @@ export interface FileRoutesById {
   '/_auth/album/{-$id}/': typeof AuthAlbumChar123IdChar125IndexRoute
   '/_auth/release/add/': typeof AuthReleaseAddIndexRoute
   '/_auth/album/{-$id}/session/': typeof AuthAlbumChar123IdChar125SessionIndexRoute
+  '/_auth/album/{-$id}/tracks/': typeof AuthAlbumChar123IdChar125TracksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/album/{-$id}/'
     | '/release/add/'
     | '/album/{-$id}/session/'
+    | '/album/{-$id}/tracks/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/album/{-$id}'
     | '/release/add'
     | '/album/{-$id}/session'
+    | '/album/{-$id}/tracks'
   id:
     | '__root__'
     | '/'
@@ -118,6 +130,7 @@ export interface FileRouteTypes {
     | '/_auth/album/{-$id}/'
     | '/_auth/release/add/'
     | '/_auth/album/{-$id}/session/'
+    | '/_auth/album/{-$id}/tracks/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -177,6 +190,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAlbumChar123IdChar125IndexRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/album/{-$id}/tracks/': {
+      id: '/_auth/album/{-$id}/tracks/'
+      path: '/album/{-$id}/tracks'
+      fullPath: '/album/{-$id}/tracks/'
+      preLoaderRoute: typeof AuthAlbumChar123IdChar125TracksIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/album/{-$id}/session/': {
       id: '/_auth/album/{-$id}/session/'
       path: '/album/{-$id}/session'
@@ -193,6 +213,7 @@ interface AuthRouteChildren {
   AuthAlbumChar123IdChar125IndexRoute: typeof AuthAlbumChar123IdChar125IndexRoute
   AuthReleaseAddIndexRoute: typeof AuthReleaseAddIndexRoute
   AuthAlbumChar123IdChar125SessionIndexRoute: typeof AuthAlbumChar123IdChar125SessionIndexRoute
+  AuthAlbumChar123IdChar125TracksIndexRoute: typeof AuthAlbumChar123IdChar125TracksIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
@@ -202,6 +223,8 @@ const AuthRouteChildren: AuthRouteChildren = {
   AuthReleaseAddIndexRoute: AuthReleaseAddIndexRoute,
   AuthAlbumChar123IdChar125SessionIndexRoute:
     AuthAlbumChar123IdChar125SessionIndexRoute,
+  AuthAlbumChar123IdChar125TracksIndexRoute:
+    AuthAlbumChar123IdChar125TracksIndexRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)

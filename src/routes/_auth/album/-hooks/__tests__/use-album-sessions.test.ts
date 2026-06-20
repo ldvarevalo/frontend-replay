@@ -55,6 +55,8 @@ beforeEach(() => {
     },
     tracks: {
       findRecentByUser: async () => [],
+      createMany: async () => {},
+      findByRelease: async () => [],
     },
     stats: {
       findStats: async () => ({

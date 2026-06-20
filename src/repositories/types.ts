@@ -80,8 +80,17 @@ export interface UserReleasesRepository {
   markAsListened(userReleaseId: string): Promise<void>;
 }
 
+export interface TrackInput {
+  title: string;
+  durationSeconds: number | null;
+  side: string;
+  position: number;
+}
+
 export interface TracksRepository {
   findRecentByUser(userId: string, limit: number): Promise<Track[]>;
+  createMany(releaseId: string, tracks: TrackInput[]): Promise<void>;
+  findByRelease(releaseId: string): Promise<Track[]>;
 }
 
 export interface StatsRepository {

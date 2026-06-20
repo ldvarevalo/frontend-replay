@@ -1,5 +1,4 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { formatDuration } from '#/core/helpers/format-duration';
 import type {
   AlbumDetail,
   CollectionStatus,
@@ -23,17 +22,12 @@ const sortByPosition = (
   b: Record<string, unknown>
 ): number => ((a.position as number) ?? 0) - ((b.position as number) ?? 0);
 
-const mapTrackRow = (
-  t: Record<string, unknown>,
-  ctx: { coverUrl: string; artist: string },
-  index: number
-): Track => ({
+const mapTrackRow = (t: Record<string, unknown>): Track => ({
   id: t.id as string,
-  thumbnail: ctx.coverUrl,
   title: t.title as string,
-  artist: ctx.artist,
-  duration: formatDuration(t.duration_seconds as number | null),
-  isActive: index === 0,
+  durationSeconds: (t.duration_seconds as number) ?? null,
+  side: (t.side as string) ?? '',
+  position: (t.position as number) ?? 0,
 });
 
 const mapAlbumDetailRow = (row: Record<string, unknown>): AlbumDetail => {
@@ -50,16 +44,7 @@ const mapAlbumDetailRow = (row: Record<string, unknown>): AlbumDetail => {
     (row.tracks as Array<Record<string, unknown>> | undefined) ?? []
   )
     .sort(sortByPosition)
-    .map((t, index) =>
-      mapTrackRow(
-        t,
-        {
-          coverUrl,
-          artist,
-        },
-        index
-      )
-    );
+    .map(t => mapTrackRow(t));
 
   const userReleases = row.user_releases as
     | Array<Record<string, unknown>>

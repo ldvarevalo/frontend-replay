@@ -21,6 +21,7 @@ interface TypographyProps extends VariantProps<typeof typographyVariants> {
   as?: TypographyAs;
   children: ReactNode;
   className?: string;
+  role?: string;
   uppercase?: boolean;
 }
 
@@ -99,11 +100,13 @@ export const Typography: FunctionComponent<TypographyProps> = ({
   tracking,
   uppercase,
   className,
+  role,
   children,
 }) => {
   const Component: ElementType = as ?? DEFAULT_ELEMENT[family ?? 'body'] ?? 'p';
   return (
     <Component
+      role={role}
       className={cn(
         typographyVariants({
           family,

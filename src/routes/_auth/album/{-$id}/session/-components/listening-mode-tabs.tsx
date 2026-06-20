@@ -1,5 +1,6 @@
 import type { FunctionComponent } from 'react';
 import { Typography } from '#/components/ui/typography';
+import { LISTENING_SCOPE_LABELS } from '#/core/helpers/listening-scope-labels';
 import { cn } from '#/lib/utils';
 import type { ListeningScope } from '#/types/domain';
 
@@ -12,18 +13,6 @@ interface ListeningModeTabsProps {
   activeMode: ListeningScope;
   onChange: (mode: ListeningScope) => void;
 }
-
-/**
- * Constants
- */
-
-const MODE_LABELS: Record<ListeningScope, string> = {
-  full_release: 'Full Album',
-  side_a: 'Side A',
-  side_b: 'Side B',
-  side_c: 'Side C',
-  side_d: 'Side D',
-};
 
 /**
  * ListeningModeTabs
@@ -58,7 +47,7 @@ export const ListeningModeTabs: FunctionComponent<ListeningModeTabsProps> = ({
               isActive ? 'text-on-primary-container' : 'text-on-surface-variant'
             }
           >
-            {MODE_LABELS[mode]}
+            {LISTENING_SCOPE_LABELS[mode]}
           </Typography>
         </button>
       );

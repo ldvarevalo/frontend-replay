@@ -13,11 +13,10 @@ export interface Album {
 
 export interface Track {
   id: string;
-  thumbnail: string;
   title: string;
-  artist: string;
-  duration: string;
-  isActive?: boolean;
+  durationSeconds: number | null;
+  side: string;
+  position: number;
 }
 
 export interface HomeStats {
