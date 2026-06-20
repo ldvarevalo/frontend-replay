@@ -1,4 +1,4 @@
-import { useState, type FunctionComponent } from 'react';
+import { useRef, useState, type FunctionComponent } from 'react';
 import { Button } from '#/components/ui/button';
 import {
   Dialog,
@@ -81,6 +81,7 @@ const AddTracksDialog: FunctionComponent<AddTracksDialogProps> = ({
   const [rows, setRows] = useState<TrackRowData[]>([
     createEmptyRow('side_a', initialPosition),
   ]);
+  const rowsContainerRef = useRef<HTMLDivElement>(null);
 
   const handleRowChange = (
     rowId: string,
@@ -104,10 +105,20 @@ const AddTracksDialog: FunctionComponent<AddTracksDialogProps> = ({
   };
 
   const handleAddRow = (): void => {
-    setRows(prev => [
-      ...prev,
-      createEmptyRow('side_a', existingTracksCount + prev.length + 1),
-    ]);
+    setRows(prev => {
+      const lastSide = prev[prev.length - 1]?.side ?? 'side_a';
+
+      return [
+        ...prev,
+        createEmptyRow(lastSide, existingTracksCount + prev.length + 1),
+      ];
+    });
+    setTimeout(() => {
+      rowsContainerRef.current?.scrollTo({
+        top: rowsContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      });
+    }, 0);
   };
 
   const handleSubmit = (): void => {
@@ -146,7 +157,10 @@ const AddTracksDialog: FunctionComponent<AddTracksDialogProps> = ({
           </Typography>
         </DialogTitle>
 
-        <div className="min-h-0 max-h-[50vh] space-y-3 overflow-y-auto">
+        <div
+          ref={rowsContainerRef}
+          className="min-h-0 max-h-[50vh] space-y-3 overflow-y-auto"
+        >
           {rows.map(row => (
             <TrackEntryRow
               key={row.id}

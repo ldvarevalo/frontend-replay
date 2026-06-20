@@ -165,4 +165,50 @@ describe('AddTracksDialog', () => {
 
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });
+
+  it('should default new rows to side_a when previous row is side_a', () => {
+    const onSubmit = vi.fn();
+
+    renderDialog({ onSubmit });
+
+    fireEvent.change(screen.getByLabelText('Track title'), {
+      target: { value: 'First Track' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /add row/i }));
+
+    const titleInputs = screen.getAllByLabelText('Track title');
+    fireEvent.change(titleInputs[1], { target: { value: 'Second Track' } });
+
+    fireEvent.click(screen.getByRole('button', { name: /save/i }));
+
+    expect(onSubmit).toHaveBeenCalledWith([
+      expect.objectContaining({
+        title: 'First Track',
+        side: 'side_a',
+      }),
+      expect.objectContaining({
+        title: 'Second Track',
+        side: 'side_a',
+      }),
+    ]);
+  });
+
+  it('should scroll the rows container to bottom when + ADD ROW is clicked', () => {
+    vi.useFakeTimers();
+    const scrollToMock = vi.fn();
+    const originalScrollTo = HTMLDivElement.prototype.scrollTo;
+
+    HTMLDivElement.prototype.scrollTo = scrollToMock;
+
+    try {
+      renderDialog();
+      fireEvent.click(screen.getByRole('button', { name: /add row/i }));
+
+      vi.runAllTimers();
+      expect(scrollToMock).toHaveBeenCalled();
+    } finally {
+      vi.useRealTimers();
+      HTMLDivElement.prototype.scrollTo = originalScrollTo;
+    }
+  });
 });
