@@ -172,14 +172,10 @@ const TracksPage: FunctionComponent = () => {
 
 export const Route = createFileRoute('/_auth/album/{-$id}/tracks/')({
   component: TracksPage,
-  loader: async ({ params }) => ({
+  loader: () => ({
     pageHeader: {
       title: 'Crate',
-      onBack: () =>
-        router.navigate({
-          to: '/album/{-$contentId}',
-          params: { contentId: params.id },
-        }),
+      onBack: () => router.history.back(),
     },
   }),
 });
