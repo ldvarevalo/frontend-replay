@@ -20,6 +20,8 @@ export type ArtistRole = 'primary' | 'featured' | 'remixer';
 export interface LookupResult {
   id: string;
   name: string;
+  thumbnail?: string;
+  subtitle?: string;
 }
 
 export interface SearchResults {
