@@ -12,12 +12,16 @@ const ALBUM_ENDPOINT = '/api-deezer/album';
  * Types
  */
 
+interface DeezerSearchArtist {
+  name: string;
+}
+
 interface DeezerSearchAlbum {
   id: number;
   title: string;
   cover_big: string;
   release_date?: string;
-  artist: { name: string };
+  artist: DeezerSearchArtist;
 }
 
 interface DeezerSearchResponse {
@@ -51,9 +55,7 @@ const toSearchItem = (a: DeezerSearchAlbum): SearchItem => ({
   genre: '',
 });
 
-const enrichDetails = async (
-  items: SearchItem[]
-): Promise<SearchItem[]> => {
+const enrichDetails = async (items: SearchItem[]): Promise<SearchItem[]> => {
   const slice = items.slice(0, MAX_GENRE_ENRICHMENT);
   const results = await Promise.allSettled(
     slice.map(async item => {

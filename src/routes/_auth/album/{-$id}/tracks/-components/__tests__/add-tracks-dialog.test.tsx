@@ -64,9 +64,7 @@ describe('AddTracksDialog', () => {
     const titleInput = screen.getByLabelText('Track title');
     fireEvent.change(titleInput, { target: { value: 'My Track' } });
 
-    expect(
-      screen.getByRole('button', { name: /save/i })
-    ).not.toBeDisabled();
+    expect(screen.getByRole('button', { name: /save/i })).not.toBeDisabled();
   });
 
   it('should call onSubmit with converted TrackInput[] on SAVE', () => {

@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState, type FunctionComponent, type ReactNode } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  type FunctionComponent,
+  type ReactNode,
+} from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import type { LookupResult } from '#/repositories/types';
 import {
@@ -25,6 +31,10 @@ interface SearchableSelectProps {
   disabled?: boolean;
 }
 
+interface ResultRowProps {
+  item: LookupResult;
+}
+
 /** SearchableSelect */
 
 const usePopoverWidth = (): [
@@ -43,7 +53,7 @@ const usePopoverWidth = (): [
   return [ref, width];
 };
 
-const ResultRow: FunctionComponent<{ item: LookupResult }> = ({ item }) => {
+const ResultRow: FunctionComponent<ResultRowProps> = ({ item }) => {
   if (!item.thumbnail && !item.subtitle) {
     return <span>{item.name}</span>;
   }
@@ -123,9 +133,7 @@ export const SearchableSelect: FunctionComponent<SearchableSelectProps> = ({
         className="border-b border-outline/15 last:border-b-0"
       >
         <Check
-          className={`mr-2 h-4 w-4 ${
-            isSelected ? 'opacity-100' : 'opacity-0'
-          }`}
+          className={`mr-2 h-4 w-4 ${isSelected ? 'opacity-100' : 'opacity-0'}`}
         />
         <ResultRow item={result} />
       </CommandItem>
@@ -172,9 +180,7 @@ export const SearchableSelect: FunctionComponent<SearchableSelectProps> = ({
               {shouldShowEmptyMessage() && (
                 <CommandEmpty>{emptyMessage}</CommandEmpty>
               )}
-              <CommandGroup>
-                {results.map(renderResultItem)}
-              </CommandGroup>
+              <CommandGroup>{results.map(renderResultItem)}</CommandGroup>
             </CommandList>
           </Command>
         </PopoverContent>

@@ -26,7 +26,11 @@ export interface TrackRowData {
 interface TrackEntryRowProps {
   track: TrackRowData;
   sideOptions: SideOption[];
-  onChange: (id: string, field: keyof TrackRowData, value: string | number) => void;
+  onChange: (
+    id: string,
+    field: keyof TrackRowData,
+    value: string | number
+  ) => void;
   onRemove: (id: string) => void;
 }
 
@@ -73,9 +77,7 @@ export const TrackEntryRow: FunctionComponent<TrackEntryRowProps> = ({
         type="number"
         placeholder="#"
         value={track.position}
-        onChange={e =>
-          onChange(track.id, 'position', Number(e.target.value))
-        }
+        onChange={e => onChange(track.id, 'position', Number(e.target.value))}
         className="min-w-16 flex-1"
         aria-label="Track position"
       />

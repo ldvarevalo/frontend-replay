@@ -85,8 +85,12 @@ describe('SearchableSelect', () => {
     render(
       <SearchableSelect
         {...defaultProps}
-        results={[{ id: '1',
-name: 'Rock' }]}
+        results={[
+          {
+            id: '1',
+            name: 'Rock',
+          },
+        ]}
         onSelect={onSelect}
       />
     );
@@ -121,10 +125,14 @@ name: 'Rock' }]}
       <SearchableSelect
         {...defaultProps}
         results={[
-          { id: '1',
-name: 'Rock' },
-          { id: '2',
-name: 'Jazz' },
+          {
+            id: '1',
+            name: 'Rock',
+          },
+          {
+            id: '2',
+            name: 'Jazz',
+          },
         ]}
       />
     );

@@ -213,9 +213,7 @@ const AddTracksDialog: FunctionComponent<AddTracksDialogProps> = ({
             </Typography>
           </Button>
           <DialogClose
-            render={
-              <Button type="button" variant="text" size="lg" />
-            }
+            render={<Button type="button" variant="text" size="lg" />}
           >
             <Typography
               size="sm"

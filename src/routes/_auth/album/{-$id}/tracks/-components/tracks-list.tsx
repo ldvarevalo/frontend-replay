@@ -43,10 +43,7 @@ export const TracksList: FunctionComponent<TracksListProps> = ({ bySide }) => {
               >
                 {label}
               </Typography>
-              <Typography
-                size="xs"
-                className="text-on-surface-variant"
-              >
+              <Typography size="xs" className="text-on-surface-variant">
                 {formatDuration(totalDuration)}
               </Typography>
             </div>

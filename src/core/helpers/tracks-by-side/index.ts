@@ -1,1 +1,1 @@
-export { groupTracksBySide, sumTrackDurations } from './tracks-by-side'
+export { groupTracksBySide, sumTrackDurations } from './tracks-by-side';

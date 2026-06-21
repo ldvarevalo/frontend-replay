@@ -17,7 +17,10 @@ interface UseCreateTracksCallbacks {
 }
 
 interface UseCreateTracksHook {
-  mutate: (data: UseCreateTracksData, callbacks?: UseCreateTracksCallbacks) => void;
+  mutate: (
+    data: UseCreateTracksData,
+    callbacks?: UseCreateTracksCallbacks
+  ) => void;
   isPending: boolean;
 }
 
@@ -46,7 +49,7 @@ export const useCreateTracks = (): UseCreateTracksHook => {
         onSuccess: () => {
           callbacks?.onSuccess?.();
         },
-        onError: (error) => {
+        onError: error => {
           callbacks?.onError?.(error);
         },
       });
