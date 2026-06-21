@@ -9,8 +9,14 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -19,6 +25,11 @@ jobs:
       - run: yarn lint
       - run: yarn typescript
       - run: yarn test
+      - name: React Doctor
+        uses: millionco/react-doctor@v2
+        with:
+          blocking: none
+          scope: changed
 
   deploy:
     needs: [validate]
