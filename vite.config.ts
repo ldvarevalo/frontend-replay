@@ -16,6 +16,18 @@ const config = defineConfig({
     }),
     viteReact(),
   ],
+  server: {
+    proxy: {
+      // Intercepts any request starting with /api-deezer
+      '/api-deezer': {
+        target: 'https://api.deezer.com',
+        changeOrigin: true,
+        secure: false,
+        // Removes the '/api-deezer' prefix before forwarding to Deezer
+        rewrite: (path) => path.replace(/^\/api-deezer/, '')
+      }
+    }
+  }
 });
 
 export default config;

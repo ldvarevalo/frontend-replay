@@ -33,6 +33,9 @@ const createNoopRepositories = (): Repositories => {
       linkArtist: async () => {},
       linkGenre: async () => {},
     },
+    musicSearch: {
+      search: async () => [],
+    },
     userReleases: {
       findRecent: async (): Promise<Album[]> => [],
       findUpNext: async (): Promise<Album[]> => [],

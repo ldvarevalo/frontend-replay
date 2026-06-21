@@ -20,11 +20,26 @@ export type ArtistRole = 'primary' | 'featured' | 'remixer';
 export interface LookupResult {
   id: string;
   name: string;
+  thumbnail?: string;
+  subtitle?: string;
 }
 
 export interface SearchResults {
   results: SearchResult[];
   totalPages: number;
+}
+
+export interface SearchItem {
+  id: string;
+  title: string;
+  artist: string;
+  coverUrl: string;
+  year: string;
+  genre: string;
+}
+
+export interface MusicSearchRepository {
+  search(query: string): Promise<SearchItem[]>;
 }
 
 export interface ReleasesRepository {
@@ -114,6 +129,7 @@ export interface ListeningSessionsRepository {
 
 export interface Repositories {
   releases: ReleasesRepository;
+  musicSearch: MusicSearchRepository;
   userReleases: UserReleasesRepository;
   tracks: TracksRepository;
   stats: StatsRepository;

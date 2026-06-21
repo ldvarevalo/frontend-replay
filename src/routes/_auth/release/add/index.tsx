@@ -1,16 +1,15 @@
-import { useState, type FunctionComponent } from 'react';
+import { useMemo, useState, type FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { SearchBar } from '#/components/search-bar';
+import { SearchableSelect } from '#/components/ui/searchable-select';
 import { Typography } from '#/components/ui/typography';
 import { useRepositories } from '#/repositories/hooks';
+import type { LookupResult, SearchItem } from '#/repositories/types';
 import type { ManualEntryData } from '#/types/domain';
 import { ManualEntryForm } from './-components/manual-entry-form';
-import { Pagination } from './-components/pagination';
-import { SearchResults } from './-components/search-results';
 import { SectionDivider } from './-components/section-divider';
+import { useAlbumSearch } from './-hooks/use-album-search';
 import { useCreateManualRelease } from './-hooks/use-create-manual-release';
 import { useSearchLookup } from './-hooks/use-search-lookup';
-import { useSearchReleases } from './-hooks/use-search-releases';
 
 /**
  * Constants
@@ -26,25 +25,36 @@ const INITIAL_VALUES: ManualEntryData = {
 };
 
 /**
+ * Helpers
+ */
+
+const toLookupResult = (item: SearchItem): LookupResult => ({
+  id: item.id,
+  name: item.title,
+  thumbnail: item.coverUrl,
+  subtitle: item.artist,
+});
+
+/**
  * AddReleasePage
  */
 
-const AddReleasePage: FunctionComponent = () => {
+// eslint-disable-next-line max-statements
+export const AddReleasePage: FunctionComponent = () => {
   const navigate = useNavigate();
-  const {
-    query,
-    setQuery,
-    results,
-    currentPage,
-    totalPages,
-    setCurrentPage,
-    toggleResult,
-  } = useSearchReleases();
+  const { query, setQuery, results, isPending } = useAlbumSearch();
   const { artists, genres } = useRepositories();
   const artistSearch = useSearchLookup({ searchFn: q => artists.search(q) });
   const genreSearch = useSearchLookup({ searchFn: q => genres.search(q) });
   const [values, setValues] = useState<ManualEntryData>(INITIAL_VALUES);
-  const { mutateAsync, isPending } = useCreateManualRelease();
+  const { mutateAsync, isPending: isSaving } = useCreateManualRelease();
+
+  const lookupResults = useMemo<LookupResult[]>(
+    () => results.map(toLookupResult),
+    [results]
+  );
+
+  const emptyMessage = query.length >= 2 ? 'No matches' : undefined;
 
   const setField = (field: keyof ManualEntryData, value: string): void => {
     setValues(prev => ({
@@ -53,10 +63,24 @@ const AddReleasePage: FunctionComponent = () => {
     }));
   };
 
+  const handleSelectSearchItem = (item: LookupResult): void => {
+    const source = results.find(r => r.id === item.id);
+    if (!source) {
+      return;
+    }
+    setValues({
+      title: source.title,
+      artist: source.artist,
+      year: source.year,
+      genre: source.genre,
+      artworkUrl: source.coverUrl,
+      status: 'want',
+    });
+  };
+
   const isValid = values.title.trim() !== '' && values.artist.trim() !== '';
 
   const handleSubmit = async (): Promise<void> => {
-    // TODO: show toast on error
     await mutateAsync(values);
 
     setValues(INITIAL_VALUES);
@@ -79,23 +103,17 @@ const AddReleasePage: FunctionComponent = () => {
         >
           SEARCH RESULTS
         </Typography>
-        <SearchBar
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          placeholder="SEARCH ARTIST OR ALBUM"
+        <SearchableSelect
+          value=""
+          placeholder="SEARCH ALBUM"
+          results={lookupResults}
+          isSearching={isPending}
+          onSearch={setQuery}
+          onChange={() => {}}
+          onSelect={handleSelectSearchItem}
+          emptyMessage={emptyMessage}
         />
       </div>
-
-      {results.length > 0 && (
-        <>
-          <SearchResults results={results} onToggle={toggleResult} />
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        </>
-      )}
 
       <SectionDivider label="OR MANUAL ENTRY" />
 
@@ -104,7 +122,7 @@ const AddReleasePage: FunctionComponent = () => {
         onFieldChange={setField}
         onSubmit={handleSubmit}
         isValid={isValid}
-        isPending={isPending}
+        isPending={isSaving}
         artistSearch={artistSearch}
         genreSearch={genreSearch}
       />

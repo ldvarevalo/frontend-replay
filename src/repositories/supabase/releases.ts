@@ -83,28 +83,16 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
   ): Promise<SearchResults> {
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
+    const escapedQuery = query.replaceAll('%', '\\%').replaceAll('_', '\\_');
+    const pattern = `%${escapedQuery}%`;
 
     const { data, error, count } = await this.supabase
-      .from('releases')
-      .select(
-        `
-        id,
-        title,
-        cover_url,
-        release_artists!inner (
-          artists!inner (
-            name
-          )
-        )
-      `,
-        {
-          count: 'exact',
-          head: false,
-        }
-      )
-      .or(
-        `title.ilike.%${query}%,release_artists.artists.name.ilike.%${query}%`
-      )
+      .from('releases_search')
+      .select('id, title, cover_url, release_year, primary_artist_name', {
+        count: 'exact',
+        head: false,
+      })
+      .or(`title.ilike.${pattern},primary_artist_name.ilike.${pattern}`)
       .range(from, to);
 
     if (error) {
@@ -118,11 +106,7 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
         id: r.id as string,
         thumbnail: (r.cover_url as string) ?? '',
         title: r.title as string,
-        artist:
-          ((
-            (r.release_artists as Array<Record<string, unknown>>)?.[0]
-              ?.artists as Record<string, unknown>
-          )?.name as string) ?? '',
+        artist: (r.primary_artist_name as string) ?? '',
         isAdded: false,
       };
     });

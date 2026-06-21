@@ -1,10 +1,6 @@
 import * as React from 'react';
 import { Select as SelectPrimitive } from '@base-ui/react/select';
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from 'lucide-react';
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 
 import { cn } from '#/lib/utils';
 
@@ -30,11 +26,13 @@ const SelectValue = ({
 const SelectScrollUpButton = ({
   className,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.ScrollUpArrow>): React.JSX.Element => (
+}: React.ComponentProps<
+  typeof SelectPrimitive.ScrollUpArrow
+>): React.JSX.Element => (
   <SelectPrimitive.ScrollUpArrow
     data-slot="select-scroll-up-button"
     className={cn(
-      'top-0 z-10 flex w-full cursor-default items-center justify-center bg-surface-container-high py-1 [&_svg:not([class*=\'size-\'])]:size-4',
+      "top-0 z-10 flex w-full cursor-default items-center justify-center bg-surface-container-high py-1 [&_svg:not([class*='size-'])]:size-4",
       className
     )}
     {...props}
@@ -50,11 +48,13 @@ const SelectScrollUpButton = ({
 const SelectScrollDownButton = ({
   className,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.ScrollDownArrow>): React.JSX.Element => (
+}: React.ComponentProps<
+  typeof SelectPrimitive.ScrollDownArrow
+>): React.JSX.Element => (
   <SelectPrimitive.ScrollDownArrow
     data-slot="select-scroll-down-button"
     className={cn(
-      'bottom-0 z-10 flex w-full cursor-default items-center justify-center bg-surface-container-high py-1 [&_svg:not([class*=\'size-\'])]:size-4',
+      "bottom-0 z-10 flex w-full cursor-default items-center justify-center bg-surface-container-high py-1 [&_svg:not([class*='size-'])]:size-4",
       className
     )}
     {...props}
@@ -79,7 +79,7 @@ const SelectTrigger = ({
     data-slot="select-trigger"
     data-size={size}
     className={cn(
-      'flex h-16 w-full items-center justify-between border-none border-b-2 border-transparent bg-surface-container-lowest px-8 text-on-surface font-label uppercase tracking-widest text-sm transition-all outline-none select-none focus:border-primary focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-gray-500 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=\'size-\'])]:size-4',
+      "flex h-16 w-full items-center justify-between border-none border-b-2 border-transparent bg-surface-container-lowest px-8 text-on-surface font-label uppercase tracking-widest text-sm transition-all outline-none select-none focus:border-primary focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-gray-500 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
       className
     )}
     {...props}
@@ -109,11 +109,7 @@ const SelectContent = ({
 }: SelectPrimitive.Popup.Props &
   Pick<
     SelectPrimitive.Positioner.Props,
-    | 'align'
-    | 'alignOffset'
-    | 'side'
-    | 'sideOffset'
-    | 'alignItemWithTrigger'
+    'align' | 'alignOffset' | 'side' | 'sideOffset' | 'alignItemWithTrigger'
   >): React.JSX.Element => (
   <SelectPrimitive.Portal>
     <SelectPrimitive.Positioner
@@ -168,7 +164,7 @@ const SelectItem = ({
   <SelectPrimitive.Item
     data-slot="select-item"
     className={cn(
-      'relative flex w-full cursor-default items-center gap-1.5 rounded-md py-3 pr-8 pl-1.5 text-sm outline-hidden select-none not-data-[selected]:hover:bg-accent not-data-[selected]:hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-[selected]:bg-primary-container data-[selected]:text-on-primary-container data-[selected]:focus:bg-primary-container/90 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=\'size-\'])]:size-4 [&_svg]:text-on-primary-container *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2',
+      "relative flex w-full cursor-default items-center gap-1.5 rounded-md py-3 pr-8 pl-1.5 text-sm outline-hidden select-none not-data-[selected]:hover:bg-accent not-data-[selected]:hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-[selected]:bg-primary-container data-[selected]:text-on-primary-container data-[selected]:focus:bg-primary-container/90 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg]:text-on-primary-container *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
       className
     )}
     {...props}

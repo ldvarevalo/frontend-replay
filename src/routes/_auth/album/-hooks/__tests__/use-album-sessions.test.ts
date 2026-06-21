@@ -44,6 +44,9 @@ beforeEach(() => {
       linkArtist: async () => {},
       linkGenre: async () => {},
     },
+    musicSearch: {
+      search: async () => [],
+    },
     userReleases: {
       findRecent: async () => [],
       findUpNext: async () => [],

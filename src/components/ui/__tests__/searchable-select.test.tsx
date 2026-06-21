@@ -57,4 +57,92 @@ describe('SearchableSelect', () => {
 
     expect(screen.getByText(/Create.*Ro/)).toBeInTheDocument();
   });
+
+  it('should render thumbnail and subtitle when present on results', () => {
+    render(
+      <SearchableSelect
+        {...defaultProps}
+        results={[
+          {
+            id: '1',
+            name: 'A Love Supreme',
+            thumbnail: 'https://cdn/cover.jpg',
+            subtitle: 'John Coltrane',
+          },
+        ]}
+      />
+    );
+
+    fireEvent.click(screen.getByText('Select an option'));
+
+    const img = screen.getByRole('img', { name: 'A Love Supreme' });
+    expect(img).toHaveAttribute('src', 'https://cdn/cover.jpg');
+    expect(screen.getByText('John Coltrane')).toBeInTheDocument();
+  });
+
+  it('should call onSelect with the full result when provided', () => {
+    const onSelect = vi.fn();
+    render(
+      <SearchableSelect
+        {...defaultProps}
+        results={[
+          {
+            id: '1',
+            name: 'Rock',
+          },
+        ]}
+        onSelect={onSelect}
+      />
+    );
+
+    fireEvent.click(screen.getByText('Select an option'));
+    fireEvent.click(screen.getByText('Rock'));
+
+    expect(onSelect).toHaveBeenCalledWith({
+      id: '1',
+      name: 'Rock',
+    });
+  });
+
+  it('should render emptyMessage when results are empty', () => {
+    render(
+      <SearchableSelect
+        {...defaultProps}
+        results={[]}
+        emptyMessage="No matches"
+      />
+    );
+
+    fireEvent.click(screen.getByText('Select an option'));
+    const searchInput = screen.getByPlaceholderText('Select an option');
+    fireEvent.change(searchInput, { target: { value: 'ab' } });
+
+    expect(screen.getByText('No matches')).toBeInTheDocument();
+  });
+
+  it('should apply a separator class to each CommandItem so rows are visually divided', () => {
+    render(
+      <SearchableSelect
+        {...defaultProps}
+        results={[
+          {
+            id: '1',
+            name: 'Rock',
+          },
+          {
+            id: '2',
+            name: 'Jazz',
+          },
+        ]}
+      />
+    );
+
+    fireEvent.click(screen.getByText('Select an option'));
+
+    const items = screen.getAllByRole('option');
+    expect(items[0].className).toMatch(/border-b/);
+    expect(items[0].className).toMatch(/last:border-b-0/);
+    expect(items[1].className).toMatch(/border-b/);
+    expect(items[1].className).toMatch(/last:border-b-0/);
+  });
 });

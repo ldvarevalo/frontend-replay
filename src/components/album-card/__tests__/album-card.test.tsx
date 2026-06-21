@@ -51,7 +51,7 @@ describe('AlbumCard', () => {
     expect(screen.getByText('1965')).toBeInTheDocument();
     expect(container.firstChild).toMatchSnapshot();
   });
-  
+
   it('should render listened album and match snapshot', () => {
     const { container } = render(<AlbumCard {...defaultProps} isListened />);
 

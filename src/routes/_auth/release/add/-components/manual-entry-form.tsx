@@ -178,11 +178,12 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
       >
         STATUS
       </Typography>
-      <div className="flex gap-4">
+      <div className="flex">
         <div className="flex-1">
           <Button
-            variant={values.status === 'discover' ? 'primary' : 'outline'}
+            variant={values.status === 'discover' ? 'primary' : 'ghost'}
             size="lg"
+            className="tracking-widest"
             onClick={() => onFieldChange('status', 'discover')}
           >
             DISCOVER
@@ -190,8 +191,9 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
         </div>
         <div className="flex-1">
           <Button
-            variant={values.status === 'want' ? 'primary' : 'outline'}
+            variant={values.status === 'want' ? 'primary' : 'ghost'}
             size="lg"
+            className="tracking-widest"
             onClick={() => onFieldChange('status', 'want')}
           >
             WANT
@@ -199,8 +201,9 @@ export const ManualEntryForm: FunctionComponent<ManualEntryFormProps> = ({
         </div>
         <div className="flex-1">
           <Button
-            variant={values.status === 'owned' ? 'primary' : 'outline'}
+            variant={values.status === 'owned' ? 'primary' : 'ghost'}
             size="lg"
+            className="tracking-widest"
             onClick={() => onFieldChange('status', 'owned')}
           >
             OWNED
