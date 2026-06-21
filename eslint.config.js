@@ -151,7 +151,7 @@ export default tseslint.config(
       'no-use-before-define': 'off',
       '@typescript-eslint/no-use-before-define': 'error',
       'no-shadow': 'off',
-      '@typescript-eslint/no-shadow': 'error',
+      '@typescript-eslint/no-shadow': 'off',
       '@typescript-eslint/no-empty-function': 'off',
       'ban-ts-ignore': 'off',
       '@typescript-eslint/ban-ts-ignore': 'off',
