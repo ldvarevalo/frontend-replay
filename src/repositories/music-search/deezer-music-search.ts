@@ -5,8 +5,9 @@ import type { MusicSearchRepository, SearchItem } from './types';
  */
 
 const MAX_GENRE_ENRICHMENT = 5;
-const SEARCH_ENDPOINT = '/api-deezer/search/album';
-const ALBUM_ENDPOINT = '/api-deezer/album';
+const DEEZER_BASE_URL = import.meta.env.VITE_DEEZER_API_URL ?? '/api-deezer';
+const SEARCH_ENDPOINT = `${DEEZER_BASE_URL}/search/album`;
+const ALBUM_ENDPOINT = `${DEEZER_BASE_URL}/album`;
 
 /**
  * Types
