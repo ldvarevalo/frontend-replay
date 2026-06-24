@@ -1,31 +1,22 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DeezerMusicSearchRepository } from '../deezer-music-search';
+import type { SearchItem } from '../types';
 
 /**
  * Helpers
  */
 
-interface MockResponse {
-  ok: boolean;
-  body: unknown;
-}
+const mockResponse = (status: number, body: unknown) =>
+  ({
+    ok: status >= 200 && status < 300,
+    status,
+    json: async () => body,
+  }) as Response;
 
-const mockFetch = (responses: MockResponse[]): void => {
-  let i = 0;
-  vi.stubGlobal(
-    'fetch',
-    vi.fn(async () => {
-      const r = responses[i++] ?? {
-        ok: true,
-        body: {},
-      };
-
-      return {
-        ok: r.ok,
-        json: async () => r.body,
-      } as Response;
-    })
-  );
+const setUpMockFetch = (responses: Response[]): void => {
+  const fn = vi.fn();
+  responses.forEach(r => fn.mockReturnValueOnce(r));
+  vi.stubGlobal('fetch', fn);
 };
 
 /**
@@ -35,49 +26,15 @@ const mockFetch = (responses: MockResponse[]): void => {
 describe('DeezerMusicSearchRepository', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    import.meta.env.VITE_API_URL = 'http://localhost:3001';
   });
 
   afterEach(() => {
     vi.unstubAllGlobals();
   });
 
-  it('should map search/album response to SearchItem[] with cover_big and year', async () => {
-    mockFetch([
-      {
-        ok: true,
-        body: {
-          data: [
-            {
-              id: 111,
-              title: 'A Love Supreme',
-              cover_big: 'https://cdn.deezer/cover-big.jpg',
-              release_date: '1965-02-09',
-              artist: {
-                id: 1,
-                name: 'John Coltrane',
-              },
-            },
-          ],
-        },
-      },
-      {
-        ok: true,
-        body: {
-          genres: {
-            data: [
-              {
-                name: 'Jazz',
-              },
-            ],
-          },
-        },
-      },
-    ]);
-
-    const repo = new DeezerMusicSearchRepository();
-    const result = await repo.search('coltrane');
-
-    expect(result).toEqual([
+  it('should return SearchItem[] from backend', async () => {
+    const expected: SearchItem[] = [
       {
         id: '111',
         title: 'A Love Supreme',
@@ -86,173 +43,40 @@ describe('DeezerMusicSearchRepository', () => {
         year: '1965',
         genre: 'Jazz',
       },
+    ];
+
+    setUpMockFetch([
+      mockResponse(200, { data: expected }),
     ]);
+
+    const repo = new DeezerMusicSearchRepository();
+    const result = await repo.search('coltrane');
+
+    expect(result).toEqual(expected);
   });
 
-  it('should return [] when /search/album fetch fails', async () => {
-    mockFetch([
-      {
-        ok: false,
-        body: {},
-      },
+  it('should return [] when backend returns error', async () => {
+    setUpMockFetch([
+      mockResponse(500, {}),
     ]);
-    const repo = new DeezerMusicSearchRepository();
 
+    const repo = new DeezerMusicSearchRepository();
     const result = await repo.search('coltrane');
 
     expect(result).toEqual([]);
   });
 
-  it('should return [] when /search/album throws', async () => {
+  it('should return [] when fetch throws', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn(async () => {
         throw new Error('network down');
-      })
+      }),
     );
-    const repo = new DeezerMusicSearchRepository();
 
+    const repo = new DeezerMusicSearchRepository();
     const result = await repo.search('coltrane');
 
     expect(result).toEqual([]);
-  });
-
-  it('should keep items without genre when /album/{id} enrichment fails', async () => {
-    mockFetch([
-      {
-        ok: true,
-        body: {
-          data: [
-            {
-              id: 1,
-              title: 'Album A',
-              cover_big: 'https://a',
-              release_date: '2000-01-01',
-              artist: {
-                name: 'Artist A',
-              },
-            },
-            {
-              id: 2,
-              title: 'Album B',
-              cover_big: 'https://b',
-              release_date: '2010-05-15',
-              artist: {
-                name: 'Artist B',
-              },
-            },
-          ],
-        },
-      },
-      {
-        ok: false,
-        body: {},
-      },
-      {
-        ok: true,
-        body: {
-          genres: {
-            data: [
-              {
-                name: 'Rock',
-              },
-            ],
-          },
-        },
-      },
-    ] as MockResponse[]);
-
-    const repo = new DeezerMusicSearchRepository();
-    const result = await repo.search('a');
-
-    expect(result[0].genre).toBe('');
-    expect(result[1].genre).toBe('Rock');
-  });
-
-  it('should cap genre enrichment to 5 items even when more are returned', async () => {
-    const items = Array.from(
-      {
-        length: 8,
-      },
-      (_, i) => ({
-        id: i,
-        title: `A${i}`,
-        cover_big: 'x',
-        release_date: '2020-01-01',
-        artist: {
-          name: 'X',
-        },
-      })
-    );
-    const responses: MockResponse[] = [
-      {
-        ok: true,
-        body: {
-          data: items,
-        },
-      },
-    ];
-    for (let i = 0; i < 5; i++) {
-      responses.push({
-        ok: true,
-        body: {
-          genres: {
-            data: [
-              {
-                name: 'Pop',
-              },
-            ],
-          },
-        },
-      });
-    }
-
-    mockFetch(responses);
-
-    const repo = new DeezerMusicSearchRepository();
-    const result = await repo.search('a');
-
-    expect(result).toHaveLength(8);
-    expect(result.slice(0, 5).every(r => r.genre === 'Pop')).toBe(true);
-    expect(result.slice(5).every(r => r.genre === '')).toBe(true);
-  });
-
-  it('should fall back to album detail year when search response has no release_date', async () => {
-    mockFetch([
-      {
-        ok: true,
-        body: {
-          data: [
-            {
-              id: 222,
-              title: 'Album Without Date',
-              cover_big: 'https://cdn.deezer/cover.jpg',
-              artist: {
-                name: 'Artist X',
-              },
-            },
-          ],
-        },
-      },
-      {
-        ok: true,
-        body: {
-          release_date: '2020-06-15',
-          genres: {
-            data: [
-              {
-                name: 'Pop',
-              },
-            ],
-          },
-        },
-      },
-    ]);
-
-    const repo = new DeezerMusicSearchRepository();
-    const result = await repo.search('album');
-
-    expect(result[0].year).toBe('2020');
-    expect(result[0].genre).toBe('Pop');
   });
 });
