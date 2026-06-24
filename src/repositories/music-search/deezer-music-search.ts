@@ -10,11 +10,11 @@ const SEARCH_ENDPOINT = '/api/music/search';
 export class DeezerMusicSearchRepository implements MusicSearchRepository {
   async search(query: string): Promise<SearchItem[]> {
     try {
-      const res = await apiClient.get<{ data: SearchItem[] }>(
+      const res = await apiClient.get<SearchItem[]>(
         `${SEARCH_ENDPOINT}?q=${encodeURIComponent(query)}`
       );
 
-      return res.data.data;
+      return res.data;
     } catch {
       return [];
     }

@@ -46,7 +46,7 @@ describe('DeezerMusicSearchRepository', () => {
     ];
 
     setUpMockFetch([
-      mockResponse(200, { data: expected }),
+      mockResponse(200, expected),
     ]);
 
     const repo = new DeezerMusicSearchRepository();
