@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useUser } from '#/core/auth';
+import { durationToSeconds } from '#/core/helpers/duration-to-seconds/duration-to-seconds';
 import { useRepositories } from '#/repositories/hooks';
 import type { ListeningScope, SourceFormat } from '#/types/domain';
 
@@ -17,21 +18,6 @@ interface UseCreateSessionHook {
   mutate: (data: UseCreateSessionData) => void;
   isPending: boolean;
 }
-
-/**
- * Helpers
- */
-
-const durationToSeconds = (duration: string): number | null => {
-  if (!duration) {
-    return null;
-  }
-  const parts = duration.split(':').map(Number);
-  if (parts.length !== 3 || parts.some(isNaN)) {
-    return null;
-  }
-  return parts[0] * 3600 + parts[1] * 60 + parts[2];
-};
 
 /**
  * useCreateSession
