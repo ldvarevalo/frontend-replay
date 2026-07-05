@@ -29,6 +29,15 @@ interface TypographyProps extends VariantProps<typeof typographyVariants> {
  * Constants
  */
 
+const VARIANT_AS: Record<string, TypographyAs> = {
+  display: 'h1',
+  title: 'h2',
+  body: 'p',
+  label: 'label',
+  'nav-link': 'span',
+  logo: 'span',
+};
+
 const DEFAULT_ELEMENT: Record<string, TypographyAs> = {
   display: 'h1',
   heading: 'h2',
@@ -45,6 +54,14 @@ const DEFAULT_ELEMENT: Record<string, TypographyAs> = {
 
 const typographyVariants = cva('', {
   variants: {
+    variant: {
+      display: 'font-heading text-4xl font-bold',
+      title: 'font-sans text-xl font-semibold',
+      body: 'font-sans text-sm',
+      label: 'font-sans text-[10px] font-medium uppercase tracking-wider',
+      'nav-link': 'font-sans text-[10px] font-medium uppercase tracking-wider',
+      logo: 'font-heading text-4xl font-bold tracking-tight',
+    },
     family: {
       sans: 'font-sans',
       heading: 'font-heading italic',
@@ -79,7 +96,6 @@ const typographyVariants = cva('', {
     },
   },
   defaultVariants: {
-    family: 'sans',
     size: 'sm',
     weight: 'normal',
     transform: 'none',
@@ -93,6 +109,7 @@ const typographyVariants = cva('', {
 
 export const Typography: FunctionComponent<TypographyProps> = ({
   as,
+  variant,
   family,
   size,
   weight,
@@ -103,13 +120,19 @@ export const Typography: FunctionComponent<TypographyProps> = ({
   role,
   children,
 }) => {
-  const Component: ElementType = as ?? DEFAULT_ELEMENT[family ?? 'body'] ?? 'p';
+  const Component: ElementType =
+    as ??
+    (variant ? VARIANT_AS[variant] : undefined) ??
+    DEFAULT_ELEMENT[family ?? 'body'] ??
+    'p';
+  const resolvedFamily = family ?? (variant ? undefined : 'sans');
   return (
     <Component
       role={role}
       className={cn(
         typographyVariants({
-          family,
+          variant,
+          family: resolvedFamily,
           size,
           weight,
           transform: uppercase ? 'uppercase' : transform,

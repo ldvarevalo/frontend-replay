@@ -38,7 +38,7 @@ export const AlbumRow: FunctionComponent<AlbumRowProps> = ({
       'flex w-full items-center gap-3 px-3 py-2.5 text-left transition-colors',
       isActive && 'bg-secondary',
       !isActive && 'hover:bg-secondary/50',
-      isAdded && 'border-l-2 border-primary-container'
+      isAdded && 'border-l-2 border-tertiary/40'
     )}
   >
     <img

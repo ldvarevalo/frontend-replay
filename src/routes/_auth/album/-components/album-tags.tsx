@@ -32,7 +32,7 @@ export const AlbumTags: FunctionComponent<AlbumTagsProps> = ({
           size="xs"
           transform="uppercase"
           weight="bold"
-          className="text-primary"
+          className="text-tertiary"
         >
           {year}
         </Typography>
@@ -51,7 +51,7 @@ export const AlbumTags: FunctionComponent<AlbumTagsProps> = ({
           size="xs"
           transform="uppercase"
           weight="bold"
-          className="text-primary"
+          className="text-tertiary"
         >
           {genre}
         </Typography>

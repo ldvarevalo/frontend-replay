@@ -40,9 +40,7 @@ const OPTIONS: PriorityLevel[] = ['low', 'medium', 'high'];
  * WishlistInfo
  */
 
-const WishlistInfo: FunctionComponent<WishlistInfoProps> = ({
-  addedAt,
-}) => {
+const WishlistInfo: FunctionComponent<WishlistInfoProps> = ({ addedAt }) => {
   if (!addedAt) {
     return null;
   }
@@ -57,12 +55,12 @@ const WishlistInfo: FunctionComponent<WishlistInfoProps> = ({
         WISHLIST
       </Typography>
       <div className="flex items-center gap-3 bg-surface-container-high px-4 py-3">
-        <Calendar className="size-5 text-on-surface-variant" />
+        <Calendar className="size-5 text-tertiary" />
         <div className="flex flex-col">
           <Typography size="xs" className="text-on-surface-variant">
             Added
           </Typography>
-          <Typography family="heading" size="lg">
+          <Typography family="heading" size="lg" className="text-tertiary">
             {formatDate(addedAt)}
           </Typography>
         </div>

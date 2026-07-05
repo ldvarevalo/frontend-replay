@@ -152,7 +152,6 @@ const SessionPage: FunctionComponent = () => {
         coverUrl={album.coverUrl}
         title={album.title}
         artist={album.artist}
-        variant="cover"
       />
 
       <main className="page-wrap mt-4 space-y-6 pb-8">

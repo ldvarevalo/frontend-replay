@@ -31,7 +31,7 @@ export const OptionGroup: FunctionComponent<OptionGroupProps> = ({
     >
       {label}
     </Typography>
-    <div className="flex w-full">
+    <div className="flex w-full rounded-md bg-surface-container-high">
       {options.map(option => (
         <button
           key={option}
@@ -40,8 +40,8 @@ export const OptionGroup: FunctionComponent<OptionGroupProps> = ({
           className={cn(
             'flex-1 px-5 py-2',
             value === option
-              ? 'bg-primary-container text-on-primary-container'
-              : 'bg-surface-container-high text-on-surface-variant'
+              ? 'bg-primary-container text-on-primary-container rounded-md'
+              : 'text-on-surface-variant'
           )}
         >
           <Typography
