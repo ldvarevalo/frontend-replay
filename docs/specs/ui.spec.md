@@ -16,6 +16,7 @@ Todos los tokens están definidos en `src/styles.css` (`:root` + `@theme inline`
 | `primary` | `#bbc3ff` | Color de acento, texto sobre fondos oscuros |
 | `primary-container` | `#3d5afe` | Fondo de acciones primarias |
 | `on-primary-container` | `#ffffff` | Texto/íconos sobre `primary-container` |
+| `secondary-brand` | `#e0e0e0` | Neutral claro de marca para texto de alta jerarquía; no usar como fondo grande. |
 
 ### 1.2 Colores semánticos
 
@@ -51,17 +52,31 @@ Todos los tokens están definidos en `src/styles.css` (`:root` + `@theme inline`
 |---|---|---|
 | `chart-1` | `primary` | Series de gráficos |
 | `chart-2` | `primary-container` | Series de gráficos |
-| `chart-3` | `on-surface-variant` | Series de gráficos |
+| `chart-3` | `tertiary` | Series de gráficos |
 | `chart-4` | `on-surface` | Series de gráficos |
 | `chart-5` | `on-surface` | Series de gráficos |
 
-### 1.5 Radios
+### 1.5 Colores terciarios
+
+| Token | Valor | Uso |
+|---|---|---|
+| `tertiary` | `#d18f00` | Ámbar/gold — acento para datos significativos (fechas, metadatos contextuales, iconos de estado) |
+| `on-tertiary` | `#000000` | Texto/íconos sobre `tertiary` |
+| `tertiary-container` | `rgba(209,143,0,0.10)` | Fondo sutil para elementos con acento terciario |
+| `tertiary-outline` | `rgba(209,143,0,0.35)` | Borde/outline de elementos con acento terciario |
+
+### 1.6 Radios
 
 | Token | Valor |
 |---|---|
-| `--radius` | `0px` |
+| `--radius` | `8px` |
+| `--radius-sm` | `4px` |
+| `--radius-md` | `8px` |
+| `--radius-lg` | `12px` |
+| `--radius-xl` | `20px` |
+| `--radius-full` | `999px` |
 
-### 1.6 Tracking
+### 1.7 Tracking
 
 | Token | Valor |
 |---|---|
@@ -148,6 +163,29 @@ import { Typography } from '#/components/ui/typography'
 <Typography size="xs" weight="medium">Label</Typography>
 <Typography size="2xs" transform="uppercase" tracking="wider">Small Caps</Typography>
 <Typography as="h3" family="heading" size="xl">Heading as h3</Typography>
+```
+
+### Variant presets
+
+Typography acepta una prop `variant` que resuelve defaults de `family`, `size`, `weight`, `tracking`, `transform` y `as`:
+
+| variant | family | size | weight | tracking | transform | as |
+|---------|--------|------|--------|----------|-----------|-----|
+| `display` | heading | `2xl` | bold | normal | — | `h1` |
+| `title` | heading | `lg` | semibold | normal | — | `h2` |
+| `body` | sans | `sm` | normal | normal | — | `p` |
+| `label` | sans | `2xs` | medium | wider | uppercase | `label` |
+| `nav-link` | sans | `2xs` | medium | wider | uppercase | `span` |
+| `logo` | heading | `2xl` | bold | tighter | — | `span` |
+
+Cualquier prop individual sobreescribe el preset. Color no está incluido en el preset — lo define el contenedor.
+
+```tsx
+<Typography variant="display">Page Title</Typography>
+<Typography variant="title">Section Title</Typography>
+<Typography variant="body">Regular text</Typography>
+<Typography variant="label">UPPERCASE LABEL</Typography>
+<Typography variant="label" family="heading">Override family</Typography>
 ```
 
 ---
@@ -546,7 +584,7 @@ import { AlbumRow } from '#/components/album-row'
 />
 ```
 
-Fila activa: `bg-secondary`, inactiva: `hover:bg-secondary/50`. Si `isAdded` es `true`, muestra borde izquierdo `border-primary-container`. Si hay `actionIcon`, se muestra en lugar de la duración.
+Fila activa: `bg-secondary`, inactiva: `hover:bg-secondary/50`. Si `isAdded` es `true`, muestra borde izquierdo `border-tertiary/40`. Si hay `actionIcon`, se muestra en lugar de la duración.
 
 ---
 
@@ -673,7 +711,7 @@ yarn lint → yarn typescript → yarn test
 
 | Prohibición | Motivo |
 |---|---|
-| Border-radius > 0px | El sistema usa `--radius: 0px` |
+| Border-radius sin token del sistema | Usar siempre `--radius-{sm|md|lg|xl|full}` — `--radius: 8px` por defecto |
 | Hex hardcodeados en clases Tailwind | Usar siempre tokens del sistema |
 | `any` en TypeScript | Usar `unknown` + type guards |
 | Editar `routeTree.gen.ts` manualmente | Es auto-generado por TanStack Router |
