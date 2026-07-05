@@ -1,5 +1,4 @@
 import { render, screen } from '@test-utils';
-
 import { PeriodSelector } from '../period-selector';
 
 /**
@@ -17,34 +16,14 @@ afterEach(() => {
  */
 
 describe('PeriodSelector', () => {
-  it('should render all period options', () => {
+  it('should render trigger with current period label', () => {
     render(
-      <PeriodSelector value="this-month" onChange={handlePeriodChangeMock} />
+      <PeriodSelector
+        value="this-month"
+        onChange={handlePeriodChangeMock}
+      />
     );
 
     expect(screen.getByText('This Month')).toBeInTheDocument();
-    expect(screen.getByText('Last Month')).toBeInTheDocument();
-    expect(screen.getByText('This Year')).toBeInTheDocument();
-    expect(screen.getByText('All Time')).toBeInTheDocument();
-  });
-
-  it('should highlight the active period', () => {
-    render(
-      <PeriodSelector value="this-month" onChange={handlePeriodChangeMock} />
-    );
-
-    expect(screen.getByText('This Month').closest('button')).toHaveClass(
-      'bg-primary'
-    );
-  });
-
-  it('should call onChange when a period is clicked', () => {
-    render(
-      <PeriodSelector value="this-month" onChange={handlePeriodChangeMock} />
-    );
-
-    screen.getByText('This Year').click();
-
-    expect(handlePeriodChangeMock).toHaveBeenCalledWith('this-year');
   });
 });

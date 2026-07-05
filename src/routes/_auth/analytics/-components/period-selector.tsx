@@ -1,6 +1,12 @@
 import type { FunctionComponent } from 'react';
 
-import { cn } from '#/lib/utils';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '#/components/ui/select';
 import type { Period } from '../-helpers/get-period-dates';
 
 interface PeriodSelectorProps {
@@ -30,21 +36,28 @@ const PERIODS: { value: Period; label: string }[] = [
 export const PeriodSelector: FunctionComponent<PeriodSelectorProps> = ({
   value,
   onChange,
-}) => (
-  <div className="flex gap-1">
-    {PERIODS.map(({ value: periodValue, label }) => (
-      <button
-        key={periodValue}
-        onClick={() => onChange(periodValue)}
-        className={cn(
-          'rounded-sm px-3 py-1.5 text-xs font-medium transition-colors',
-          value === periodValue
-            ? 'bg-primary text-on-primary'
-            : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-        )}
-      >
-        {label}
-      </button>
-    ))}
-  </div>
-);
+}) => {
+  const currentLabel = PERIODS.find(period => period.value === value)?.label ?? value;
+
+  return (
+    <Select
+      value={value}
+      onValueChange={next => {
+        if (next) {
+          onChange(next);
+        }
+      }}
+    >
+      <SelectTrigger className="h-10 w-40 px-3">
+        <SelectValue>{currentLabel}</SelectValue>
+      </SelectTrigger>
+      <SelectContent align="end">
+        {PERIODS.map(({ value: periodValue, label }) => (
+          <SelectItem key={periodValue} value={periodValue}>
+            {label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+};
