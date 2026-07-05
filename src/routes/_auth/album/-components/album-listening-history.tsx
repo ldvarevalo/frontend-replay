@@ -3,6 +3,7 @@ import { Play } from 'lucide-react';
 import { Button } from '#/components/ui/button';
 import { Typography } from '#/components/ui/typography';
 import type { SourceFormat } from '#/types/domain';
+import { formatDate } from '#/core/helpers/format-date';
 
 /**
  * Types
@@ -24,16 +25,6 @@ interface AlbumListeningHistoryProps {
 /**
  * Helpers
  */
-
-const formatDate = (iso: string): string => {
-  const date = new Date(iso);
-
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-};
 
 /**
  * LoadingState
