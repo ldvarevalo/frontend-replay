@@ -1,5 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { Album, CollectionAlbum, CollectionStatus } from '#/types/domain';
+import type {
+  Album,
+  CollectionAlbum,
+  CollectionStatus,
+  PriorityLevel,
+} from '#/types/domain';
 import type { UserReleasesRepository } from '../types';
 
 /**
@@ -204,6 +209,22 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
         listened_at: new Date().toISOString(),
       })
       .eq('id', userReleaseId);
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  async updatePriority(
+    releaseId: string,
+    userId: string,
+    priority: PriorityLevel
+  ): Promise<void> {
+    const { error } = await this.supabase
+      .from('user_releases')
+      .update({ priority })
+      .eq('release_id', releaseId)
+      .eq('user_id', userId);
 
     if (error) {
       throw error;

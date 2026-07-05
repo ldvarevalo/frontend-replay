@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type {
   AlbumDetail,
   CollectionStatus,
+  PriorityLevel,
   SearchResult,
   Track,
 } from '#/types/domain';
@@ -51,6 +52,9 @@ const mapAlbumDetailRow = (row: Record<string, unknown>): AlbumDetail => {
     | undefined;
   const status = (userReleases?.[0]?.status as CollectionStatus | null) ?? null;
   const isListened = (userReleases?.[0]?.is_listened as boolean) ?? false;
+  const priority =
+    (userReleases?.[0]?.priority as PriorityLevel | null) ?? null;
+  const addedAt = (userReleases?.[0]?.created_at as string | null) ?? null;
 
   return {
     id: row.id as string,
@@ -62,6 +66,8 @@ const mapAlbumDetailRow = (row: Record<string, unknown>): AlbumDetail => {
     tracks,
     status,
     isListened,
+    priority,
+    addedAt,
   };
 };
 
@@ -195,7 +201,9 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
         user_releases!left (
           status,
           is_listened,
-          listened_at
+          listened_at,
+          priority,
+          created_at
         )
       `
       )
