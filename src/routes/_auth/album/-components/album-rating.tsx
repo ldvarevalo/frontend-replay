@@ -18,7 +18,7 @@ export const AlbumRating: FunctionComponent = () => (
     </Typography>
 
     <Button variant="outline" size="lg">
-      <Plus className="size-5 text-on-surface" />
+      <Plus className="size-5 text-tertiary" />
       <Typography size="xs" transform="uppercase" className="text-on-surface">
         ADD RATING
       </Typography>
