@@ -52,14 +52,17 @@ const WishlistInfo: FunctionComponent<{ addedAt: string | null }> = ({
       >
         WISHLIST
       </Typography>
-      <Typography
-        as="span"
-        size="sm"
-        className="inline-flex items-center gap-1.5 text-on-surface-variant"
-      >
-        <Calendar className="size-3.5" />
-        Added {formatDate(addedAt)}
-      </Typography>
+      <div className="flex items-center gap-3 bg-surface-container-high px-4 py-3">
+        <Calendar className="size-5 text-on-surface-variant" />
+        <div className="flex flex-col">
+          <Typography size="xs" className="text-on-surface-variant">
+            Added
+          </Typography>
+          <Typography family="heading" size="lg">
+            {formatDate(addedAt)}
+          </Typography>
+        </div>
+      </div>
     </section>
   );
 };
@@ -84,33 +87,37 @@ export const AlbumWantSection: FunctionComponent<AlbumWantSectionProps> = ({
       onChange={value => onPriorityChange(value as PriorityLevel)}
     />
 
-    <Dialog>
-      <DialogTrigger
-        render={
-          <Button
-            variant="ghost"
-            className="flex w-full items-center justify-center gap-2 border border-outline-20 py-6"
-          >
-            <Typography size="xs" transform="uppercase">
-              MARK AS OWNED
-            </Typography>
-          </Button>
-        }
-      />
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>You already own this album?</DialogTitle>
-          <DialogDescription>
-            This will move it from wishlist to your collection as
-            &ldquo;owned&rdquo;.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="outline" onClick={onMarkAsOwned}>
-            Mark as Owned
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <div className="h-px bg-outline/20" />
+
+    <section className="space-y-2">
+      <Typography size="xs" className="text-on-surface-variant">
+        Ready to move it to your collection?
+      </Typography>
+      <Dialog>
+        <DialogTrigger
+          render={
+            <Button variant="primary" className="w-full">
+              <Typography size="xs" transform="uppercase">
+                MARK AS OWNED
+              </Typography>
+            </Button>
+          }
+        />
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>You already own this album?</DialogTitle>
+            <DialogDescription>
+              This will move it from wishlist to your collection as
+              &ldquo;owned&rdquo;.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="primary" onClick={onMarkAsOwned}>
+              Mark as Owned
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </section>
   </>
 );

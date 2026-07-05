@@ -33,7 +33,8 @@ describe('AlbumWantSection', () => {
     );
 
     expect(screen.getByText('WISHLIST')).toBeInTheDocument();
-    expect(screen.getByText('Added Jun 15, 2026')).toBeInTheDocument();
+    expect(screen.getByText('Added')).toBeInTheDocument();
+    expect(screen.getByText('Jun 15, 2026')).toBeInTheDocument();
   });
 
   it('should not render wishlist info when addedAt is null', () => {

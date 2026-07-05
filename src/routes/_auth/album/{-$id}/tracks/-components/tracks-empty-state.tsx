@@ -28,12 +28,7 @@ export const TracksEmptyState: FunctionComponent<TracksEmptyStateProps> = ({
     <Typography size="sm" className="text-center text-on-surface-variant">
       Add them manually using the button below.
     </Typography>
-    <Button
-      type="button"
-      variant="ghost"
-      onClick={onAddClick}
-      className="mt-2 border border-outline-20 px-6"
-    >
+    <Button type="button" variant="ghost" onClick={onAddClick} className="mt-2">
       <Typography
         size="xs"
         weight="bold"

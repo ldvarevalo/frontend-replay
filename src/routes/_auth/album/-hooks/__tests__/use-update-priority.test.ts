@@ -100,11 +100,7 @@ describe('useUpdatePriority', () => {
     });
 
     await waitFor(() => {
-      expect(mockUpdatePriority).toHaveBeenCalledWith(
-        'r-1',
-        'user-1',
-        'high'
-      );
+      expect(mockUpdatePriority).toHaveBeenCalledWith('r-1', 'user-1', 'high');
     });
   });
 
@@ -117,11 +113,7 @@ describe('useUpdatePriority', () => {
     });
 
     await waitFor(() => {
-      expect(mockUpdatePriority).toHaveBeenCalledWith(
-        'r-2',
-        'user-1',
-        'low'
-      );
+      expect(mockUpdatePriority).toHaveBeenCalledWith('r-2', 'user-1', 'low');
     });
   });
 });

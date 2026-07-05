@@ -61,11 +61,7 @@ export const AlbumOwnedSection: FunctionComponent<AlbumOwnedSectionProps> = ({
 
     <AlbumTracklist tracks={album.tracks} />
 
-    <Button
-      variant="ghost"
-      className="flex w-full items-center justify-center gap-2 border border-outline-20 py-6"
-      onClick={onAddTracks}
-    >
+    <Button variant="outline" className="w-full" onClick={onAddTracks}>
       <Typography size="xs" transform="uppercase">
         ADD TRACKS
       </Typography>
