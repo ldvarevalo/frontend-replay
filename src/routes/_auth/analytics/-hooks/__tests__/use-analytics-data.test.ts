@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { waitFor } from '@testing-library/react';
 import { renderHook } from '@test-utils';
 import * as authModule from '#/core/auth/auth-context';
@@ -9,6 +10,11 @@ const mockAnalyticsFind = vi.fn();
 
 beforeEach(() => {
   vi.clearAllMocks();
+
+  renderHook(() => {
+    const queryClient = useQueryClient();
+    queryClient.clear();
+  });
 
   useUserMock.mockReturnValue({
     id: 'A.USER.ID',
@@ -138,7 +144,7 @@ owned: 0 },
  */
 
 describe('useAnalyticsData', () => {
-  it('should return analytics data from repository', async () => {
+  it('should return data when this-month has sessions', async () => {
     mockAnalyticsFind.mockResolvedValue(ANALYTICS_DATA_MOCK);
 
     const { result } = renderHook(() => useAnalyticsData('this-month'));
@@ -147,23 +153,48 @@ describe('useAnalyticsData', () => {
       expect(result.current.data).toEqual(ANALYTICS_DATA_MOCK);
     });
 
-    expect(result.current.isLoading).toBe(false);
-    expect(mockAnalyticsFind).toHaveBeenCalledWith(
-      'A.USER.ID',
-      expect.any(String),
-      expect.any(String)
-    );
+    expect(result.current.isFallback).toBe(false);
+    expect(result.current.activePeriod).toBe('this-month');
   });
 
-  it('should return null data when no sessions exist', async () => {
+  it('should fallback to last-month when this-month is empty', async () => {
+    mockAnalyticsFind
+      .mockResolvedValueOnce(EMPTY_ANALYTICS_DATA_MOCK)
+      .mockResolvedValueOnce(ANALYTICS_DATA_MOCK);
+
+    const { result } = renderHook(() => useAnalyticsData('this-month'));
+
+    await waitFor(() => {
+      expect(result.current.data).toEqual(ANALYTICS_DATA_MOCK);
+    });
+
+    expect(result.current.isFallback).toBe(true);
+    expect(result.current.activePeriod).toBe('last-month');
+  });
+
+  it('should return null when all periods are empty', async () => {
     mockAnalyticsFind.mockResolvedValue(EMPTY_ANALYTICS_DATA_MOCK);
 
     const { result } = renderHook(() => useAnalyticsData('this-month'));
 
     await waitFor(() => {
-      expect(result.current.data?.listenedAlbums).toBe(0);
+      expect(result.current.data).toBeNull();
     });
 
-    expect(result.current.isLoading).toBe(false);
+    expect(result.current.isFallback).toBe(false);
+    expect(result.current.activePeriod).toBeNull();
+  });
+
+  it('should not fallback when userSelected is true', async () => {
+    mockAnalyticsFind.mockResolvedValue(EMPTY_ANALYTICS_DATA_MOCK);
+
+    const { result } = renderHook(() => useAnalyticsData('last-month', true));
+
+    await waitFor(() => {
+      expect(result.current.data).toBeNull();
+    });
+
+    expect(result.current.activePeriod).toBeNull();
+    expect(mockAnalyticsFind).toHaveBeenCalledTimes(1);
   });
 });

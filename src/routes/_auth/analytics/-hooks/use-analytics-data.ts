@@ -9,23 +9,64 @@ interface UseAnalyticsDataResult {
   isLoading: boolean;
   error: Error | null;
   refetch: () => void;
+  activePeriod: Period | null;
+  isFallback: boolean;
 }
 
-export const useAnalyticsData = (period: Period): UseAnalyticsDataResult => {
+const FALLBACK_ORDER: Period[] = [
+  'this-month',
+  'last-month',
+  'this-year',
+  'all-time',
+];
+
+export const useAnalyticsData = (
+  period: Period,
+  userSelected = false
+): UseAnalyticsDataResult => {
   const user = useUser();
   const { analytics } = useRepositories();
-  const { start, end } = getPeriodDates(period);
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['analytics', user?.id, period],
-    queryFn: () => analytics.find(user!.id, start, end),
+    queryKey: ['analytics', user?.id, period, userSelected],
+    queryFn: async () => {
+      if (userSelected) {
+        const { start, end } = getPeriodDates(period);
+        const result = await analytics.find(user!.id, start, end);
+
+        return {
+          data: result.listenedAlbums > 0 ? result : null,
+          activePeriod: result.listenedAlbums > 0 ? period : null,
+          isFallback: false,
+        };
+      }
+
+      for (const candidate of FALLBACK_ORDER) {
+        const { start, end } = getPeriodDates(candidate);
+        const result = await analytics.find(user!.id, start, end);
+
+        if (result.listenedAlbums > 0) {
+          return {
+            data: result,
+            activePeriod: candidate,
+            isFallback: candidate !== period,
+          };
+        }
+      }
+
+      return { data: null,
+activePeriod: null,
+isFallback: false };
+    },
     enabled: !!user,
   });
 
   return {
-    data: data ?? null,
+    data: data?.data ?? null,
     isLoading,
     error: error as Error | null,
     refetch,
+    activePeriod: data?.activePeriod ?? null,
+    isFallback: data?.isFallback ?? false,
   };
 };

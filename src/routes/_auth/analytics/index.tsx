@@ -5,6 +5,7 @@ import { AnalyticsEmptyState } from './-components/analytics-empty-state';
 import { AnalyticsSkeleton } from './-components/analytics-skeleton';
 import { CollectionFunnel } from './-components/collection-funnel';
 import { DiscoverBacklogCard } from './-components/discover-backlog-card';
+import { FallbackBanner } from './-components/fallback-banner';
 import { HabitsList } from './-components/habits-list';
 import { MetricCards } from './-components/metric-cards';
 import { MostListenedCard } from './-components/most-listened-card';
@@ -26,8 +27,15 @@ const DEFAULT_PERIOD: Period = 'this-month';
 
 const AnalyticsPage: FunctionComponent = () => {
   const navigate = useNavigate();
+  const [userSelected, setUserSelected] = useState(false);
   const [period, setPeriod] = useState<Period>(DEFAULT_PERIOD);
-  const { data, isLoading, error, refetch } = useAnalyticsData(period);
+  const { data, isLoading, error, refetch, activePeriod, isFallback } =
+    useAnalyticsData(period, userSelected);
+
+  const handlePeriodChange = (next: Period): void => {
+    setUserSelected(true);
+    setPeriod(next);
+  };
 
   if (isLoading) {
     return (
@@ -61,7 +69,7 @@ const AnalyticsPage: FunctionComponent = () => {
     );
   }
 
-  if (!data || data.listenedAlbums === 0) {
+  if (!data) {
     return (
       <main className="page-wrap space-y-6 py-6">
         <div className="flex items-center justify-between">
@@ -73,7 +81,7 @@ const AnalyticsPage: FunctionComponent = () => {
               Your listening insights
             </p>
           </div>
-          <PeriodSelector value={period} onChange={setPeriod} />
+          <PeriodSelector value={period} onChange={handlePeriodChange} />
         </div>
         <AnalyticsEmptyState
           onLogFirstSession={() => navigate({ to: '/release/add' })}
@@ -93,8 +101,10 @@ const AnalyticsPage: FunctionComponent = () => {
             Your listening insights
           </p>
         </div>
-        <PeriodSelector value={period} onChange={setPeriod} />
+        <PeriodSelector value={period} onChange={handlePeriodChange} />
       </div>
+
+      {isFallback && activePeriod && <FallbackBanner period={activePeriod} />}
 
       <MetricCards
         listenedAlbums={data.listenedAlbums}
