@@ -2,17 +2,15 @@
 import type { FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { AlbumHero } from '#/components/album-hero';
-import { Button } from '#/components/ui/button';
 import { Typography } from '#/components/ui/typography';
 import { router } from '#/router';
-import { AlbumListeningHistory } from '../-components/album-listening-history';
-import { AlbumRating } from '../-components/album-rating';
 import { AlbumTags } from '../-components/album-tags';
-import { AlbumTracklist } from '../-components/album-tracklist';
-import { CollectionStatusSelector } from '../-components/collection-status-selector';
 import { useAlbumData } from '../-hooks/use-album-data';
 import { useAlbumSessions } from '../-hooks/use-album-sessions';
 import { useSetCollectionStatus } from '../-hooks/use-set-collection-status';
+import { useUpdatePriority } from '../-hooks/use-update-priority';
+import { AlbumOwnedSection } from './-components/album-owned-section';
+import { AlbumWantSection } from './-components/album-want-section';
 
 /**
  * Types
@@ -43,9 +41,10 @@ const AlbumDetailPage: FunctionComponent = () => {
   const navigate = useNavigate();
   const { album, isLoading, isError, error } = useAlbumData(id);
   const { mutate: setStatus } = useSetCollectionStatus();
+  const { mutate: updatePriority } = useUpdatePriority();
   const { sessions, isLoading: sessionsLoading } = useAlbumSessions(id);
 
-  if (!id) {
+  if (!id || isError || !album) {
     return (
       <main className="page-wrap flex items-center justify-center py-20">
         <div className="text-center">
@@ -58,7 +57,9 @@ const AlbumDetailPage: FunctionComponent = () => {
             Album not found
           </Typography>
           <Typography className="mt-2 text-on-surface-variant">
-            The album ID is missing.
+            {!id
+              ? 'The album ID is missing.'
+              : error?.message ?? 'The album could not be loaded.'}
           </Typography>
         </div>
       </main>
@@ -68,86 +69,67 @@ const AlbumDetailPage: FunctionComponent = () => {
   if (isLoading) {
     return (
       <main className="page-wrap flex items-center justify-center py-20">
-        <Typography className="text-on-surface-variant">Loading...</Typography>
-      </main>
-    );
-  }
-
-  if (isError || !album) {
-    return (
-      <main className="page-wrap flex items-center justify-center py-20">
-        <div className="text-center">
-          <Typography
-            family="heading"
-            size="2xl"
-            weight="bold"
-            className="text-on-surface-variant"
-          >
-            Album not found
-          </Typography>
-          <Typography className="mt-2 text-on-surface-variant">
-            {error?.message ?? 'The album could not be loaded.'}
-          </Typography>
-        </div>
+        <Typography className="text-on-surface-variant">
+          Loading...
+        </Typography>
       </main>
     );
   }
 
   return (
     <div className="flex flex-col">
-      {/* Hero */}
       <AlbumHero
         coverUrl={album.coverUrl}
         title={album.title}
         artist={album.artist}
       />
 
-      {/* Content */}
       <main className="page-wrap space-y-6 pb-8">
         <AlbumTags year={album.year} genre={album.genre} />
 
-        <CollectionStatusSelector
-          status={album.status}
-          onChange={status => {
-            setStatus({
-              releaseId: id,
-              status,
-            });
-          }}
-        />
+        {album.status === 'owned' && (
+          <AlbumOwnedSection
+            album={album}
+            sessions={sessions.map(s => ({
+              id: s.id,
+              listenedAt: s.listenedAt,
+              scopeLabel: SCOPE_LABELS[s.scope] ?? s.scope,
+              sourceFormat: s.sourceFormat,
+            }))}
+            sessionsLoading={sessionsLoading}
+            onCollectionStatusChange={status =>
+              setStatus({
+                releaseId: id,
+                status,
+              })
+            }
+            onAddTracks={() =>
+              navigate({ to: `/album/${id}/tracks` })
+            }
+            onNewSession={() =>
+              navigate({ to: `/album/${id}/session` })
+            }
+          />
+        )}
 
-        <AlbumRating />
-
-        <AlbumTracklist tracks={album.tracks} />
-
-        <Button
-          variant="ghost"
-          className="flex w-full items-center justify-center gap-2 border border-outline-20 py-6"
-          onClick={() =>
-            navigate({
-              to: `/album/${id}/tracks`,
-            })
-          }
-        >
-          <Typography size="xs" transform="uppercase">
-            ADD TRACKS
-          </Typography>
-        </Button>
-
-        <AlbumListeningHistory
-          sessions={sessions.map(s => ({
-            id: s.id,
-            listenedAt: s.listenedAt,
-            scopeLabel: SCOPE_LABELS[s.scope] ?? s.scope,
-            sourceFormat: s.sourceFormat,
-          }))}
-          isLoading={sessionsLoading}
-          onNewSessionClick={() =>
-            navigate({
-              to: `/album/${id}/session`,
-            })
-          }
-        />
+        {album.status === 'want' && (
+          <AlbumWantSection
+            addedAt={album.addedAt}
+            priority={album.priority}
+            onPriorityChange={priority =>
+              updatePriority({
+                releaseId: id,
+                priority,
+              })
+            }
+            onMarkAsOwned={() =>
+              setStatus({
+                releaseId: id,
+                status: 'owned',
+              })
+            }
+          />
+        )}
       </main>
     </div>
   );
