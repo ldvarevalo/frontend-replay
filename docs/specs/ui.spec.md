@@ -7,7 +7,7 @@ Refleja exclusivamente lo que existe en el codebase — no especulación de dise
 
 ## 1. Tokens
 
-Todos los tokens están definidos en `src/styles.css`. Nunca usar hex, genéricos de color, ni clases arbitrarias (`text-[#...]`). Usar siempre los tokens vía clases Tailwind.
+Todos los tokens están definidos en `src/styles.css` (`:root` + `@theme inline`). Nunca usar hex, genéricos de color, ni clases arbitrarias (`text-[#...]`). Usar siempre los tokens vía clases Tailwind.
 
 ### 1.1 Colores de marca
 
@@ -61,6 +61,12 @@ Todos los tokens están definidos en `src/styles.css`. Nunca usar hex, genérico
 |---|---|
 | `--radius` | `0px` |
 
+### 1.6 Tracking
+
+| Token | Valor |
+|---|---|
+| `tracking-wider` | `0.2em` |
+
 ---
 
 ## 2. Tipografía base
@@ -68,7 +74,7 @@ Todos los tokens están definidos en `src/styles.css`. Nunca usar hex, genérico
 | Rol | Font family | Clase |
 |---|---|---|
 | UI / body | `Inter` (sans-serif) | `font-sans` |
-| Headings / display | `Newsreader` (serif) | `font-heading` |
+| Headings / display | `Newsreader` (serif) | `font-heading italic` |
 
 Uso:
 - Inter: labels, metadata, body, datos numéricos
@@ -123,7 +129,7 @@ import { Typography } from '#/components/ui/typography'
 | `uppercase` | `boolean` | — | Atajo para `transform="uppercase"` |
 | `tracking` | `normal` / `tight` / `tighter` / `wider` / `widest` | `normal` |
 
-**Prop `as`** — elemento HTML renderizado. Si no se pasa, se infiere de `family`:
+**Prop `as`** — elemento HTML renderizado. Si no se pasa, se infiere de `family` usando `DEFAULT_ELEMENT`:
 
 | `family` | Default `as` |
 |---|---|
@@ -146,19 +152,237 @@ import { Typography } from '#/components/ui/typography'
 
 ---
 
+### Input
+
+```
+import { Input } from '#/components/ui/input'
+```
+
+Wrapper sobre `@base-ui/react/input`. Props estándar de un `<input>` HTML.
+
+```tsx
+<Input value={query} onChange={handleChange} placeholder="Search..." />
+```
+
+---
+
+### Textarea
+
+```
+import { Textarea } from '#/components/ui/textarea'
+```
+
+Props estándar de un `<textarea>` HTML.
+
+```tsx
+<Textarea value={bio} onChange={handleBioChange} placeholder="Write something..." />
+```
+
+---
+
+### Select
+
+```
+import {
+  Select, SelectContent, SelectGroup, SelectItem, SelectLabel,
+  SelectScrollDownButton, SelectScrollUpButton, SelectSeparator,
+  SelectTrigger, SelectValue,
+} from '#/components/ui/select'
+```
+
+Wrapper sobre `@base-ui/react/select`. Compuesto multiparte:
+
+| Subcomponente | Props adicionales |
+|---|---|
+| `SelectTrigger` | `size?: 'sm' \| 'default'` |
+| `SelectContent` | `side`, `sideOffset`, `align`, `alignOffset`, `alignItemWithTrigger` |
+
+```tsx
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select genre" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="rock">Rock</SelectItem>
+    <SelectItem value="jazz">Jazz</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+---
+
+### Popover
+
+```
+import {
+  Popover, PopoverContent, PopoverDescription, PopoverHeader,
+  PopoverTitle, PopoverTrigger,
+} from '#/components/ui/popover'
+```
+
+Wrapper sobre `@base-ui/react/popover`.
+
+| Subcomponente | Props adicionales |
+|---|---|
+| `PopoverContent` | `align`, `alignOffset`, `side`, `sideOffset` |
+
+```tsx
+<Popover>
+  <PopoverTrigger>Open</PopoverTrigger>
+  <PopoverContent>
+    <PopoverTitle>Title</PopoverTitle>
+    <PopoverDescription>Description</PopoverDescription>
+  </PopoverContent>
+</Popover>
+```
+
+---
+
+### Dialog
+
+```
+import {
+  Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter,
+  DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger,
+} from '#/components/ui/dialog'
+```
+
+Wrapper sobre `@base-ui/react/dialog`.
+
+| Subcomponente | Props adicionales |
+|---|---|
+| `DialogContent` | `showCloseButton?: boolean` (default `true`) |
+| `DialogFooter` | `showCloseButton?: boolean` (default `false`) |
+
+```tsx
+<Dialog>
+  <DialogTrigger>Open</DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Confirm</DialogTitle>
+      <DialogDescription>Are you sure?</DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <Button>OK</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+---
+
+### Command
+
+```
+import {
+  Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput,
+  CommandItem, CommandList, CommandSeparator, CommandShortcut,
+} from '#/components/ui/command'
+```
+
+Wrapper sobre `cmdk`. Compuesto multiparte para command palette / búsqueda.
+
+| Subcomponente | Props adicionales |
+|---|---|
+| `CommandDialog` | `title?: string`, `description?: string`, `showCloseButton?: boolean` |
+
+```tsx
+<CommandDialog open={open} onOpenChange={setOpen}>
+  <CommandInput placeholder="Search..." />
+  <CommandList>
+    <CommandEmpty>No results</CommandEmpty>
+    <CommandGroup heading="Actions">
+      <CommandItem>Create album</CommandItem>
+    </CommandGroup>
+  </CommandList>
+</CommandDialog>
+```
+
+---
+
+### InputGroup
+
+```
+import {
+  InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput,
+  InputGroupText, InputGroupTextarea,
+} from '#/components/ui/input-group'
+```
+
+Contenedor flex para composiciones input + addon/button.
+
+| Subcomponente | Props / variantes |
+|---|---|
+| `InputGroupAddon` | CVA `align`: `inline-start` / `inline-end` / `block-start` / `block-end` (default `inline-start`) |
+| `InputGroupButton` | CVA `size`: `xs` / `sm` / `icon-xs` / `icon-sm` (default `xs`). `variant` y `type` también disponibles. |
+| `InputGroupInput` | Estándar de input, sin border/ring propio |
+| `InputGroupTextarea` | Estándar de textarea, sin border/ring propio |
+
+```tsx
+<InputGroup>
+  <InputGroupAddon>
+    <SearchIcon />
+  </InputGroupAddon>
+  <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon align="inline-end">
+    <kbd>⌘K</kbd>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+---
+
+### SearchableSelect
+
+```
+import { SearchableSelect } from '#/components/ui/searchable-select'
+```
+
+Composición de `Popover` + `Command` con búsqueda asíncrona y resultados con thumbnails. Depende de `LookupResult` de `#/repositories/types`.
+
+**Props:**
+
+| Prop | Tipo | Default |
+|---|---|---|
+| `value` | `string` | — |
+| `placeholder` | `string` | — |
+| `results` | `LookupResult[]` | — |
+| `isSearching` | `boolean` | — |
+| `onSearch` | `(query: string) => void` | — |
+| `onChange` | `(value: string) => void` | — |
+| `onSelect?` | `(item: LookupResult) => void` | — |
+| `emptyMessage?` | `ReactNode` | — |
+| `disabled?` | `boolean` | `false` |
+
+```tsx
+<SearchableSelect
+  value={selected}
+  placeholder="Search artist..."
+  results={results}
+  isSearching={loading}
+  onSearch={handleSearch}
+  onChange={setSelected}
+/>
+```
+
+---
+
+### Subcomponentes agrupados (dialogs)
+
+Los archivos `select.tsx`, `popover.tsx`, `command.tsx`, `dialog.tsx`, `input-group.tsx` exportan subcomponentes nominales que siguen la estructura del primitivo base-ui/cmdk correspondiente. No tienen variantes CVA propias (salvo las indicadas arriba) y aceptan las props del primitivo subyacente.
+
+---
+
 ## 4. Componentes shadcn disponibles para instalar
 
 | Componente | Comando | Cuándo usar |
 |---|---|---|
-| input | `npx shadcn add input` | Campos de formulario, search bars |
 | card | `npx shadcn add card` | Cards de álbumes, paneles de contenido |
-| dialog | `npx shadcn add dialog` | Modales, confirmaciones |
 | dropdown-menu | `npx shadcn add dropdown-menu` | Menús contextuales, acciones de item |
 | tabs | `npx shadcn add tabs` | Navegación por pestañas |
 | label | `npx shadcn add label` | Labels de formulario |
 | sheet | `npx shadcn add sheet` | Paneles laterales, sidebars |
 | separator | `npx shadcn add separator` | Divisores entre secciones |
-| command | `npx shadcn add command` | Command palette, búsqueda rápida |
 | skeleton | `npx shadcn add skeleton` | Estados de carga / skeleton screens |
 
 ---
@@ -171,14 +395,14 @@ import { Typography } from '#/components/ui/typography'
 import { Header } from '#/components/header'
 ```
 
-**Props:** ninguna (componente puro)
+**Props:** ninguna (componente puro — consume `usePageHeader()` internamente)
 
 **Ejemplo:**
 ```tsx
 <Header />
 ```
 
-Header sticky con glassmorphism (`bg-background/80 backdrop-blur-sm`), logo "Crate" en `font-heading` y link a `/logout`.
+Header sticky con glassmorphism (`bg-background/80 backdrop-blur-sm`). Muestra título dinámico desde `usePageHeader()`. Si hay `onBack` en el hook, muestra botón de retroceso con `<ArrowLeft />` y el título sin link. Si no, el título es un `<Link to="/inicio">`. En lugar de acciones, si `actions` no está definido en el hook, muestra un ícono de logout que navega a `/logout`.
 
 ---
 
@@ -195,6 +419,8 @@ import { AlbumCard } from '#/components/album-card'
 | `coverUrl` | `string` | — |
 | `title` | `string` | — |
 | `artist` | `string` | — |
+| `year?` | `string` | — |
+| `isListened?` | `boolean` | `false` |
 | `onClick` | `() => void` | — |
 
 **Ejemplo:**
@@ -203,9 +429,40 @@ import { AlbumCard } from '#/components/album-card'
   coverUrl="https://picsum.photos/seed/album1/400"
   title="Dark Side"
   artist="Pink Floyd"
+  year="1973"
+  isListened
   onClick={() => navigate({ to: `/album/1` })}
 />
 ```
+
+---
+
+### AlbumHero
+
+```
+import { AlbumHero } from '#/components/album-hero'
+```
+
+**Props:**
+
+| Prop | Tipo | Default |
+|---|---|---|
+| `coverUrl` | `string` | — |
+| `title` | `string` | — |
+| `artist` | `string` | — |
+| `variant?` | `'detail' \| 'cover'` | `'detail'` |
+
+**Ejemplo:**
+```tsx
+<AlbumHero
+  coverUrl="https://picsum.photos/seed/album1/400"
+  title="Dark Side"
+  artist="Pink Floyd"
+  variant="detail"
+/>
+```
+
+`variant="detail"`: fondo ocupando todo el ancho con overlay gradient (`from-background via-background/60 to-transparent`) y título + artista superpuestos abajo. `variant="cover"`: solo la imagen en `aspect-[4/3]` con título y artista debajo en columna centrada.
 
 ---
 
@@ -303,14 +560,14 @@ import { BottomNav } from '#/components/bottom-nav'
 
 | Prop | Tipo |
 |---|---|
-| `activeTab` | `TabId` (`'home' | 'collection' | 'add'`) |
+| `activeTab` | `TabId` (`'home' \| 'collection' \| 'add'`) |
 
 **Ejemplo:**
 ```tsx
 <BottomNav activeTab="home" />
 ```
 
-Navegación inferior fija con glassmorphism, 3 tabs (Home, Collection, Add) con íconos Lucide. El tab activo usa `text-primary`, los inactivos `text-muted-foreground`.
+Navegación inferior fija con glassmorphism, 3 tabs (Home → `/inicio`, Collection → `/collection`, Add → `/release/add`) con íconos Lucide. El tab activo usa `text-primary`, los inactivos `text-muted-foreground`.
 
 ---
 
