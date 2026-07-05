@@ -8,10 +8,7 @@ import type { PriorityLevel } from '#/types/domain';
  */
 
 interface UseUpdatePriorityHook {
-  mutate: (payload: {
-    releaseId: string;
-    priority: PriorityLevel;
-  }) => void;
+  mutate: (payload: { releaseId: string; priority: PriorityLevel }) => void;
   isPending: boolean;
 }
 
@@ -44,5 +41,6 @@ export const useUpdatePriority = (): UseUpdatePriorityHook => {
     },
   });
 
-  return { mutate, isPending };
+  return { mutate,
+isPending };
 };

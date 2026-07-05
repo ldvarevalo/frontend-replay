@@ -2,8 +2,8 @@ import type { FunctionComponent } from 'react';
 import { Play } from 'lucide-react';
 import { Button } from '#/components/ui/button';
 import { Typography } from '#/components/ui/typography';
-import type { SourceFormat } from '#/types/domain';
 import { formatDate } from '#/core/helpers/format-date';
+import type { SourceFormat } from '#/types/domain';
 
 /**
  * Types

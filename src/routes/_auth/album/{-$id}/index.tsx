@@ -59,7 +59,7 @@ const AlbumDetailPage: FunctionComponent = () => {
           <Typography className="mt-2 text-on-surface-variant">
             {!id
               ? 'The album ID is missing.'
-              : error?.message ?? 'The album could not be loaded.'}
+              : (error?.message ?? 'The album could not be loaded.')}
           </Typography>
         </div>
       </main>
@@ -69,9 +69,7 @@ const AlbumDetailPage: FunctionComponent = () => {
   if (isLoading) {
     return (
       <main className="page-wrap flex items-center justify-center py-20">
-        <Typography className="text-on-surface-variant">
-          Loading...
-        </Typography>
+        <Typography className="text-on-surface-variant">Loading...</Typography>
       </main>
     );
   }
@@ -103,12 +101,8 @@ const AlbumDetailPage: FunctionComponent = () => {
                 status,
               })
             }
-            onAddTracks={() =>
-              navigate({ to: `/album/${id}/tracks` })
-            }
-            onNewSession={() =>
-              navigate({ to: `/album/${id}/session` })
-            }
+            onAddTracks={() => navigate({ to: `/album/${id}/tracks` })}
+            onNewSession={() => navigate({ to: `/album/${id}/session` })}
           />
         )}
 

@@ -45,9 +45,7 @@ describe('DeezerMusicSearchRepository', () => {
       },
     ];
 
-    setUpMockFetch([
-      mockResponse(200, expected),
-    ]);
+    setUpMockFetch([mockResponse(200, expected)]);
 
     const repo = new DeezerMusicSearchRepository();
     const result = await repo.search('coltrane');
@@ -56,9 +54,7 @@ describe('DeezerMusicSearchRepository', () => {
   });
 
   it('should return [] when backend returns error', async () => {
-    setUpMockFetch([
-      mockResponse(500, {}),
-    ]);
+    setUpMockFetch([mockResponse(500, {})]);
 
     const repo = new DeezerMusicSearchRepository();
     const result = await repo.search('coltrane');
@@ -71,7 +67,7 @@ describe('DeezerMusicSearchRepository', () => {
       'fetch',
       vi.fn(async () => {
         throw new Error('network down');
-      }),
+      })
     );
 
     const repo = new DeezerMusicSearchRepository();

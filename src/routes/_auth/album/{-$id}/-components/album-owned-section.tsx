@@ -1,11 +1,15 @@
 import type { FunctionComponent } from 'react';
 import { Button } from '#/components/ui/button';
 import { Typography } from '#/components/ui/typography';
-import type { AlbumDetail, CollectionStatus, SourceFormat } from '#/types/domain';
-import { OptionGroup } from '../../-components/option-group';
+import type {
+  AlbumDetail,
+  CollectionStatus,
+  SourceFormat,
+} from '#/types/domain';
 import { AlbumListeningHistory } from '../../-components/album-listening-history';
 import { AlbumRating } from '../../-components/album-rating';
 import { AlbumTracklist } from '../../-components/album-tracklist';
+import { OptionGroup } from '../../-components/option-group';
 
 /**
  * Types

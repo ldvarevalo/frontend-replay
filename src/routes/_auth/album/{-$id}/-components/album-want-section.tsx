@@ -1,4 +1,6 @@
 import type { FunctionComponent } from 'react';
+import { Calendar } from 'lucide-react';
+import { Button } from '#/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -8,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '#/components/ui/dialog';
-import { Button } from '#/components/ui/button';
 import { Typography } from '#/components/ui/typography';
 import { formatDate } from '#/core/helpers/format-date';
 import type { PriorityLevel } from '#/types/domain';
@@ -51,7 +52,12 @@ const WishlistInfo: FunctionComponent<{ addedAt: string | null }> = ({
       >
         WISHLIST
       </Typography>
-      <Typography size="sm" className="text-on-surface-variant">
+      <Typography
+        as="span"
+        size="sm"
+        className="inline-flex items-center gap-1.5 text-on-surface-variant"
+      >
+        <Calendar className="size-3.5" />
         Added {formatDate(addedAt)}
       </Typography>
     </section>
