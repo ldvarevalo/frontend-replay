@@ -33,4 +33,32 @@ describe('Typography', () => {
 
     expect(container.querySelector('p')).toHaveClass('uppercase');
   });
+
+  it('should apply display variant defaults', () => {
+    const { container } = render(
+      <Typography variant="display">Display Title</Typography>
+    );
+
+    expect(container.querySelector('h1')).toBeInTheDocument();
+    expect(container.querySelector('h1')).toHaveClass('font-heading');
+  });
+
+  it('should apply label variant defaults', () => {
+    const { container } = render(
+      <Typography variant="label">LABEL</Typography>
+    );
+
+    expect(container.querySelector('label')).toBeInTheDocument();
+    expect(container.querySelector('label')).toHaveClass('uppercase');
+  });
+
+  it('should override variant with individual props', () => {
+    const { container } = render(
+      <Typography variant="label" family="heading">
+        OVERRIDE
+      </Typography>
+    );
+
+    expect(container.querySelector('label')).toHaveClass('font-heading');
+  });
 });
