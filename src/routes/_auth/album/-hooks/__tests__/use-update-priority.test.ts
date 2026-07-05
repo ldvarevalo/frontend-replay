@@ -1,5 +1,5 @@
-import { waitFor } from '@testing-library/react';
-import { renderHook } from '@test-utils';
+import { renderHook, waitFor } from '@test-utils';
+import * as authModule from '#/core/auth/auth-context';
 import { setRepositories } from '#/repositories/instance';
 import { useUpdatePriority } from '../use-update-priority';
 
@@ -7,22 +7,12 @@ import { useUpdatePriority } from '../use-update-priority';
  * Mocks
  */
 
-vi.mock('#/core/auth/auth-context', async () => {
-  const actual = await vi.importActual('#/core/auth/auth-context');
-
-  return {
-    ...actual,
-    useUser: () => ({
-      id: 'user-1',
-      email: 'test@example.com',
-    }),
-  };
-});
-
+const useUserMock = vi.spyOn(authModule, 'useUser');
 const mockUpdatePriority = vi.fn();
 
 beforeEach(() => {
   vi.clearAllMocks();
+  useUserMock.mockReturnValue({ id: 'A.USER.ID', email: 'user@example.com' });
   setRepositories({
     releases: {
       findByQuery: async () => ({
@@ -91,29 +81,37 @@ beforeEach(() => {
  */
 
 describe('useUpdatePriority', () => {
-  it('should call updatePriority with correct params', async () => {
+  it('should call updatePriority with release ID and priority', async () => {
     const { result } = renderHook(() => useUpdatePriority());
 
     result.current.mutate({
-      releaseId: 'r-1',
+      releaseId: 'A.RELEASE.ID',
       priority: 'high',
     });
 
     await waitFor(() => {
-      expect(mockUpdatePriority).toHaveBeenCalledWith('r-1', 'user-1', 'high');
+      expect(mockUpdatePriority).toHaveBeenCalledWith(
+        'A.RELEASE.ID',
+        'A.USER.ID',
+        'high'
+      );
     });
   });
 
-  it('should call updatePriority with different priority', async () => {
+  it('should call updatePriority with another priority', async () => {
     const { result } = renderHook(() => useUpdatePriority());
 
     result.current.mutate({
-      releaseId: 'r-2',
+      releaseId: 'ANOTHER.RELEASE.ID',
       priority: 'low',
     });
 
     await waitFor(() => {
-      expect(mockUpdatePriority).toHaveBeenCalledWith('r-2', 'user-1', 'low');
+      expect(mockUpdatePriority).toHaveBeenCalledWith(
+        'ANOTHER.RELEASE.ID',
+        'A.USER.ID',
+        'low'
+      );
     });
   });
 });

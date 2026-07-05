@@ -1,35 +1,45 @@
 import { render, screen } from '@test-utils';
 import { OptionGroup } from '../option-group';
 
+/**
+ * Constants
+ */
+
+const OPTIONS_MOCK = ['AN.OPTION', 'ANOTHER.OPTION', 'A.THIRD.OPTION'];
+
+/**
+ * OptionGroup
+ */
+
 describe('OptionGroup', () => {
-  const options = ['alpha', 'beta', 'gamma'];
 
   it('should render label', () => {
-    render(
+    const { container } = render(
       <OptionGroup
-        label="STATUS"
-        options={options}
+        label="A.LABEL"
+        options={OPTIONS_MOCK}
         value={null}
-        onChange={() => {}}
+        onChange={vi.fn()}
       />
     );
 
-    expect(screen.getByText('STATUS')).toBeInTheDocument();
+    expect(screen.getByText('A.LABEL')).toBeInTheDocument();
+    expect(container).toMatchSnapshot();
   });
 
   it('should render all options', () => {
     render(
       <OptionGroup
-        label=""
-        options={options}
+        label="A.LABEL"
+        options={OPTIONS_MOCK}
         value={null}
-        onChange={() => {}}
+        onChange={vi.fn()}
       />
     );
 
-    expect(screen.getByText('alpha')).toBeInTheDocument();
-    expect(screen.getByText('beta')).toBeInTheDocument();
-    expect(screen.getByText('gamma')).toBeInTheDocument();
+    expect(screen.getByText('AN.OPTION')).toBeInTheDocument();
+    expect(screen.getByText('ANOTHER.OPTION')).toBeInTheDocument();
+    expect(screen.getByText('A.THIRD.OPTION')).toBeInTheDocument();
   });
 
   it('should call onChange with selected value', () => {
@@ -37,15 +47,15 @@ describe('OptionGroup', () => {
 
     render(
       <OptionGroup
-        label=""
-        options={options}
+        label="A.LABEL"
+        options={OPTIONS_MOCK}
         value={null}
         onChange={onChange}
       />
     );
 
-    screen.getByText('gamma').click();
+    screen.getByText('A.THIRD.OPTION').click();
 
-    expect(onChange).toHaveBeenCalledWith('gamma');
+    expect(onChange).toHaveBeenCalledWith('A.THIRD.OPTION');
   });
 });

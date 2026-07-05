@@ -11,8 +11,8 @@ describe('AlbumWantSection', () => {
       <AlbumWantSection
         addedAt={null}
         priority={null}
-        onPriorityChange={() => {}}
-        onMarkAsOwned={() => {}}
+        onPriorityChange={vi.fn()}
+        onMarkAsOwned={vi.fn()}
       />
     );
 
@@ -27,8 +27,8 @@ describe('AlbumWantSection', () => {
       <AlbumWantSection
         addedAt="2026-06-15T10:00:00Z"
         priority={null}
-        onPriorityChange={() => {}}
-        onMarkAsOwned={() => {}}
+        onPriorityChange={vi.fn()}
+        onMarkAsOwned={vi.fn()}
       />
     );
 
@@ -42,8 +42,8 @@ describe('AlbumWantSection', () => {
       <AlbumWantSection
         addedAt={null}
         priority={null}
-        onPriorityChange={() => {}}
-        onMarkAsOwned={() => {}}
+        onPriorityChange={vi.fn()}
+        onMarkAsOwned={vi.fn()}
       />
     );
 
@@ -55,8 +55,8 @@ describe('AlbumWantSection', () => {
       <AlbumWantSection
         addedAt={null}
         priority={null}
-        onPriorityChange={() => {}}
-        onMarkAsOwned={() => {}}
+        onPriorityChange={vi.fn()}
+        onMarkAsOwned={vi.fn()}
       />
     );
 
@@ -71,7 +71,7 @@ describe('AlbumWantSection', () => {
         addedAt={null}
         priority={null}
         onPriorityChange={onPriorityChange}
-        onMarkAsOwned={() => {}}
+        onMarkAsOwned={vi.fn()}
       />
     );
 

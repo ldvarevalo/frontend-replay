@@ -2,12 +2,20 @@ import type { FunctionComponent } from 'react';
 import { Typography } from '#/components/ui/typography';
 import { cn } from '#/lib/utils';
 
+/**
+ * Types
+ */
+
 interface OptionGroupProps {
   label: string;
   options: readonly string[];
   value: string | null;
   onChange: (value: string) => void;
 }
+
+/**
+ * OptionGroup
+ */
 
 export const OptionGroup: FunctionComponent<OptionGroupProps> = ({
   label,

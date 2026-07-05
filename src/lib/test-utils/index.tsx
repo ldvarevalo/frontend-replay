@@ -6,6 +6,7 @@ import {
   render as rtlRender,
   renderHook as rtlRenderHook,
   screen,
+  waitFor,
 } from '@testing-library/react';
 import type { RenderOptions, RenderHookOptions } from '@testing-library/react';
 import { createTestAuthAdapter } from '#/core/auth/adapters/__tests__/test-adapter';
@@ -100,5 +101,5 @@ const renderWithAuth = (
 
 const mockFn = vi.fn();
 
-export { render, renderHook, renderWithAuth, mockFn, screen };
+export { render, renderHook, renderWithAuth, mockFn, screen, waitFor };
 export type { ReactNode };

@@ -7,8 +7,13 @@ import type { PriorityLevel } from '#/types/domain';
  * Types
  */
 
+interface UpdatePriorityPayload {
+  releaseId: string;
+  priority: PriorityLevel;
+}
+
 interface UseUpdatePriorityHook {
-  mutate: (payload: { releaseId: string; priority: PriorityLevel }) => void;
+  mutate: (payload: UpdatePriorityPayload) => void;
   isPending: boolean;
 }
 
@@ -22,10 +27,7 @@ export const useUpdatePriority = (): UseUpdatePriorityHook => {
   const { userReleases } = useRepositories();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (payload: {
-      releaseId: string;
-      priority: PriorityLevel;
-    }): Promise<void> => {
+    mutationFn: async (payload: UpdatePriorityPayload): Promise<void> => {
       if (!user) {
         throw new Error('User not authenticated');
       }

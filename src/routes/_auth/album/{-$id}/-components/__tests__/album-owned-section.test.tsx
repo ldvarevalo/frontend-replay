@@ -6,24 +6,24 @@ import { AlbumOwnedSection } from '../album-owned-section';
  * Constants
  */
 
-const mockAlbum: AlbumDetail = {
-  id: 'album-1',
+const ALBUM_DETAIL_MOCK: AlbumDetail = {
+  id: 'AN.ALBUM.ID',
   coverUrl: 'https://example.com/cover.jpg',
-  title: 'Test Album',
-  artist: 'Test Artist',
+  title: 'AN.ALBUM.TITLE',
+  artist: 'AN.ARTIST.NAME',
   year: '2026',
   genre: 'Jazz',
   tracks: [
     {
-      id: 't-1',
-      title: 'Track 1',
+      id: 'A.TRACK.ID',
+      title: 'A.TRACK.TITLE',
       durationSeconds: 180,
       side: 'A',
       position: 1,
     },
     {
-      id: 't-2',
-      title: 'Track 2',
+      id: 'ANOTHER.TRACK.ID',
+      title: 'ANOTHER.TRACK.TITLE',
       durationSeconds: 240,
       side: 'A',
       position: 2,
@@ -43,12 +43,12 @@ describe('AlbumOwnedSection', () => {
   it('should render collection status options', () => {
     render(
       <AlbumOwnedSection
-        album={mockAlbum}
+        album={ALBUM_DETAIL_MOCK}
         sessions={[]}
         sessionsLoading={false}
-        onCollectionStatusChange={() => {}}
-        onAddTracks={() => {}}
-        onNewSession={() => {}}
+        onCollectionStatusChange={vi.fn()}
+        onAddTracks={vi.fn()}
+        onNewSession={vi.fn()}
       />
     );
 
@@ -61,28 +61,28 @@ describe('AlbumOwnedSection', () => {
   it('should render tracks', () => {
     render(
       <AlbumOwnedSection
-        album={mockAlbum}
+        album={ALBUM_DETAIL_MOCK}
         sessions={[]}
         sessionsLoading={false}
-        onCollectionStatusChange={() => {}}
-        onAddTracks={() => {}}
-        onNewSession={() => {}}
+        onCollectionStatusChange={vi.fn()}
+        onAddTracks={vi.fn()}
+        onNewSession={vi.fn()}
       />
     );
 
-    expect(screen.getByText('Track 1')).toBeInTheDocument();
-    expect(screen.getByText('Track 2')).toBeInTheDocument();
+    expect(screen.getByText('A.TRACK.TITLE')).toBeInTheDocument();
+    expect(screen.getByText('ANOTHER.TRACK.TITLE')).toBeInTheDocument();
   });
 
   it('should render ADD TRACKS button', () => {
     render(
       <AlbumOwnedSection
-        album={mockAlbum}
+        album={ALBUM_DETAIL_MOCK}
         sessions={[]}
         sessionsLoading={false}
-        onCollectionStatusChange={() => {}}
-        onAddTracks={() => {}}
-        onNewSession={() => {}}
+        onCollectionStatusChange={vi.fn()}
+        onAddTracks={vi.fn()}
+        onNewSession={vi.fn()}
       />
     );
 
@@ -94,7 +94,7 @@ describe('AlbumOwnedSection', () => {
 
     render(
       <AlbumOwnedSection
-        album={mockAlbum}
+        album={ALBUM_DETAIL_MOCK}
         sessions={[]}
         sessionsLoading={false}
         onCollectionStatusChange={vi.fn()}
