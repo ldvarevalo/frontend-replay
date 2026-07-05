@@ -18,7 +18,7 @@ exports[`AlbumCard > should render listened album and match snapshot 1`] = `
       />
     </div>
     <span
-      class="absolute bottom-1 right-1 flex size-5 items-center justify-center rounded-full bg-primary-container text-[10px] text-on-primary"
+      class="absolute bottom-1 right-1 flex size-5 items-center justify-center rounded-full bg-tertiary/20 text-[10px] text-tertiary"
     >
       <svg
         aria-hidden="true"

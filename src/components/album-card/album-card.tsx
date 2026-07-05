@@ -41,7 +41,7 @@ export const AlbumCard: FunctionComponent<AlbumCardProps> = ({
         />
       </div>
       {isListened && (
-        <span className="absolute bottom-1 right-1 flex size-5 items-center justify-center rounded-full bg-primary-container text-[10px] text-on-primary">
+        <span className="absolute bottom-1 right-1 flex size-5 items-center justify-center rounded-full bg-tertiary/20 text-[10px] text-tertiary">
           <Check className="size-3" />
         </span>
       )}
