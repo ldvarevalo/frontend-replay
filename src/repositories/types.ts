@@ -99,6 +99,8 @@ export interface UserReleasesRepository {
     userId: string,
     priority: PriorityLevel
   ): Promise<void>;
+  archive(releaseId: string, userId: string): Promise<void>;
+  unarchive(releaseId: string, userId: string): Promise<void>;
 }
 
 export interface TrackInput {

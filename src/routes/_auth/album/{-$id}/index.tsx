@@ -9,8 +9,11 @@ import { useAlbumData } from '../-hooks/use-album-data';
 import { useAlbumSessions } from '../-hooks/use-album-sessions';
 import { useSetCollectionStatus } from '../-hooks/use-set-collection-status';
 import { useUpdatePriority } from '../-hooks/use-update-priority';
+import { AlbumDiscoverSection } from './-components/album-discover-section';
 import { AlbumOwnedSection } from './-components/album-owned-section';
 import { AlbumWantSection } from './-components/album-want-section';
+import { useArchiveRelease } from './-hooks/use-archive-release';
+import { useUnarchiveRelease } from './-hooks/use-unarchive-release';
 
 /**
  * Types
@@ -42,6 +45,10 @@ const AlbumDetailPage: FunctionComponent = () => {
   const { album, isLoading, isError, error } = useAlbumData(id);
   const { mutate: setStatus } = useSetCollectionStatus();
   const { mutate: updatePriority } = useUpdatePriority();
+  const [{ mutate: archiveRelease }, { mutate: unarchiveRelease }] = [
+    useArchiveRelease(),
+    useUnarchiveRelease(),
+  ];
   const { sessions, isLoading: sessionsLoading } = useAlbumSessions(id);
 
   if (!id || isError || !album) {
@@ -75,7 +82,7 @@ const AlbumDetailPage: FunctionComponent = () => {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className={`flex flex-col ${album.archivedAt ? 'opacity-70' : ''}`}>
       <AlbumHero
         coverUrl={album.coverUrl}
         title={album.title}
@@ -122,6 +129,21 @@ const AlbumDetailPage: FunctionComponent = () => {
                 status: 'owned',
               })
             }
+          />
+        )}
+
+        {album.status === 'discover' && (
+          <AlbumDiscoverSection
+            addedAt={album.addedAt}
+            archivedAt={album.archivedAt}
+            onAddToWishlist={() =>
+              setStatus({
+                releaseId: id,
+                status: 'want',
+              })
+            }
+            onArchive={() => archiveRelease({ releaseId: id })}
+            onUnarchive={() => unarchiveRelease({ releaseId: id })}
           />
         )}
       </main>

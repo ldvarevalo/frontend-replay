@@ -55,6 +55,7 @@ export interface AlbumDetail {
   isListened: boolean;
   priority: PriorityLevel | null;
   addedAt: string | null;
+  archivedAt: string | null;
 }
 
 export interface SearchResult {

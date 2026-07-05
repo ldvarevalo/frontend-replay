@@ -124,6 +124,10 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
       .eq('user_id', userId)
       .eq('is_listened', false)
       .in('status', ['discover', 'owned'])
+      .order('archived_at', {
+        ascending: true,
+        nullsFirst: true,
+      })
       .limit(limit);
 
     if (error) {
@@ -223,6 +227,30 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
     const { error } = await this.supabase
       .from('user_releases')
       .update({ priority })
+      .eq('release_id', releaseId)
+      .eq('user_id', userId);
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  async archive(releaseId: string, userId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('user_releases')
+      .update({ archived_at: new Date().toISOString() })
+      .eq('release_id', releaseId)
+      .eq('user_id', userId);
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  async unarchive(releaseId: string, userId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('user_releases')
+      .update({ archived_at: null })
       .eq('release_id', releaseId)
       .eq('user_id', userId);
 

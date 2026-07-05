@@ -24,7 +24,8 @@ export class SupabaseStatsRepository implements StatsRepository {
     const { data, error } = await this.supabase
       .from('user_releases')
       .select('id, status, created_at')
-      .eq('user_id', userId);
+      .eq('user_id', userId)
+      .is('archived_at', null);
 
     if (error) {
       throw error;

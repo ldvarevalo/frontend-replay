@@ -33,6 +33,7 @@ const ALBUM_DETAIL_MOCK: AlbumDetail = {
   isListened: true,
   priority: null,
   addedAt: null,
+  archivedAt: null,
 };
 
 /**
