@@ -33,6 +33,49 @@ export interface HomeData {
   upNext: Album[];
 }
 
+export interface CollectionFunnel {
+  discover: number;
+  listened: number;
+  want: number;
+  owned: number;
+}
+
+export interface BacklogEntry {
+  coverUrl: string;
+  title: string;
+  artist: string;
+  daysSinceAdded: number;
+}
+
+export interface DiscoverBacklog {
+  count: number;
+  oldestEntry?: BacklogEntry;
+}
+
+export interface MostListenedAlbum {
+  id: string;
+  coverUrl: string;
+  title: string;
+  artist: string;
+  sessionCount: number;
+  totalDurationSeconds: number;
+}
+
+export interface AnalyticsData {
+  listenedAlbums: number;
+  listeningTimeSeconds: number;
+  addedToWant: number;
+  markedOwned: number;
+  collectionFunnel: CollectionFunnel;
+  discoverBacklog: DiscoverBacklog;
+  mostListenedAlbum?: MostListenedAlbum;
+  topArtists: string[];
+  topGenres: string[];
+  peakActivityDay: string;
+  averageSessionSeconds: number;
+  completionRate: number;
+}
+
 export interface CollectionAlbum {
   id: string;
   coverUrl: string;
