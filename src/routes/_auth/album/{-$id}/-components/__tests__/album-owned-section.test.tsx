@@ -90,7 +90,7 @@ describe('AlbumOwnedSection', () => {
   });
 
   it('should call onAddTracks when button clicked', () => {
-    const onAddTracks = vi.fn();
+    const handleAddTracksMock = vi.fn();
 
     render(
       <AlbumOwnedSection
@@ -98,13 +98,13 @@ describe('AlbumOwnedSection', () => {
         sessions={[]}
         sessionsLoading={false}
         onCollectionStatusChange={vi.fn()}
-        onAddTracks={onAddTracks}
+        onAddTracks={handleAddTracksMock}
         onNewSession={vi.fn()}
       />
     );
 
     screen.getByText('ADD TRACKS').click();
 
-    expect(onAddTracks).toHaveBeenCalledTimes(1);
+    expect(handleAddTracksMock).toHaveBeenCalledTimes(1);
   });
 });

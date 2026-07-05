@@ -8,11 +8,16 @@ import { useUpdatePriority } from '../use-update-priority';
  */
 
 const useUserMock = vi.spyOn(authModule, 'useUser');
-const mockUpdatePriority = vi.fn();
+const updatePriorityMock = vi.fn();
 
 beforeEach(() => {
   vi.clearAllMocks();
-  useUserMock.mockReturnValue({ id: 'A.USER.ID', email: 'user@example.com' });
+
+  useUserMock.mockReturnValue({
+    id: 'A.USER.ID',
+    email: 'user@example.com',
+  });
+
   setRepositories({
     releases: {
       findByQuery: async () => ({
@@ -45,7 +50,7 @@ beforeEach(() => {
       upsert: async () => {},
       findByRelease: async () => null,
       markAsListened: async () => {},
-      updatePriority: mockUpdatePriority,
+      updatePriority: updatePriorityMock,
     },
     tracks: {
       findRecentByUser: async () => [],
@@ -90,7 +95,7 @@ describe('useUpdatePriority', () => {
     });
 
     await waitFor(() => {
-      expect(mockUpdatePriority).toHaveBeenCalledWith(
+      expect(updatePriorityMock).toHaveBeenCalledWith(
         'A.RELEASE.ID',
         'A.USER.ID',
         'high'
@@ -107,7 +112,7 @@ describe('useUpdatePriority', () => {
     });
 
     await waitFor(() => {
-      expect(mockUpdatePriority).toHaveBeenCalledWith(
+      expect(updatePriorityMock).toHaveBeenCalledWith(
         'ANOTHER.RELEASE.ID',
         'A.USER.ID',
         'low'

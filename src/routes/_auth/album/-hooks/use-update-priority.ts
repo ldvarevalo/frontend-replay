@@ -43,6 +43,8 @@ export const useUpdatePriority = (): UseUpdatePriorityHook => {
     },
   });
 
-  return { mutate,
-isPending };
+  return {
+    mutate,
+    isPending,
+  };
 };

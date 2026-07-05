@@ -64,19 +64,19 @@ describe('AlbumWantSection', () => {
   });
 
   it('should call onPriorityChange when option clicked', () => {
-    const onPriorityChange = vi.fn();
+    const handlePriorityChangeMock = vi.fn();
 
     render(
       <AlbumWantSection
         addedAt={null}
         priority={null}
-        onPriorityChange={onPriorityChange}
+        onPriorityChange={handlePriorityChangeMock}
         onMarkAsOwned={vi.fn()}
       />
     );
 
     screen.getByText('high').click();
 
-    expect(onPriorityChange).toHaveBeenCalledWith('high');
+    expect(handlePriorityChangeMock).toHaveBeenCalledWith('high');
   });
 });

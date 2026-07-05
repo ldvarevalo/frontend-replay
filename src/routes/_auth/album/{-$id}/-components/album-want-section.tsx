@@ -26,6 +26,10 @@ interface AlbumWantSectionProps {
   onMarkAsOwned: () => void;
 }
 
+interface WishlistInfoProps {
+  addedAt: string | null;
+}
+
 /**
  * Constants
  */
@@ -36,7 +40,7 @@ const OPTIONS: PriorityLevel[] = ['low', 'medium', 'high'];
  * WishlistInfo
  */
 
-const WishlistInfo: FunctionComponent<{ addedAt: string | null }> = ({
+const WishlistInfo: FunctionComponent<WishlistInfoProps> = ({
   addedAt,
 }) => {
   if (!addedAt) {
@@ -90,7 +94,10 @@ export const AlbumWantSection: FunctionComponent<AlbumWantSectionProps> = ({
     <div className="h-px bg-outline/20 my-8" />
 
     <section className="space-y-2">
-      <Typography size="xs" className="text-center text-on-surface-variant mb-4">
+      <Typography
+        size="xs"
+        className="text-center text-on-surface-variant mb-4"
+      >
         Ready to move it to your collection?
       </Typography>
       <Dialog>

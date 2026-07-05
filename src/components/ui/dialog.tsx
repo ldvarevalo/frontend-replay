@@ -125,7 +125,10 @@ const DialogTitle = ({
 }: DialogPrimitive.Title.Props): React.ReactElement => (
   <DialogPrimitive.Title
     data-slot="dialog-title"
-    className={cn('font-heading italic text-xl leading-none font-medium', className)}
+    className={cn(
+      'font-heading italic text-xl leading-none font-medium',
+      className
+    )}
     {...props}
   />
 );

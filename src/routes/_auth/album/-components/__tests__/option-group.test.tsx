@@ -8,11 +8,10 @@ import { OptionGroup } from '../option-group';
 const OPTIONS_MOCK = ['AN.OPTION', 'ANOTHER.OPTION', 'A.THIRD.OPTION'];
 
 /**
- * OptionGroup
+ * Tests
  */
 
 describe('OptionGroup', () => {
-
   it('should render label', () => {
     const { container } = render(
       <OptionGroup
@@ -43,19 +42,19 @@ describe('OptionGroup', () => {
   });
 
   it('should call onChange with selected value', () => {
-    const onChange = vi.fn();
+    const handleChangeMock = vi.fn();
 
     render(
       <OptionGroup
         label="A.LABEL"
         options={OPTIONS_MOCK}
         value={null}
-        onChange={onChange}
+        onChange={handleChangeMock}
       />
     );
 
     screen.getByText('A.THIRD.OPTION').click();
 
-    expect(onChange).toHaveBeenCalledWith('A.THIRD.OPTION');
+    expect(handleChangeMock).toHaveBeenCalledWith('A.THIRD.OPTION');
   });
 });
