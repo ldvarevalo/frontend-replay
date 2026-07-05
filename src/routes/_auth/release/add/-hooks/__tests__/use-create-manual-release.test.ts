@@ -51,6 +51,7 @@ const mockUserReleases = {
   upsert: vi.fn().mockResolvedValue(undefined),
   findByRelease: vi.fn().mockResolvedValue(null),
   markAsListened: vi.fn().mockResolvedValue(undefined),
+  updatePriority: vi.fn().mockResolvedValue(undefined),
 };
 
 const mockEntry: ManualEntryData = {

@@ -174,8 +174,8 @@ const AddTracksDialog: FunctionComponent<AddTracksDialogProps> = ({
 
         <Button
           type="button"
-          variant="ghost"
-          className="flex w-full items-center justify-center gap-2 border border-outline-20 py-3"
+          variant="outline"
+          className="w-full"
           onClick={handleAddRow}
         >
           <Typography

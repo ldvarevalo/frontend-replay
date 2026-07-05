@@ -40,7 +40,10 @@ const getBaseUrl = (): string => {
 const findSupabaseSessionKey = (): string | null => {
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    if (key?.startsWith(SUPABASE_AUTH_KEY_PREFIX) && key?.endsWith(SUPABASE_AUTH_KEY_SUFFIX)) {
+    if (
+      key?.startsWith(SUPABASE_AUTH_KEY_PREFIX) &&
+      key?.endsWith(SUPABASE_AUTH_KEY_SUFFIX)
+    ) {
       return key;
     }
   }

@@ -1,47 +1,45 @@
 import type { FunctionComponent } from 'react';
 import { Typography } from '#/components/ui/typography';
 import { cn } from '#/lib/utils';
-import type { CollectionStatus } from '#/types/domain';
 
 /**
  * Types
  */
 
-interface CollectionStatusSelectorProps {
-  status: CollectionStatus | null;
-  onChange: (status: CollectionStatus) => void;
+interface OptionGroupProps {
+  label: string;
+  options: readonly string[];
+  value: string | null;
+  onChange: (value: string) => void;
 }
 
 /**
- * Constants
+ * OptionGroup
  */
 
-const OPTIONS: CollectionStatus[] = ['discover', 'want', 'owned'];
-
-/**
- * CollectionStatusSelector
- */
-
-export const CollectionStatusSelector: FunctionComponent<
-  CollectionStatusSelectorProps
-> = ({ status, onChange }) => (
+export const OptionGroup: FunctionComponent<OptionGroupProps> = ({
+  label,
+  options,
+  value,
+  onChange,
+}) => (
   <section className="space-y-2">
     <Typography
       size="xs"
       transform="uppercase"
       className="text-on-surface-variant"
     >
-      COLLECTION STATUS
+      {label}
     </Typography>
     <div className="flex w-full">
-      {OPTIONS.map(option => (
+      {options.map(option => (
         <button
           key={option}
           type="button"
           onClick={() => onChange(option)}
           className={cn(
             'flex-1 px-5 py-2',
-            status === option
+            value === option
               ? 'bg-primary-container text-on-primary-container'
               : 'bg-surface-container-high text-on-surface-variant'
           )}
@@ -52,7 +50,7 @@ export const CollectionStatusSelector: FunctionComponent<
             weight="medium"
             transform="uppercase"
             className={cn(
-              status === option
+              value === option
                 ? 'text-on-primary-container'
                 : 'text-on-surface-variant'
             )}

@@ -2,6 +2,7 @@ import type { FunctionComponent } from 'react';
 import { Play } from 'lucide-react';
 import { Button } from '#/components/ui/button';
 import { Typography } from '#/components/ui/typography';
+import { formatDate } from '#/core/helpers/format-date';
 import type { SourceFormat } from '#/types/domain';
 
 /**
@@ -24,16 +25,6 @@ interface AlbumListeningHistoryProps {
 /**
  * Helpers
  */
-
-const formatDate = (iso: string): string => {
-  const date = new Date(iso);
-
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-};
 
 /**
  * LoadingState
@@ -111,11 +102,7 @@ export const AlbumListeningHistory: FunctionComponent<
       >
         LISTENING HISTORY
       </Typography>
-      <Button
-        variant="ghost"
-        className="flex items-center gap-1 border border-outline-20"
-        onClick={onNewSessionClick}
-      >
+      <Button variant="ghost" onClick={onNewSessionClick}>
         <Play className="size-3" />
         <Typography size="xs" transform="uppercase">
           NEW SESSION

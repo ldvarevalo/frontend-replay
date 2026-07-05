@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type {
   AlbumDetail,
   CollectionStatus,
+  PriorityLevel,
   SearchResult,
   Track,
 } from '#/types/domain';
@@ -30,6 +31,34 @@ const mapTrackRow = (t: Record<string, unknown>): Track => ({
   position: (t.position as number) ?? 0,
 });
 
+/**
+ * Types
+ */
+
+interface UserReleaseData {
+  status: CollectionStatus | null;
+  isListened: boolean;
+  priority: PriorityLevel | null;
+  addedAt: string | null;
+}
+
+/**
+ * Helpers
+ */
+
+const parseUserReleaseData = (
+  userReleases: Array<Record<string, unknown>> | undefined
+): UserReleaseData => {
+  const row = userReleases?.[0];
+
+  return {
+    status: (row?.status as CollectionStatus | null) ?? null,
+    isListened: (row?.is_listened as boolean) ?? false,
+    priority: (row?.priority as PriorityLevel | null) ?? null,
+    addedAt: (row?.created_at as string | null) ?? null,
+  };
+};
+
 const mapAlbumDetailRow = (row: Record<string, unknown>): AlbumDetail => {
   const releaseArtists = row.release_artists as
     | Array<Record<string, unknown>>
@@ -37,8 +66,6 @@ const mapAlbumDetailRow = (row: Record<string, unknown>): AlbumDetail => {
   const releaseGenres = row.release_genres as
     | Array<Record<string, unknown>>
     | undefined;
-  const artist = getPrimaryName(releaseArtists, 'artists');
-  const coverUrl = (row.cover_url as string) ?? '';
 
   const tracks: Track[] = (
     (row.tracks as Array<Record<string, unknown>> | undefined) ?? []
@@ -46,22 +73,19 @@ const mapAlbumDetailRow = (row: Record<string, unknown>): AlbumDetail => {
     .sort(sortByPosition)
     .map(t => mapTrackRow(t));
 
-  const userReleases = row.user_releases as
-    | Array<Record<string, unknown>>
-    | undefined;
-  const status = (userReleases?.[0]?.status as CollectionStatus | null) ?? null;
-  const isListened = (userReleases?.[0]?.is_listened as boolean) ?? false;
+  const userReleaseData = parseUserReleaseData(
+    row.user_releases as Array<Record<string, unknown>> | undefined
+  );
 
   return {
     id: row.id as string,
-    coverUrl,
+    coverUrl: (row.cover_url as string) ?? '',
     title: row.title as string,
-    artist,
+    artist: getPrimaryName(releaseArtists, 'artists'),
     year: (row.release_year as string) ?? '',
     genre: getPrimaryName(releaseGenres, 'genres'),
     tracks,
-    status,
-    isListened,
+    ...userReleaseData,
   };
 };
 
@@ -195,7 +219,9 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
         user_releases!left (
           status,
           is_listened,
-          listened_at
+          listened_at,
+          priority,
+          created_at
         )
       `
       )

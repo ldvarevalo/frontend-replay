@@ -4,6 +4,8 @@
 
 export type CollectionStatus = 'discover' | 'want' | 'owned';
 
+export type PriorityLevel = 'low' | 'medium' | 'high';
+
 export interface Album {
   id: string;
   coverUrl: string;
@@ -51,6 +53,8 @@ export interface AlbumDetail {
   tracks: Track[];
   status: CollectionStatus | null;
   isListened: boolean;
+  priority: PriorityLevel | null;
+  addedAt: string | null;
 }
 
 export interface SearchResult {

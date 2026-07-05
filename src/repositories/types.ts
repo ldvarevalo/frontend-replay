@@ -6,6 +6,7 @@ import type {
   HomeStats,
   ListeningScope,
   ListeningSession,
+  PriorityLevel,
   SearchResult,
   SourceFormat,
   Track,
@@ -93,6 +94,11 @@ export interface UserReleasesRepository {
     userId: string
   ): Promise<{ id: string } | null>;
   markAsListened(userReleaseId: string): Promise<void>;
+  updatePriority(
+    releaseId: string,
+    userId: string,
+    priority: PriorityLevel
+  ): Promise<void>;
 }
 
 export interface TrackInput {

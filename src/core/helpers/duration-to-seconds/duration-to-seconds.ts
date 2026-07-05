@@ -2,7 +2,9 @@
  * Helpers
  */
 
-export const durationToSeconds = (duration: string | undefined): number | null => {
+export const durationToSeconds = (
+  duration: string | undefined
+): number | null => {
   if (!duration) {
     return null;
   }

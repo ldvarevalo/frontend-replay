@@ -1,0 +1,49 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`OptionGroup > should render label 1`] = `
+<div>
+  <section
+    class="space-y-2"
+  >
+    <p
+      class="font-sans text-xs font-normal uppercase text-on-surface-variant"
+    >
+      A.LABEL
+    </p>
+    <div
+      class="flex w-full"
+    >
+      <button
+        class="flex-1 px-5 py-2 bg-surface-container-high text-on-surface-variant"
+        type="button"
+      >
+        <p
+          class="font-sans text-xs font-medium uppercase tracking-widest text-on-surface-variant"
+        >
+          AN.OPTION
+        </p>
+      </button>
+      <button
+        class="flex-1 px-5 py-2 bg-surface-container-high text-on-surface-variant"
+        type="button"
+      >
+        <p
+          class="font-sans text-xs font-medium uppercase tracking-widest text-on-surface-variant"
+        >
+          ANOTHER.OPTION
+        </p>
+      </button>
+      <button
+        class="flex-1 px-5 py-2 bg-surface-container-high text-on-surface-variant"
+        type="button"
+      >
+        <p
+          class="font-sans text-xs font-medium uppercase tracking-widest text-on-surface-variant"
+        >
+          A.THIRD.OPTION
+        </p>
+      </button>
+    </div>
+  </section>
+</div>
+`;
