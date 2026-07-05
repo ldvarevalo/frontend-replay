@@ -40,9 +40,7 @@ const OPTIONS: PriorityLevel[] = ['low', 'medium', 'high'];
  * WishlistInfo
  */
 
-const WishlistInfo: FunctionComponent<WishlistInfoProps> = ({
-  addedAt,
-}) => {
+const WishlistInfo: FunctionComponent<WishlistInfoProps> = ({ addedAt }) => {
   if (!addedAt) {
     return null;
   }

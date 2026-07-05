@@ -56,7 +56,7 @@ const typographyVariants = cva('', {
   variants: {
     variant: {
       display: 'font-heading text-4xl font-bold',
-      title: 'font-heading text-xl font-semibold',
+      title: 'font-sans text-xl font-semibold',
       body: 'font-sans text-sm',
       label: 'font-sans text-[10px] font-medium uppercase tracking-wider',
       'nav-link': 'font-sans text-[10px] font-medium uppercase tracking-wider',
