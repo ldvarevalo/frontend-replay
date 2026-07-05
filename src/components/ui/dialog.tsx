@@ -89,7 +89,7 @@ const DialogHeader = ({
 }: React.ComponentProps<'div'>): React.ReactElement => (
   <div
     data-slot="dialog-header"
-    className={cn('flex flex-col gap-2', className)}
+    className={cn('flex flex-col gap-2 mt-10', className)}
     {...props}
   />
 );
@@ -105,7 +105,7 @@ const DialogFooter = ({
   <div
     data-slot="dialog-footer"
     className={cn(
-      '-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 p-4 sm:flex-row sm:justify-end',
+      '-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl bg-muted/50 p-4 sm:flex-row sm:justify-end',
       className
     )}
     {...props}
@@ -125,7 +125,7 @@ const DialogTitle = ({
 }: DialogPrimitive.Title.Props): React.ReactElement => (
   <DialogPrimitive.Title
     data-slot="dialog-title"
-    className={cn('font-heading text-base leading-none font-medium', className)}
+    className={cn('font-heading italic text-xl leading-none font-medium', className)}
     {...props}
   />
 );
@@ -137,7 +137,7 @@ const DialogDescription = ({
   <DialogPrimitive.Description
     data-slot="dialog-description"
     className={cn(
-      'text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground',
+      'my-4 text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground',
       className
     )}
     {...props}
