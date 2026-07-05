@@ -1,6 +1,7 @@
 import type {
   Album,
   AlbumDetail,
+  AnalyticsData,
   CollectionAlbum,
   CollectionStatus,
   HomeStats,
@@ -131,6 +132,10 @@ export interface ListeningSessionsRepository {
   findByRelease(releaseId: string, userId: string): Promise<ListeningSession[]>;
 }
 
+export interface AnalyticsRepository {
+  find(userId: string, startDate: string, endDate: string): Promise<AnalyticsData>;
+}
+
 /**
  * Constants
  */
@@ -144,4 +149,5 @@ export interface Repositories {
   artists: ArtistsRepository;
   genres: GenresRepository;
   sessions: ListeningSessionsRepository;
+  analytics: AnalyticsRepository;
 }
