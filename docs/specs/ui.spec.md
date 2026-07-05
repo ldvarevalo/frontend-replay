@@ -631,7 +631,7 @@ Sidebar + contenido + panel derecho.
 - Componentes: PascalCase → `Button`, `Header`
 - Archivos: kebab-case → `button.tsx`, `header.tsx`
 - Hooks: `use` + PascalCase → `useAuth`, `useTheme`
-- Tipos: `Use[Nombre]Props` → `UseButtonProps`
+- Tipos: `{Componente}Props` → `ButtonProps`, `AlbumCardProps`
 
 ### Orden de secciones (TypeScript)
 

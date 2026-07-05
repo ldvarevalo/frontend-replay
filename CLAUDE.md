@@ -15,7 +15,7 @@ yarn test         # Vitest
 ## Architecture
 
 - **Components:** `src/components/{name}/{name}.tsx` + `index.ts` + `__tests__/`
-- **UI primitives:** `src/components/ui/` (Button, Input, Typography)
+- **UI primitives:** `src/components/ui/` (Button, Typography, Input, Select, etc.)
 - **Routes:** `src/routes/_auth/{name}/` with `-components/`, `-hooks/`
 - **Data:** `src/core/clients/react-query/` (QueryClient + api.ts fetch wrapper)
 - **Styles:** `src/styles.css` with Tailwind v4 + CSS custom properties for all tokens
