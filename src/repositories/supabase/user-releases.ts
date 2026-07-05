@@ -230,4 +230,28 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
       throw error;
     }
   }
+
+  async archive(releaseId: string, userId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('user_releases')
+      .update({ archived_at: new Date().toISOString() })
+      .eq('release_id', releaseId)
+      .eq('user_id', userId);
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  async unarchive(releaseId: string, userId: string): Promise<void> {
+    const { error } = await this.supabase
+      .from('user_releases')
+      .update({ archived_at: null })
+      .eq('release_id', releaseId)
+      .eq('user_id', userId);
+
+    if (error) {
+      throw error;
+    }
+  }
 }

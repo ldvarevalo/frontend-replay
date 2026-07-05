@@ -40,6 +40,7 @@ interface UserReleaseData {
   isListened: boolean;
   priority: PriorityLevel | null;
   addedAt: string | null;
+  archivedAt: string | null;
 }
 
 /**
@@ -56,6 +57,7 @@ const parseUserReleaseData = (
     isListened: (row?.is_listened as boolean) ?? false,
     priority: (row?.priority as PriorityLevel | null) ?? null,
     addedAt: (row?.created_at as string | null) ?? null,
+    archivedAt: (row?.archived_at as string | null) ?? null,
   };
 };
 
@@ -221,7 +223,8 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
           is_listened,
           listened_at,
           priority,
-          created_at
+          created_at,
+          archived_at
         )
       `
       )

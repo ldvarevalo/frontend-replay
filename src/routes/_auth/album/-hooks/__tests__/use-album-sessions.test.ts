@@ -42,6 +42,7 @@ beforeEach(() => {
         isListened: false,
         priority: null,
         addedAt: null,
+        archivedAt: null,
       }),
       linkArtist: async () => {},
       linkGenre: async () => {},
@@ -58,6 +59,8 @@ beforeEach(() => {
       findByRelease: async () => null,
       markAsListened: async () => {},
       updatePriority: async () => {},
+      archive: async () => {},
+      unarchive: async () => {},
     },
     tracks: {
       findRecentByUser: async () => [],
