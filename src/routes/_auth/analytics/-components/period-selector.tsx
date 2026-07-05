@@ -37,7 +37,8 @@ export const PeriodSelector: FunctionComponent<PeriodSelectorProps> = ({
   value,
   onChange,
 }) => {
-  const currentLabel = PERIODS.find(period => period.value === value)?.label ?? value;
+  const currentLabel =
+    PERIODS.find(period => period.value === value)?.label ?? value;
 
   return (
     <Select

@@ -18,10 +18,7 @@ afterEach(() => {
 describe('PeriodSelector', () => {
   it('should render trigger with current period label', () => {
     render(
-      <PeriodSelector
-        value="this-month"
-        onChange={handlePeriodChangeMock}
-      />
+      <PeriodSelector value="this-month" onChange={handlePeriodChangeMock} />
     );
 
     expect(screen.getByText('This Month')).toBeInTheDocument();
