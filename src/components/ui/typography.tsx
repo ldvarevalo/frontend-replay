@@ -23,7 +23,6 @@ interface TypographyProps extends VariantProps<typeof typographyVariants> {
   className?: string;
   role?: string;
   uppercase?: boolean;
-  variant?: keyof typeof VARIANT_AS;
 }
 
 /**
@@ -121,7 +120,11 @@ export const Typography: FunctionComponent<TypographyProps> = ({
   role,
   children,
 }) => {
-  const Component: ElementType = as ?? (variant ? VARIANT_AS[variant] : undefined) ?? DEFAULT_ELEMENT[family ?? 'body'] ?? 'p';
+  const Component: ElementType =
+    as ??
+    (variant ? VARIANT_AS[variant] : undefined) ??
+    DEFAULT_ELEMENT[family ?? 'body'] ??
+    'p';
   const resolvedFamily = family ?? (variant ? undefined : 'sans');
   return (
     <Component
