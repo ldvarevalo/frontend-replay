@@ -20,14 +20,29 @@ export const HabitsList: FunctionComponent<HabitsListProps> = ({
   completionRate,
 }) => {
   const rows: HabitRow[] = [
-    { label: 'Peak Activity', value: peakActivityDay, hint: '' },
-    { label: 'Average Session', value: formatListeningTime(averageSessionSeconds), hint: '' },
-    { label: 'Completion Rate', value: `${completionRate}%`, hint: 'Full Albums' },
+    { label: 'Peak Activity',
+value: peakActivityDay,
+hint: '' },
+    {
+      label: 'Average Session',
+      value: formatListeningTime(averageSessionSeconds),
+      hint: '',
+    },
+    {
+      label: 'Completion Rate',
+      value: `${completionRate}%`,
+      hint: 'Full Albums',
+    },
   ];
 
   return (
     <div className="rounded-sm bg-surface-container p-4">
-      <Typography size="xs" transform="uppercase" tracking="wider" weight="medium">
+      <Typography
+        size="xs"
+        transform="uppercase"
+        tracking="wider"
+        weight="medium"
+      >
         Habits
       </Typography>
       <div className="mt-3 space-y-3">

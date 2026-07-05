@@ -15,11 +15,18 @@ export const MostListenedCard: FunctionComponent<MostListenedCardProps> = ({
   album,
   onViewAlbum,
 }) => {
-  if (!album) return null;
+  if (!album) {
+    return null;
+  }
 
   return (
     <div className="rounded-sm bg-surface-container p-4">
-      <Typography size="xs" transform="uppercase" tracking="wider" weight="medium">
+      <Typography
+        size="xs"
+        transform="uppercase"
+        tracking="wider"
+        weight="medium"
+      >
         Most Listened
       </Typography>
       <div className="mt-3 flex gap-4">
@@ -34,12 +41,20 @@ export const MostListenedCard: FunctionComponent<MostListenedCardProps> = ({
             </Typography>
           </div>
           <div>
-            <Typography size="sm">{album.sessionCount} listening sessions</Typography>
-            <Typography size="sm">{formatListeningTime(album.totalDurationSeconds)} total</Typography>
+            <Typography size="sm">
+              {album.sessionCount} listening sessions
+            </Typography>
+            <Typography size="sm">
+              {formatListeningTime(album.totalDurationSeconds)} total
+            </Typography>
           </div>
         </div>
       </div>
-      <Button variant="text" className="mt-3" onClick={() => onViewAlbum(album.id)}>
+      <Button
+        variant="text"
+        className="mt-3"
+        onClick={() => onViewAlbum(album.id)}
+      >
         View album
       </Button>
     </div>

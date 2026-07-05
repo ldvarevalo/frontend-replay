@@ -19,10 +19,7 @@ afterEach(() => {
 describe('PeriodSelector', () => {
   it('should render all period options', () => {
     render(
-      <PeriodSelector
-        value="this-month"
-        onChange={handlePeriodChangeMock}
-      />
+      <PeriodSelector value="this-month" onChange={handlePeriodChangeMock} />
     );
 
     expect(screen.getByText('This Month')).toBeInTheDocument();
@@ -33,21 +30,17 @@ describe('PeriodSelector', () => {
 
   it('should highlight the active period', () => {
     render(
-      <PeriodSelector
-        value="this-month"
-        onChange={handlePeriodChangeMock}
-      />
+      <PeriodSelector value="this-month" onChange={handlePeriodChangeMock} />
     );
 
-    expect(screen.getByText('This Month').closest('button')).toHaveClass('bg-primary');
+    expect(screen.getByText('This Month').closest('button')).toHaveClass(
+      'bg-primary'
+    );
   });
 
   it('should call onChange when a period is clicked', () => {
     render(
-      <PeriodSelector
-        value="this-month"
-        onChange={handlePeriodChangeMock}
-      />
+      <PeriodSelector value="this-month" onChange={handlePeriodChangeMock} />
     );
 
     screen.getByText('This Year').click();

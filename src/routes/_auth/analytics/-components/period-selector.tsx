@@ -1,8 +1,7 @@
 import type { FunctionComponent } from 'react';
 
-import type { Period } from '../-helpers/get-period-dates';
-
 import { cn } from '#/lib/utils';
+import type { Period } from '../-helpers/get-period-dates';
 
 interface PeriodSelectorProps {
   value: Period;
@@ -10,10 +9,22 @@ interface PeriodSelectorProps {
 }
 
 const PERIODS: { value: Period; label: string }[] = [
-  { value: 'this-month', label: 'This Month' },
-  { value: 'last-month', label: 'Last Month' },
-  { value: 'this-year', label: 'This Year' },
-  { value: 'all-time', label: 'All Time' },
+  {
+    value: 'this-month',
+    label: 'This Month',
+  },
+  {
+    value: 'last-month',
+    label: 'Last Month',
+  },
+  {
+    value: 'this-year',
+    label: 'This Year',
+  },
+  {
+    value: 'all-time',
+    label: 'All Time',
+  },
 ];
 
 export const PeriodSelector: FunctionComponent<PeriodSelectorProps> = ({

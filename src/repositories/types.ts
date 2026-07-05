@@ -133,7 +133,11 @@ export interface ListeningSessionsRepository {
 }
 
 export interface AnalyticsRepository {
-  find(userId: string, startDate: string, endDate: string): Promise<AnalyticsData>;
+  find(
+    userId: string,
+    startDate: string,
+    endDate: string
+  ): Promise<AnalyticsData>;
 }
 
 /**

@@ -6,7 +6,14 @@ import { TopGenres } from '../top-genres';
  * Constants
  */
 
-const GENRES_MOCK = ['Alternative', 'Indie Rock', 'Dream Pop', 'Post Punk', 'Britpop', 'Jazz'];
+const GENRES_MOCK = [
+  'Alternative',
+  'Indie Rock',
+  'Dream Pop',
+  'Post Punk',
+  'Britpop',
+  'Jazz',
+];
 
 /**
  * Tests

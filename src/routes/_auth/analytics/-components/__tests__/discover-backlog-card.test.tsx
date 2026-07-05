@@ -36,7 +36,9 @@ describe('DiscoverBacklogCard', () => {
     );
 
     expect(screen.getByText('23')).toBeInTheDocument();
-    expect(screen.getByText('albums waiting to be discovered')).toBeInTheDocument();
+    expect(
+      screen.getByText('albums waiting to be discovered')
+    ).toBeInTheDocument();
   });
 
   it('should render oldest entry info', () => {

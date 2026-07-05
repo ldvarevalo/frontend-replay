@@ -23,10 +23,14 @@ export const CollectionFunnel: FunctionComponent<CollectionFunnelProps> = ({
   totalEntered,
 }) => {
   const stages: Stage[] = [
-    { label: 'Discover', count: discover },
-    { label: 'Listened', count: listened },
-    { label: 'Want', count: want },
-    { label: 'Owned', count: owned },
+    { label: 'Discover',
+count: discover },
+    { label: 'Listened',
+count: listened },
+    { label: 'Want',
+count: want },
+    { label: 'Owned',
+count: owned },
   ];
 
   return (
@@ -53,8 +57,8 @@ export const CollectionFunnel: FunctionComponent<CollectionFunnelProps> = ({
         </div>
       </div>
       <Typography size="sm" className="mt-3 text-on-surface-variant">
-        Your path to a curated collection. {totalEntered} albums entered your collection journey
-        this month.
+        Your path to a curated collection. {totalEntered} albums entered your
+        collection journey this month.
       </Typography>
     </div>
   );

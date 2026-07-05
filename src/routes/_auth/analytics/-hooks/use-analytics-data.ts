@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { useUser } from '#/core/auth';
 import { useRepositories } from '#/repositories/hooks';
-import { getPeriodDates, type Period } from '../-helpers/get-period-dates';
 import type { AnalyticsData } from '#/types/domain';
+import { getPeriodDates, type Period } from '../-helpers/get-period-dates';
 
 interface UseAnalyticsDataResult {
   data: AnalyticsData | null;
@@ -22,5 +22,10 @@ export const useAnalyticsData = (period: Period): UseAnalyticsDataResult => {
     enabled: !!user,
   });
 
-  return { data: data ?? null, isLoading, error: error as Error | null, refetch };
+  return {
+    data: data ?? null,
+    isLoading,
+    error: error as Error | null,
+    refetch,
+  };
 };

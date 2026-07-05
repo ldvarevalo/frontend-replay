@@ -24,16 +24,26 @@ interface ViewRow {
   added_at: string;
 }
 
-const extractOldestEntry = (rows: Record<string, unknown>[]): BacklogEntry | undefined => {
-  if (rows.length === 0) { return undefined; }
+const extractOldestEntry = (
+  rows: Record<string, unknown>[]
+): BacklogEntry | undefined => {
+  if (rows.length === 0) {
+    return undefined;
+  }
 
   const oldest = rows[0];
   const releases = oldest.releases as Record<string, unknown>;
-  const releaseArtists = releases.release_artists as Array<Record<string, unknown>>;
-  const artistName = ((releaseArtists?.[0]?.artists as Record<string, unknown>)?.name as string) ?? '';
+  const releaseArtists = releases.release_artists as Array<
+    Record<string, unknown>
+  >;
+  const artistName =
+    ((releaseArtists?.[0]?.artists as Record<string, unknown>)
+      ?.name as string) ?? '';
   const addedAt = new Date(oldest.created_at as string);
   const now = new Date();
-  const daysSinceAdded = Math.floor((now.getTime() - addedAt.getTime()) / (1000 * 60 * 60 * 24));
+  const daysSinceAdded = Math.floor(
+    (now.getTime() - addedAt.getTime()) / (1000 * 60 * 60 * 24)
+  );
 
   return {
     coverUrl: (releases.cover_url as string) ?? '',
@@ -43,8 +53,20 @@ const extractOldestEntry = (rows: Record<string, unknown>[]): BacklogEntry | und
   };
 };
 
-const computeMostListened = (rows: ViewRow[]): MostListenedAlbum | undefined => {
-  const albumDuration = new Map<string, { id: string; title: string; cover: string | null; artist: string; dur: number; sessions: number }>();
+const computeMostListened = (
+  rows: ViewRow[]
+): MostListenedAlbum | undefined => {
+  const albumDuration = new Map<
+    string,
+    {
+      id: string;
+      title: string;
+      cover: string | null;
+      artist: string;
+      dur: number;
+      sessions: number;
+    }
+  >();
   for (const row of rows) {
     const entry = albumDuration.get(row.release_id) ?? {
       id: row.release_id,
@@ -60,7 +82,9 @@ const computeMostListened = (rows: ViewRow[]): MostListenedAlbum | undefined => 
   }
 
   const top = [...albumDuration.values()].sort((a, b) => b.dur - a.dur)[0];
-  if (!top) { return undefined; }
+  if (!top) {
+    return undefined;
+  }
 
   return {
     id: top.id,
@@ -72,11 +96,16 @@ const computeMostListened = (rows: ViewRow[]): MostListenedAlbum | undefined => 
   };
 };
 
-const computeTop = (rows: ViewRow[], field: 'artist_name' | 'genre_name'): string[] => {
+const computeTop = (
+  rows: ViewRow[],
+  field: 'artist_name' | 'genre_name'
+): string[] => {
   const freq = new Map<string, number>();
   for (const row of rows) {
     const val = row[field];
-    if (val) { freq.set(val, (freq.get(val) ?? 0) + 1); }
+    if (val) {
+      freq.set(val, (freq.get(val) ?? 0) + 1);
+    }
   }
   return [...freq.entries()]
     .sort((a, b) => b[1] - a[1])
@@ -85,7 +114,15 @@ const computeTop = (rows: ViewRow[], field: 'artist_name' | 'genre_name'): strin
 };
 
 const getDayName = (dateStr: string): string => {
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const days = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
   return days[new Date(dateStr).getDay()];
 };
 
@@ -105,7 +142,11 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
     this.supabase = supabase;
   }
 
-  async find(userId: string, startDate: string, endDate: string): Promise<AnalyticsData> {
+  async find(
+    userId: string,
+    startDate: string,
+    endDate: string
+  ): Promise<AnalyticsData> {
     const [viewRows, backlog, funnel] = await Promise.all([
       this.queryViewRows(userId, startDate, endDate),
       this.queryDiscoverBacklog(userId),
@@ -119,7 +160,11 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
     };
   }
 
-  private async queryViewRows(userId: string, startDate: string, endDate: string): Promise<ViewRow[]> {
+  private async queryViewRows(
+    userId: string,
+    startDate: string,
+    endDate: string
+  ): Promise<ViewRow[]> {
     const { data, error } = await this.supabase
       .from('user_analytics')
       .select('*')
@@ -127,14 +172,17 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
       .gte('listened_at', startDate)
       .lte('listened_at', endDate);
 
-    if (error) { throw error; }
+    if (error) {
+      throw error;
+    }
     return (data ?? []) as ViewRow[];
   }
 
   private async queryDiscoverBacklog(userId: string): Promise<DiscoverBacklog> {
     const { data, error } = await this.supabase
       .from('user_releases')
-      .select(`
+      .select(
+        `
         id,
         release_id,
         created_at,
@@ -146,14 +194,17 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
             artists!inner (name)
           )
         )
-      `)
+      `
+      )
       .eq('user_id', userId)
       .eq('status', 'discover')
       .eq('is_listened', false)
       .is('archived_at', null)
       .order('created_at', { ascending: true });
 
-    if (error) { throw error; }
+    if (error) {
+      throw error;
+    }
 
     const rows = data ?? [];
 
@@ -167,22 +218,34 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
     userId: string,
     startDate: string,
     endDate: string
-  ): Promise<{ addedToWant: number; markedOwned: number; collectionFunnel: CollectionFunnel }> {
+  ): Promise<{
+    addedToWant: number;
+    markedOwned: number;
+    collectionFunnel: CollectionFunnel;
+  }> {
     const { data, error } = await this.supabase
       .from('user_releases')
       .select('status, created_at, is_listened')
       .eq('user_id', userId);
 
-    if (error) { throw error; }
+    if (error) {
+      throw error;
+    }
 
     const rows = data ?? [];
 
     const addedToWant = rows.filter(
-      r => r.status === 'want' && r.created_at >= startDate && r.created_at <= endDate
+      r =>
+        r.status === 'want' &&
+        r.created_at >= startDate &&
+        r.created_at <= endDate
     ).length;
 
     const markedOwned = rows.filter(
-      r => r.status === 'owned' && r.created_at >= startDate && r.created_at <= endDate
+      r =>
+        r.status === 'owned' &&
+        r.created_at >= startDate &&
+        r.created_at <= endDate
     ).length;
 
     const collectionFunnel: CollectionFunnel = {
@@ -223,8 +286,13 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
     }
 
     const uniqueAlbums = new Set(rows.map(r => r.release_id));
-    const totalDuration = rows.reduce((sum, r) => sum + (r.duration_seconds ?? 0), 0);
-    const fullReleaseSessions = rows.filter(r => r.scope === 'full_release').length;
+    const totalDuration = rows.reduce(
+      (sum, r) => sum + (r.duration_seconds ?? 0),
+      0
+    );
+    const fullReleaseSessions = rows.filter(
+      r => r.scope === 'full_release'
+    ).length;
 
     return {
       listenedAlbums: uniqueAlbums.size,
@@ -234,7 +302,10 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
       topGenres: computeTop(rows, 'genre_name'),
       peakActivityDay: computePeakDay(rows),
       averageSessionSeconds: Math.round(totalDuration / rows.length),
-      completionRate: rows.length > 0 ? Math.round((fullReleaseSessions / rows.length) * 100) : 0,
+      completionRate:
+        rows.length > 0
+          ? Math.round((fullReleaseSessions / rows.length) * 100)
+          : 0,
     };
   }
 }

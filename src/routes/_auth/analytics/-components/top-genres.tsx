@@ -9,11 +9,18 @@ interface TopGenresProps {
 const MAX_VISIBLE = 6;
 
 export const TopGenres: FunctionComponent<TopGenresProps> = ({ genres }) => {
-  if (genres.length === 0) return null;
+  if (genres.length === 0) {
+    return null;
+  }
 
   return (
     <div>
-      <Typography size="xs" transform="uppercase" tracking="wider" weight="medium">
+      <Typography
+        size="xs"
+        transform="uppercase"
+        tracking="wider"
+        weight="medium"
+      >
         Top Genres
       </Typography>
       <div className="mt-2 flex flex-wrap gap-2">

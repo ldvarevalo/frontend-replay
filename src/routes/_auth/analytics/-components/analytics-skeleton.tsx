@@ -1,7 +1,9 @@
 import type { FunctionComponent } from 'react';
 
 const Bar: FunctionComponent<{ className?: string }> = ({ className = '' }) => (
-  <div className={`animate-pulse rounded-sm bg-surface-container-high ${className}`} />
+  <div
+    className={`animate-pulse rounded-sm bg-surface-container-high ${className}`}
+  />
 );
 
 export const AnalyticsSkeleton: FunctionComponent = () => (

@@ -17,12 +17,22 @@ beforeEach(() => {
 
   setRepositories({
     releases: {
-      findByQuery: async () => ({ results: [], totalPages: 0 }),
+      findByQuery: async () => ({ results: [],
+totalPages: 0 }),
       create: async () => '',
       findById: async () => ({
-        id: '', coverUrl: '', title: '', artist: '', year: '', genre: '',
-        tracks: [], status: null, isListened: false, priority: null,
-        addedAt: null, archivedAt: null,
+        id: '',
+        coverUrl: '',
+        title: '',
+        artist: '',
+        year: '',
+        genre: '',
+        tracks: [],
+        status: null,
+        isListened: false,
+        priority: null,
+        addedAt: null,
+        archivedAt: null,
       }),
       linkArtist: async () => {},
       linkGenre: async () => {},
@@ -45,7 +55,11 @@ beforeEach(() => {
       createMany: async () => {},
       findByRelease: async () => [],
     },
-    stats: { findStats: async () => ({ totalReleases: 0, thisMonth: 0, wantToBuy: 0 }) },
+    stats: {
+      findStats: async () => ({ totalReleases: 0,
+thisMonth: 0,
+wantToBuy: 0 }),
+    },
     artists: {
       findByName: async () => null,
       create: async (name: string) => name,
@@ -73,7 +87,10 @@ const ANALYTICS_DATA_MOCK = {
   listeningTimeSeconds: 31320,
   addedToWant: 4,
   markedOwned: 2,
-  collectionFunnel: { discover: 18, listened: 12, want: 4, owned: 10 },
+  collectionFunnel: { discover: 18,
+listened: 12,
+want: 4,
+owned: 10 },
   discoverBacklog: {
     count: 23,
     oldestEntry: {
@@ -103,7 +120,10 @@ const EMPTY_ANALYTICS_DATA_MOCK = {
   listeningTimeSeconds: 0,
   addedToWant: 0,
   markedOwned: 0,
-  collectionFunnel: { discover: 0, listened: 0, want: 0, owned: 0 },
+  collectionFunnel: { discover: 0,
+listened: 0,
+want: 0,
+owned: 0 },
   discoverBacklog: { count: 0 },
   mostListenedAlbum: undefined,
   topArtists: [],
@@ -128,7 +148,11 @@ describe('useAnalyticsData', () => {
     });
 
     expect(result.current.isLoading).toBe(false);
-    expect(mockAnalyticsFind).toHaveBeenCalledWith('A.USER.ID', expect.any(String), expect.any(String));
+    expect(mockAnalyticsFind).toHaveBeenCalledWith(
+      'A.USER.ID',
+      expect.any(String),
+      expect.any(String)
+    );
   });
 
   it('should return null data when no sessions exist', async () => {

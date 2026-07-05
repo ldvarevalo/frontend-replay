@@ -21,7 +21,12 @@ const MetricCard: FunctionComponent<MetricCardProps> = ({ value, label }) => (
     <Typography family="heading" size="2xl">
       {value}
     </Typography>
-    <Typography size="xs" transform="uppercase" tracking="wider" weight="medium">
+    <Typography
+      size="xs"
+      transform="uppercase"
+      tracking="wider"
+      weight="medium"
+    >
       {label}
     </Typography>
   </div>
@@ -35,7 +40,10 @@ export const MetricCards: FunctionComponent<MetricCardsProps> = ({
 }) => (
   <div className="grid grid-cols-2 gap-3">
     <MetricCard value={listenedAlbums} label="Albums listened" />
-    <MetricCard value={formatListeningTime(listeningTimeSeconds)} label="Listening time" />
+    <MetricCard
+      value={formatListeningTime(listeningTimeSeconds)}
+      label="Listening time"
+    />
     <MetricCard value={addedToWant} label="Added to Want" />
     <MetricCard value={markedOwned} label="Marked Owned" />
   </div>

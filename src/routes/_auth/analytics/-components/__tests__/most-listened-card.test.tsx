@@ -1,7 +1,7 @@
 import { render, screen } from '@test-utils';
 
-import { MostListenedCard } from '../most-listened-card';
 import type { MostListenedAlbum } from '#/types/domain';
+import { MostListenedCard } from '../most-listened-card';
 
 /**
  * Mocks
@@ -57,10 +57,7 @@ describe('MostListenedCard', () => {
 
   it('should not render when album is null', () => {
     const { container } = render(
-      <MostListenedCard
-        album={null}
-        onViewAlbum={handleViewAlbumMock}
-      />
+      <MostListenedCard album={null} onViewAlbum={handleViewAlbumMock} />
     );
 
     expect(container.innerHTML).toBe('');

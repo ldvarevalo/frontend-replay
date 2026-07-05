@@ -9,11 +9,9 @@ interface DiscoverBacklogCardProps {
   onNavigateToDiscover: () => void;
 }
 
-export const DiscoverBacklogCard: FunctionComponent<DiscoverBacklogCardProps> = ({
-  count,
-  oldestEntry,
-  onNavigateToDiscover,
-}) => (
+export const DiscoverBacklogCard: FunctionComponent<
+  DiscoverBacklogCardProps
+> = ({ count, oldestEntry, onNavigateToDiscover }) => (
   <div
     className="cursor-pointer rounded-sm bg-surface-container p-4 transition-colors hover:bg-surface-container-high"
     onClick={onNavigateToDiscover}
@@ -29,7 +27,12 @@ export const DiscoverBacklogCard: FunctionComponent<DiscoverBacklogCardProps> = 
 
     {oldestEntry && (
       <div className="mt-3 border-t border-outline-variant pt-3">
-        <Typography size="xs" transform="uppercase" tracking="wider" weight="medium">
+        <Typography
+          size="xs"
+          transform="uppercase"
+          tracking="wider"
+          weight="medium"
+        >
           Oldest entry
         </Typography>
         <div className="mt-2 flex items-center gap-3">
