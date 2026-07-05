@@ -1,8 +1,23 @@
 import type { FunctionComponent } from 'react';
-
+import {
+  CheckCircle2,
+  Clock,
+  Disc3,
+  Heart,
+  type LucideIcon,
+} from 'lucide-react';
 import { Typography } from '#/components/ui/typography';
-
 import { formatListeningTime } from '../-helpers/format-listening-time';
+
+/**
+ * Types
+ */
+
+interface MetricCardProps {
+  icon: LucideIcon;
+  value: string | number;
+  label: string;
+}
 
 interface MetricCardsProps {
   listenedAlbums: number;
@@ -11,26 +26,35 @@ interface MetricCardsProps {
   markedOwned: number;
 }
 
-interface MetricCardProps {
-  value: string | number;
-  label: string;
-}
+/**
+ * MetricCard
+ */
 
-const MetricCard: FunctionComponent<MetricCardProps> = ({ value, label }) => (
-  <div className="rounded-sm bg-surface-container p-4">
-    <Typography family="heading" size="2xl">
+const MetricCard: FunctionComponent<MetricCardProps> = ({
+  icon: Icon,
+  value,
+  label,
+}) => (
+  <div className="flex min-h-30 flex-col items-center justify-center rounded-sm bg-primary-container p-4">
+    <Icon className="size-5 text-secondary-brand mb-4" />
+    <Typography family="heading" size="md" className="text-center">
       {value}
     </Typography>
     <Typography
-      size="xs"
+      size="2xs"
       transform="uppercase"
       tracking="wider"
       weight="medium"
+      className="text-center"
     >
       {label}
     </Typography>
   </div>
 );
+
+/**
+ * MetricCards
+ */
 
 export const MetricCards: FunctionComponent<MetricCardsProps> = ({
   listenedAlbums,
@@ -38,13 +62,14 @@ export const MetricCards: FunctionComponent<MetricCardsProps> = ({
   addedToWant,
   markedOwned,
 }) => (
-  <div className="grid grid-cols-2 gap-3">
-    <MetricCard value={listenedAlbums} label="Albums listened" />
+  <div className="grid grid-cols-2 gap-1">
+    <MetricCard icon={Disc3} value={listenedAlbums} label="Albums listened" />
     <MetricCard
+      icon={Clock}
       value={formatListeningTime(listeningTimeSeconds)}
       label="Listening time"
     />
-    <MetricCard value={addedToWant} label="Added to Want" />
-    <MetricCard value={markedOwned} label="Marked Owned" />
+    <MetricCard icon={Heart} value={addedToWant} label="Added to Want" />
+    <MetricCard icon={CheckCircle2} value={markedOwned} label="Marked Owned" />
   </div>
 );
