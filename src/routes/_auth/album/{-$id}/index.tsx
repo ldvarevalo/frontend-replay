@@ -45,7 +45,10 @@ const AlbumDetailPage: FunctionComponent = () => {
   const { album, isLoading, isError, error } = useAlbumData(id);
   const { mutate: setStatus } = useSetCollectionStatus();
   const { mutate: updatePriority } = useUpdatePriority();
-  const [{ mutate: archiveRelease }, { mutate: unarchiveRelease }] = [useArchiveRelease(), useUnarchiveRelease()];
+  const [{ mutate: archiveRelease }, { mutate: unarchiveRelease }] = [
+    useArchiveRelease(),
+    useUnarchiveRelease(),
+  ];
   const { sessions, isLoading: sessionsLoading } = useAlbumSessions(id);
 
   if (!id || isError || !album) {

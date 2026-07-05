@@ -1,5 +1,5 @@
 import type { FunctionComponent } from 'react';
-import { Calendar } from 'lucide-react';
+import { Calendar, Compass, Star, X } from 'lucide-react';
 import { Button } from '#/components/ui/button';
 import {
   Dialog,
@@ -84,8 +84,12 @@ export const AlbumDiscoverSection: FunctionComponent<
           <Dialog>
             <DialogTrigger
               render={
-                <Button variant="primary" className="w-full">
-                  <Typography size="xs" transform="uppercase">
+                <Button
+                  variant="primary"
+                  className="w-full gap-4 justify-start pl-8"
+                >
+                  <Star className="size-4" />
+                  <Typography size="xs" weight="bold" uppercase>
                     ADD TO WISHLIST
                   </Typography>
                 </Button>
@@ -107,8 +111,9 @@ export const AlbumDiscoverSection: FunctionComponent<
             </DialogContent>
           </Dialog>
 
-          <Button variant="outline" className="w-full">
-            <Typography size="xs" transform="uppercase">
+          <Button variant="outline" className="w-full gap-4 justify-start pl-8">
+            <Compass className="size-4" />
+            <Typography size="xs" weight="bold" uppercase>
               STILL EXPLORING
             </Typography>
           </Button>
@@ -116,8 +121,12 @@ export const AlbumDiscoverSection: FunctionComponent<
           <Dialog>
             <DialogTrigger
               render={
-                <Button variant="text" className="w-full text-error">
-                  <Typography size="xs" transform="uppercase">
+                <Button
+                  variant="outline"
+                  className="w-full gap-4 justify-start pl-8"
+                >
+                  <X className="size-4" />
+                  <Typography size="xs" weight="bold" uppercase>
                     NOT FOR ME
                   </Typography>
                 </Button>
