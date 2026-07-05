@@ -87,10 +87,10 @@ export const AlbumWantSection: FunctionComponent<AlbumWantSectionProps> = ({
       onChange={value => onPriorityChange(value as PriorityLevel)}
     />
 
-    <div className="h-px bg-outline/20" />
+    <div className="h-px bg-outline/20 my-8" />
 
     <section className="space-y-2">
-      <Typography size="xs" className="text-on-surface-variant">
+      <Typography size="xs" className="text-center text-on-surface-variant mb-4">
         Ready to move it to your collection?
       </Typography>
       <Dialog>
