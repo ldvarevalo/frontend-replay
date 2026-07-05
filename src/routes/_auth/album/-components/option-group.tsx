@@ -40,7 +40,7 @@ export const OptionGroup: FunctionComponent<OptionGroupProps> = ({
           className={cn(
             'flex-1 px-5 py-2',
             value === option
-              ? 'bg-primary-container text-on-primary-container'
+              ? 'bg-primary-container text-on-primary-container rounded-md'
               : 'bg-surface-container-high text-on-surface-variant'
           )}
         >
