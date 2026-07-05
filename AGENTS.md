@@ -72,11 +72,7 @@ yarn test:cov     # Coverage (70/90/50 thresholds)
 
 ## Testing
 
-- **Import:** `import { render, screen } from '@test-utils'`
-- Wrappers: `QueryClientProvider` + `RouterContextProvider` compuestos
-- `QueryClient` de test con `retry: false`
-- `vitest.setup.ts` mockea `matchMedia` y hace `clearAllMocks` en cada `beforeEach`
-- Coverage thresholds: statements 70%, branches 90%, functions 50%, lines 70%
+Ver `docs/specs/testing.spec.md` para convenciones detalladas.
 
 ## Git Workflow
 

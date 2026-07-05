@@ -158,6 +158,8 @@ const albums: CollectionAlbum[] = [
 - Arrays de objetos: expandir una prop por línea
 - Usar `as const` para tipos literales
 - Mock data inline, no compartida entre archivos
+- **Naming:** constantes en `UPPER_SNAKE_CASE` con sufijo `_MOCK` (ej. `ALBUM_DETAIL_MOCK`, `OPTIONS_MOCK`)
+- **Values:** usar dotted convention (ej. `'A.RELEASE.ID'`, `'A.USER.ID'`, `'AN.ALBUM.TITLE'`)
 
 ## Conditional rendering
 
