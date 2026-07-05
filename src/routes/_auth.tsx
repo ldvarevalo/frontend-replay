@@ -19,6 +19,7 @@ const TAB_ROUTES: [TabId, FileRouteTypes['to']][] = [
   ['home', '/inicio'],
   ['collection', '/collection'],
   ['add', '/release/add'],
+  ['analytics', '/analytics'],
 ];
 
 /**
