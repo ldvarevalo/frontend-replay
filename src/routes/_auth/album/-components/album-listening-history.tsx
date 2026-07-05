@@ -74,11 +74,11 @@ const SessionList: FunctionComponent<{ sessions: SessionDisplay[] }> = ({
           <Typography size="sm" className="text-foreground">
             {formatDate(session.listenedAt)}
           </Typography>
-          <Typography size="xs" className="text-on-surface-variant">
+          <Typography size="xs" className="text-tertiary/70">
             {session.scopeLabel}
           </Typography>
         </div>
-        <Typography size="xs" className="text-on-surface-variant">
+        <Typography size="xs" className="text-tertiary/70">
           {session.sourceFormat}
         </Typography>
       </li>
