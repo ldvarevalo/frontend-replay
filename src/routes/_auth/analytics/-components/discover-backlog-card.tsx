@@ -1,5 +1,7 @@
 import type { FunctionComponent } from 'react';
+import { ChevronRight } from 'lucide-react';
 
+import { Button } from '#/components/ui/button';
 import { Typography } from '#/components/ui/typography';
 import type { BacklogEntry } from '#/types/domain';
 
@@ -13,41 +15,64 @@ export const DiscoverBacklogCard: FunctionComponent<
   DiscoverBacklogCardProps
 > = ({ count, oldestEntry, onNavigateToDiscover }) => (
   <div
-    className="cursor-pointer rounded-sm bg-surface-container p-4 transition-colors hover:bg-surface-container-high"
+    className="flex flex-col items-start cursor-pointer rounded-md bg-surface-container border-surface-container-high border gap-4 p-4 transition-colors hover:bg-surface-container-high"
     onClick={onNavigateToDiscover}
     role="button"
     tabIndex={0}
   >
-    <Typography family="heading" size="2xl">
-      {count}
-    </Typography>
-    <Typography size="sm" className="text-on-surface-variant">
-      albums waiting to be discovered
-    </Typography>
+    <div className="flex items-end gap-4 max-w-full min-w-0">
+      {oldestEntry && (
+        <img
+          src={oldestEntry.coverUrl}
+          alt=""
+          aria-hidden
+          className="size-36 shrink-0 rounded-sm object-cover"
+        />
+      )}
 
-    {oldestEntry && (
-      <div className="mt-3 border-t border-outline-variant pt-3">
+      <div className="flex flex-col min-w-0">
         <Typography
-          size="xs"
-          transform="uppercase"
-          tracking="wider"
-          weight="medium"
+          as="span"
+          family="heading"
+          size="2xl"
+          weight="bold"
+          className="text-primary-container"
         >
-          Oldest entry
+          {count}
         </Typography>
-        <div className="mt-2 flex items-center gap-3">
-          <div className="size-10 rounded-sm bg-surface-container-high" />
-          <div>
-            <Typography weight="medium">{oldestEntry.title}</Typography>
-            <Typography size="sm" className="text-on-surface-variant">
-              {oldestEntry.artist}
+        <Typography size="sm" className="text-on-surface-variant">
+          albums waiting
+        </Typography>
+
+        {oldestEntry && (
+          <div className="mt-4">
+            <Typography
+              size="2xs"
+              tracking="wider"
+              weight="medium"
+              className="text-on-surface-variant"
+              uppercase
+            >
+              Oldest waiting
             </Typography>
-            <Typography size="xs" className="text-on-surface-variant">
-              Added {oldestEntry.daysSinceAdded} days ago
+            <Typography size="sm" weight="medium" className="truncate">
+              {oldestEntry.title}
+            </Typography>
+            <Typography
+              size="sm"
+              className="shrink-0 text-on-surface-variant"
+              as="span"
+            >
+              {oldestEntry.daysSinceAdded} days ago
             </Typography>
           </div>
-        </div>
+        )}
       </div>
-    )}
+    </div>
+
+    <Button variant="ghost" className="shrink-0">
+      Continue discovering
+      <ChevronRight />
+    </Button>
   </div>
 );

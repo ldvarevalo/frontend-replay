@@ -36,9 +36,7 @@ describe('DiscoverBacklogCard', () => {
     );
 
     expect(screen.getByText('23')).toBeInTheDocument();
-    expect(
-      screen.getByText('albums waiting to be discovered')
-    ).toBeInTheDocument();
+    expect(screen.getByText('albums waiting')).toBeInTheDocument();
   });
 
   it('should render oldest entry info', () => {
@@ -51,7 +49,7 @@ describe('DiscoverBacklogCard', () => {
     );
 
     expect(screen.getByText('A.ALBUM.TITLE')).toBeInTheDocument();
-    expect(screen.getByText('AN.ARTIST.NAME')).toBeInTheDocument();
+    expect(screen.getByText('Oldest waiting')).toBeInTheDocument();
     expect(screen.getByText(/42 days ago/)).toBeInTheDocument();
   });
 
@@ -79,6 +77,6 @@ describe('DiscoverBacklogCard', () => {
     );
 
     expect(screen.getByText('0')).toBeInTheDocument();
-    expect(screen.queryByText('Oldest entry')).not.toBeInTheDocument();
+    expect(screen.queryByText('Oldest waiting')).not.toBeInTheDocument();
   });
 });
