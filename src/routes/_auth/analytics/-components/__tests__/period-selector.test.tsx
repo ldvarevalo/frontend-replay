@@ -16,11 +16,13 @@ afterEach(() => {
  */
 
 describe('PeriodSelector', () => {
-  it('should render trigger with current period label', () => {
+  it('should render trigger with calendar icon', () => {
     render(
       <PeriodSelector value="this-month" onChange={handlePeriodChangeMock} />
     );
 
-    expect(screen.getByText('This Month')).toBeInTheDocument();
+    const trigger = screen.getByRole('combobox');
+
+    expect(trigger.querySelector('.lucide-calendar')).toBeInTheDocument();
   });
 });

@@ -88,11 +88,7 @@ const AnalyticsPage: FunctionComponent = () => {
       <main className="page-wrap space-y-6 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <Typography
-              variant="display"
-              as="h2"
-              className="text-foreground"
-            >
+            <Typography variant="display" as="h2" className="text-foreground">
               Analytics
             </Typography>
             <Typography size="sm" className="text-on-surface-variant">
@@ -112,11 +108,7 @@ const AnalyticsPage: FunctionComponent = () => {
     <main className="page-wrap space-y-6 py-6">
       <div className="flex items-start justify-between">
         <div>
-          <Typography
-            variant="display"
-            as="h2"
-            className="text-foreground"
-          >
+          <Typography variant="display" as="h2" className="text-foreground">
             Analytics
           </Typography>
           <Typography size="sm" className="text-on-surface-variant">

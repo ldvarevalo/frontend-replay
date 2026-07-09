@@ -1,4 +1,5 @@
 import type { FunctionComponent } from 'react';
+import { Calendar } from 'lucide-react';
 
 import {
   Select,
@@ -9,12 +10,17 @@ import {
 } from '#/components/ui/select';
 import type { Period } from '../-helpers/get-period-dates';
 
+interface PeriodOption {
+  value: Period;
+  label: string;
+}
+
 interface PeriodSelectorProps {
   value: Period;
   onChange: (period: Period) => void;
 }
 
-const PERIODS: { value: Period; label: string }[] = [
+const PERIODS: PeriodOption[] = [
   {
     value: 'this-month',
     label: 'This Month',
@@ -36,29 +42,25 @@ const PERIODS: { value: Period; label: string }[] = [
 export const PeriodSelector: FunctionComponent<PeriodSelectorProps> = ({
   value,
   onChange,
-}) => {
-  const currentLabel =
-    PERIODS.find(period => period.value === value)?.label ?? value;
-
-  return (
-    <Select
-      value={value}
-      onValueChange={next => {
-        if (next) {
-          onChange(next);
-        }
-      }}
-    >
-      <SelectTrigger className="h-10 w-40 px-3">
-        <SelectValue>{currentLabel}</SelectValue>
-      </SelectTrigger>
-      <SelectContent align="end">
-        {PERIODS.map(({ value: periodValue, label }) => (
-          <SelectItem key={periodValue} value={periodValue}>
-            {label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-};
+}) => (
+  <Select
+    value={value}
+    onValueChange={next => {
+      if (next) {
+        onChange(next);
+      }
+    }}
+  >
+    <SelectTrigger className="h-10 w-20 px-3">
+      <Calendar className="h-4 w-4" />
+      <SelectValue className="sr-only" />
+    </SelectTrigger>
+    <SelectContent align="end">
+      {PERIODS.map(({ value: periodValue, label }) => (
+        <SelectItem key={periodValue} value={periodValue}>
+          {label}
+        </SelectItem>
+      ))}
+    </SelectContent>
+  </Select>
+);
