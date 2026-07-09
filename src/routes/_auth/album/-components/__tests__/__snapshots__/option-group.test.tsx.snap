@@ -6,7 +6,7 @@ exports[`OptionGroup > should render label 1`] = `
     class="space-y-2"
   >
     <p
-      class="font-sans text-xs font-normal uppercase text-on-surface-variant"
+      class="font-sans text-xs uppercase text-on-surface-variant"
     >
       A.LABEL
     </p>

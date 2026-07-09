@@ -45,7 +45,7 @@ exports[`AlbumCard > should render listened album and match snapshot 1`] = `
     A Love Supreme
   </h3>
   <p
-    class="font-sans text-xs font-normal uppercase tracking-widest text-on-surface-variant"
+    class="font-sans text-xs uppercase tracking-widest text-on-surface-variant"
   >
     John Coltrane
   </p>
@@ -76,12 +76,12 @@ exports[`AlbumCard > should render with year and match snapshot 1`] = `
     A Love Supreme
   </h3>
   <p
-    class="font-sans text-xs font-normal uppercase tracking-widest text-on-surface-variant"
+    class="font-sans text-xs uppercase tracking-widest text-on-surface-variant"
   >
     John Coltrane
   </p>
   <p
-    class="font-sans text-[10px] font-normal text-on-surface-variant"
+    class="font-sans text-[10px] text-on-surface-variant"
   >
     1965
   </p>

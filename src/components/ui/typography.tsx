@@ -96,8 +96,6 @@ const typographyVariants = cva('', {
     },
   },
   defaultVariants: {
-    size: 'sm',
-    weight: 'normal',
     transform: 'none',
     tracking: 'normal',
   },

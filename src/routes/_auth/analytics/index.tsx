@@ -1,6 +1,7 @@
 import { useState, type FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Button } from '#/components/ui/button';
+import { Typography } from '#/components/ui/typography';
 import { AnalyticsEmptyState } from './-components/analytics-empty-state';
 import { AnalyticsSkeleton } from './-components/analytics-skeleton';
 import { DiscoverBacklogCard } from './-components/discover-backlog-card';
@@ -41,12 +42,19 @@ const AnalyticsPage: FunctionComponent = () => {
       <main className="page-wrap space-y-6 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="font-heading text-2xl font-bold italic tracking-tight text-foreground">
+            <Typography
+              family="heading"
+              size="xl"
+              weight="bold"
+              tracking="tight"
+              as="h2"
+              className="text-foreground"
+            >
               Analytics
-            </h2>
-            <p className="text-sm text-on-surface-variant">
+            </Typography>
+            <Typography size="sm" className="text-on-surface-variant">
               Your listening insights
-            </p>
+            </Typography>
           </div>
         </div>
         <AnalyticsSkeleton />
@@ -57,9 +65,16 @@ const AnalyticsPage: FunctionComponent = () => {
   if (error) {
     return (
       <main className="page-wrap space-y-6 py-6">
-        <h2 className="font-heading text-2xl font-bold italic tracking-tight text-foreground">
+        <Typography
+          family="heading"
+          size="xl"
+          weight="bold"
+          tracking="tight"
+          as="h2"
+          className="text-foreground"
+        >
           Analytics
-        </h2>
+        </Typography>
         <div className="flex flex-col items-center gap-4 py-16">
           <p className="text-on-surface-variant">Couldn't load analytics.</p>
           <Button onClick={() => refetch()}>Try again</Button>
@@ -73,12 +88,16 @@ const AnalyticsPage: FunctionComponent = () => {
       <main className="page-wrap space-y-6 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="font-heading text-2xl font-bold italic tracking-tight text-foreground">
+            <Typography
+              variant="display"
+              as="h2"
+              className="text-foreground"
+            >
               Analytics
-            </h2>
-            <p className="text-sm text-on-surface-variant">
+            </Typography>
+            <Typography size="sm" className="text-on-surface-variant">
               Your listening insights
-            </p>
+            </Typography>
           </div>
           <PeriodSelector value={period} onChange={handlePeriodChange} />
         </div>
@@ -93,12 +112,16 @@ const AnalyticsPage: FunctionComponent = () => {
     <main className="page-wrap space-y-6 py-6">
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="font-heading text-2xl font-bold italic tracking-tight text-foreground">
+          <Typography
+            variant="display"
+            as="h2"
+            className="text-foreground"
+          >
             Analytics
-          </h2>
-          <p className="text-sm text-on-surface-variant">
+          </Typography>
+          <Typography size="sm" className="text-on-surface-variant">
             Your listening insights
-          </p>
+          </Typography>
         </div>
         <PeriodSelector value={period} onChange={handlePeriodChange} />
       </div>
