@@ -1,7 +1,11 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { computeSessionMetrics } from '#/routes/_auth/analytics/-helpers/compute-analytics';
 import type { ViewRow } from '#/routes/_auth/analytics/-helpers/compute-analytics';
-import type { AnalyticsData, BacklogEntry, DiscoverBacklog } from '#/types/domain';
+import type {
+  AnalyticsData,
+  BacklogEntry,
+  DiscoverBacklog,
+} from '#/types/domain';
 import type { AnalyticsRepository } from '../types';
 
 const extractOldestEntry = (
@@ -150,5 +154,4 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
       markedOwned,
     };
   }
-
 }

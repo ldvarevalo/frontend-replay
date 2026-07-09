@@ -78,7 +78,11 @@ export const MetricCards: FunctionComponent<MetricCardsProps> = ({
         label="Listening time"
       />
       <MetricCard icon={Heart} value={addedToWant} label="Added to Want" />
-      <MetricCard icon={CheckCircle2} value={markedOwned} label="Marked Owned" />
+      <MetricCard
+        icon={CheckCircle2}
+        value={markedOwned}
+        label="Marked Owned"
+      />
     </div>
   );
 };
