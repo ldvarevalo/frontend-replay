@@ -54,9 +54,11 @@ export const useAnalyticsData = (
         }
       }
 
-      return { data: null,
-activePeriod: null,
-isFallback: false };
+      return {
+        data: null,
+        activePeriod: null,
+        isFallback: false,
+      };
     },
     enabled: !!user,
   });
