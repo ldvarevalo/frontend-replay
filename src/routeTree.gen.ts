@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LogoutIndexRouteImport } from './routes/logout/index'
 import { Route as AuthInicioIndexRouteImport } from './routes/_auth/inicio/index'
 import { Route as AuthCollectionIndexRouteImport } from './routes/_auth/collection/index'
+import { Route as AuthAnalyticsIndexRouteImport } from './routes/_auth/analytics/index'
 import { Route as AuthReleaseAddIndexRouteImport } from './routes/_auth/release/add/index'
 import { Route as AuthAlbumChar123IdChar125IndexRouteImport } from './routes/_auth/album/{-$id}/index'
 import { Route as AuthAlbumChar123IdChar125TracksIndexRouteImport } from './routes/_auth/album/{-$id}/tracks/index'
@@ -43,6 +44,11 @@ const AuthCollectionIndexRoute = AuthCollectionIndexRouteImport.update({
   path: '/collection/',
   getParentRoute: () => AuthRoute,
 } as any)
+const AuthAnalyticsIndexRoute = AuthAnalyticsIndexRouteImport.update({
+  id: '/analytics/',
+  path: '/analytics/',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthReleaseAddIndexRoute = AuthReleaseAddIndexRouteImport.update({
   id: '/release/add/',
   path: '/release/add/',
@@ -70,6 +76,7 @@ const AuthAlbumChar123IdChar125SessionIndexRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/logout/': typeof LogoutIndexRoute
+  '/analytics/': typeof AuthAnalyticsIndexRoute
   '/collection/': typeof AuthCollectionIndexRoute
   '/inicio/': typeof AuthInicioIndexRoute
   '/album/{-$id}/': typeof AuthAlbumChar123IdChar125IndexRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/logout': typeof LogoutIndexRoute
+  '/analytics': typeof AuthAnalyticsIndexRoute
   '/collection': typeof AuthCollectionIndexRoute
   '/inicio': typeof AuthInicioIndexRoute
   '/album/{-$id}': typeof AuthAlbumChar123IdChar125IndexRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteWithChildren
   '/logout/': typeof LogoutIndexRoute
+  '/_auth/analytics/': typeof AuthAnalyticsIndexRoute
   '/_auth/collection/': typeof AuthCollectionIndexRoute
   '/_auth/inicio/': typeof AuthInicioIndexRoute
   '/_auth/album/{-$id}/': typeof AuthAlbumChar123IdChar125IndexRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/logout/'
+    | '/analytics/'
     | '/collection/'
     | '/inicio/'
     | '/album/{-$id}/'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/logout'
+    | '/analytics'
     | '/collection'
     | '/inicio'
     | '/album/{-$id}'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/logout/'
+    | '/_auth/analytics/'
     | '/_auth/collection/'
     | '/_auth/inicio/'
     | '/_auth/album/{-$id}/'
@@ -176,6 +188,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCollectionIndexRouteImport
       parentRoute: typeof AuthRoute
     }
+    '/_auth/analytics/': {
+      id: '/_auth/analytics/'
+      path: '/analytics'
+      fullPath: '/analytics/'
+      preLoaderRoute: typeof AuthAnalyticsIndexRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/release/add/': {
       id: '/_auth/release/add/'
       path: '/release/add'
@@ -208,6 +227,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthRouteChildren {
+  AuthAnalyticsIndexRoute: typeof AuthAnalyticsIndexRoute
   AuthCollectionIndexRoute: typeof AuthCollectionIndexRoute
   AuthInicioIndexRoute: typeof AuthInicioIndexRoute
   AuthAlbumChar123IdChar125IndexRoute: typeof AuthAlbumChar123IdChar125IndexRoute
@@ -217,6 +237,7 @@ interface AuthRouteChildren {
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthAnalyticsIndexRoute: AuthAnalyticsIndexRoute,
   AuthCollectionIndexRoute: AuthCollectionIndexRoute,
   AuthInicioIndexRoute: AuthInicioIndexRoute,
   AuthAlbumChar123IdChar125IndexRoute: AuthAlbumChar123IdChar125IndexRoute,

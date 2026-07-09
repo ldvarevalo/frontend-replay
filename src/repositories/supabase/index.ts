@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { createMusicSearchRepository } from '../music-search';
 import type { Repositories } from '../types';
+import { SupabaseAnalyticsRepository } from './analytics';
 import { SupabaseArtistsRepository } from './artists';
 import { SupabaseGenresRepository } from './genres';
 import { SupabaseListeningSessionsRepository } from './listening-sessions';
@@ -24,4 +25,5 @@ export const createSupabaseRepositories = (
   artists: new SupabaseArtistsRepository(supabase),
   genres: new SupabaseGenresRepository(supabase),
   sessions: new SupabaseListeningSessionsRepository(supabase),
+  analytics: new SupabaseAnalyticsRepository(supabase),
 });

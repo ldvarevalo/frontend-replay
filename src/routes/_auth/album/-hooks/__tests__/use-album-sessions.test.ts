@@ -88,6 +88,24 @@ beforeEach(() => {
       create: async () => {},
       findByRelease: mockFindByRelease,
     },
+    analytics: {
+      find: async () => ({
+        listenedAlbums: 0,
+        listeningTimeSeconds: 0,
+        addedToWant: 0,
+        markedOwned: 0,
+        discoverBacklog: {
+          count: 0,
+          oldestEntry: undefined,
+        },
+        mostListenedAlbum: undefined,
+        topArtists: [],
+        topGenres: [],
+        peakActivityDay: '',
+        averageSessionSeconds: 0,
+        completionRate: 0,
+      }),
+    },
   });
 });
 

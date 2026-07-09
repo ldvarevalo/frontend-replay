@@ -1,6 +1,6 @@
 import type { FunctionComponent } from 'react';
 import { Link } from '@tanstack/react-router';
-import { House, Library, Plus, type LucideIcon } from 'lucide-react';
+import { BarChart3, House, Library, Plus, type LucideIcon } from 'lucide-react';
 import { Typography } from '#/components/ui/typography';
 import { cn } from '#/lib/utils';
 
@@ -8,7 +8,7 @@ import { cn } from '#/lib/utils';
  * Types
  */
 
-export type TabId = 'home' | 'collection' | 'add';
+export type TabId = 'home' | 'collection' | 'add' | 'analytics';
 
 interface Tab {
   id: TabId;
@@ -43,6 +43,12 @@ const TABS: Tab[] = [
     label: 'Add',
     icon: Plus,
     to: '/release/add',
+  },
+  {
+    id: 'analytics',
+    label: 'Analytics',
+    icon: BarChart3,
+    to: '/analytics',
   },
 ];
 
