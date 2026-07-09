@@ -120,6 +120,7 @@ export const AlbumHeroCard: FunctionComponent<AlbumHeroCardProps> = ({
               label="sessions"
               txtColor={txt70}
             />
+            <span className="w-px h-10 bg-surface/10" />
             <StatItem
               icon={Clock}
               value={formatListeningTime(album.totalDurationSeconds)}
@@ -128,13 +129,11 @@ export const AlbumHeroCard: FunctionComponent<AlbumHeroCardProps> = ({
             />
           </div>
         </div>
-        <div className="relative flex items-center justify-center">
-          <img
-            src={album.coverUrl}
-            alt={`Cover for ${album.title}`}
-            className="relative z-10 size-28 object-cover rounded-md"
-          />
-        </div>
+        <img
+          src={album.coverUrl}
+          alt={`Cover for ${album.title}`}
+          className="size-32 object-cover rounded-md"
+        />
       </div>
       <Button
         variant="ghost"
