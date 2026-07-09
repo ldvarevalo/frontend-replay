@@ -2,7 +2,6 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type {
   AnalyticsData,
   BacklogEntry,
-  CollectionFunnel,
   DiscoverBacklog,
   MostListenedAlbum,
 } from '#/types/domain';
@@ -150,7 +149,7 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
     const [viewRows, backlog, funnel] = await Promise.all([
       this.queryViewRows(userId, startDate, endDate),
       this.queryDiscoverBacklog(userId),
-      this.queryCollectionFunnel(userId, startDate, endDate),
+      this.queryAddedAndOwned(userId, startDate, endDate),
     ]);
 
     return {
@@ -214,14 +213,13 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
     };
   }
 
-  private async queryCollectionFunnel(
+  private async queryAddedAndOwned(
     userId: string,
     startDate: string,
     endDate: string
   ): Promise<{
     addedToWant: number;
     markedOwned: number;
-    collectionFunnel: CollectionFunnel;
   }> {
     const { data, error } = await this.supabase
       .from('user_releases')
@@ -248,17 +246,9 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
         r.created_at <= endDate
     ).length;
 
-    const collectionFunnel: CollectionFunnel = {
-      discover: rows.filter(r => r.status === 'discover').length,
-      listened: rows.filter(r => r.is_listened).length,
-      want: rows.filter(r => r.status === 'want').length,
-      owned: rows.filter(r => r.status === 'owned').length,
-    };
-
     return {
       addedToWant,
       markedOwned,
-      collectionFunnel: collectionFunnel,
     };
   }
 

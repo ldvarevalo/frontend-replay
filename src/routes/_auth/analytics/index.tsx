@@ -3,7 +3,6 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Button } from '#/components/ui/button';
 import { AnalyticsEmptyState } from './-components/analytics-empty-state';
 import { AnalyticsSkeleton } from './-components/analytics-skeleton';
-import { CollectionFunnel } from './-components/collection-funnel';
 import { DiscoverBacklogCard } from './-components/discover-backlog-card';
 import { FallbackBanner } from './-components/fallback-banner';
 import { HabitsList } from './-components/habits-list';
@@ -111,14 +110,6 @@ const AnalyticsPage: FunctionComponent = () => {
         listeningTimeSeconds={data.listeningTimeSeconds}
         addedToWant={data.addedToWant}
         markedOwned={data.markedOwned}
-      />
-
-      <CollectionFunnel
-        discover={data.collectionFunnel.discover}
-        listened={data.collectionFunnel.listened}
-        want={data.collectionFunnel.want}
-        owned={data.collectionFunnel.owned}
-        totalEntered={data.listenedAlbums}
       />
 
       <DiscoverBacklogCard

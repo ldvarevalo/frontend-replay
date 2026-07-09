@@ -94,12 +94,6 @@ beforeEach(() => {
         listeningTimeSeconds: 0,
         addedToWant: 0,
         markedOwned: 0,
-        collectionFunnel: {
-          discover: 0,
-          listened: 0,
-          want: 0,
-          owned: 0,
-        },
         discoverBacklog: {
           count: 0,
           oldestEntry: undefined,

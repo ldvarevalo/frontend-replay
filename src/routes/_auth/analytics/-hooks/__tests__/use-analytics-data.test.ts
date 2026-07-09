@@ -93,10 +93,6 @@ const ANALYTICS_DATA_MOCK = {
   listeningTimeSeconds: 31320,
   addedToWant: 4,
   markedOwned: 2,
-  collectionFunnel: { discover: 18,
-listened: 12,
-want: 4,
-owned: 10 },
   discoverBacklog: {
     count: 23,
     oldestEntry: {
@@ -126,10 +122,6 @@ const EMPTY_ANALYTICS_DATA_MOCK = {
   listeningTimeSeconds: 0,
   addedToWant: 0,
   markedOwned: 0,
-  collectionFunnel: { discover: 0,
-listened: 0,
-want: 0,
-owned: 0 },
   discoverBacklog: { count: 0 },
   mostListenedAlbum: undefined,
   topArtists: [],
