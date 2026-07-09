@@ -140,8 +140,9 @@ const AnalyticsPage: FunctionComponent = () => {
         onNavigateToDiscover={() => navigate({ to: '/collection' })}
       />
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="bg-surface-container-lowest flex rounded-md gap-4 p-4 items-stretch">
         <TopArtists artists={data.topArtists} />
+        <div className="w-px shrink-0 bg-primary/10" />
         <TopGenres genres={data.topGenres} />
       </div>
 

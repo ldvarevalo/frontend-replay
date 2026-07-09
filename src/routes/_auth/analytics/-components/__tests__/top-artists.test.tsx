@@ -24,7 +24,7 @@ describe('TopArtists', () => {
   it('should show overflow count when more than 4 artists', () => {
     render(<TopArtists artists={MANY_ARTISTS_MOCK} />);
 
-    expect(screen.getByText('+3')).toBeInTheDocument();
+    expect(screen.getByText('+3 more')).toBeInTheDocument();
   });
 
   it('should render nothing when empty', () => {

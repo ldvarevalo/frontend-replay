@@ -15,19 +15,18 @@ export const TopGenres: FunctionComponent<TopGenresProps> = ({ genres }) => {
 
   return (
     <div>
-      <Typography
-        size="xs"
-        transform="uppercase"
-        tracking="wider"
-        weight="medium"
-      >
+      <Typography size="xs" tracking="wider" weight="medium" uppercase>
         Top Genres
       </Typography>
-      <div className="mt-2 flex flex-wrap gap-2">
-        {genres.slice(0, MAX_VISIBLE).map(name => (
+      <div className="mt-3 flex flex-wrap gap-2">
+        {genres.slice(0, MAX_VISIBLE).map((name, idx) => (
           <span
             key={name}
-            className="rounded-full bg-surface-container-high px-3 py-1"
+            className={`rounded-full px-3 py-1 ${
+              idx === 0
+                ? 'bg-tertiary-container text-tertiary'
+                : 'bg-surface-container-high text-primary'
+            }`}
           >
             <Typography size="sm">{name}</Typography>
           </span>

@@ -18,26 +18,24 @@ export const TopArtists: FunctionComponent<TopArtistsProps> = ({ artists }) => {
 
   return (
     <div>
-      <Typography
-        size="xs"
-        transform="uppercase"
-        tracking="wider"
-        weight="medium"
-      >
+      <Typography size="xs" tracking="wider" weight="medium" uppercase>
         Top Artists
       </Typography>
-      <div className="mt-2 space-y-1">
-        {visible.map(name => (
-          <Typography key={name} size="sm">
-            {name}
-          </Typography>
+      <ol className="mt-3 space-y-2">
+        {visible.map((name, idx) => (
+          <li key={name} className="flex items-center gap-2">
+            <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-surface-container-high text-[10px] font-medium text-on-surface-variant">
+              {idx + 1}
+            </span>
+            <Typography size="sm">{name}</Typography>
+          </li>
         ))}
         {overflow > 0 && (
-          <Typography size="sm" className="text-on-surface-variant">
-            +{overflow}
-          </Typography>
+          <li className="pl-7 text-sm text-on-surface-variant">
+            +{overflow} more
+          </li>
         )}
-      </div>
+      </ol>
     </div>
   );
 };
