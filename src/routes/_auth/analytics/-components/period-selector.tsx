@@ -51,7 +51,10 @@ export const PeriodSelector: FunctionComponent<PeriodSelectorProps> = ({
       }
     }}
   >
-    <SelectTrigger className="h-10 w-20 px-3">
+    <SelectTrigger
+      className="h-10 w-20 px-3"
+      aria-label={`Select period, current: ${PERIODS.find(p => p.value === value)?.label ?? value}`}
+    >
       <Calendar className="h-4 w-4" />
       <SelectValue className="sr-only" />
     </SelectTrigger>

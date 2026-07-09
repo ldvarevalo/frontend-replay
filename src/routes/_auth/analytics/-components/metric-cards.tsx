@@ -66,15 +66,19 @@ export const MetricCards: FunctionComponent<MetricCardsProps> = ({
   listeningTimeSeconds,
   addedToWant,
   markedOwned,
-}) => (
-  <div className="grid grid-cols-4 gap-1">
-    <MetricCard icon={Disc3} value={listenedAlbums} label="Albums listened" />
-    <MetricCard
-      icon={Clock}
-      value={formatListeningTime(listeningTimeSeconds)}
-      label="Listening time"
-    />
-    <MetricCard icon={Heart} value={addedToWant} label="Added to Want" />
-    <MetricCard icon={CheckCircle2} value={markedOwned} label="Marked Owned" />
-  </div>
-);
+}) => {
+  const formattedListeningTime = formatListeningTime(listeningTimeSeconds);
+
+  return (
+    <div className="grid grid-cols-4 gap-1">
+      <MetricCard icon={Disc3} value={listenedAlbums} label="Albums listened" />
+      <MetricCard
+        icon={Clock}
+        value={formattedListeningTime}
+        label="Listening time"
+      />
+      <MetricCard icon={Heart} value={addedToWant} label="Added to Want" />
+      <MetricCard icon={CheckCircle2} value={markedOwned} label="Marked Owned" />
+    </div>
+  );
+};

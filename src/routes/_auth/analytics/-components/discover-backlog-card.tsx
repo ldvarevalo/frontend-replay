@@ -14,12 +14,7 @@ interface DiscoverBacklogCardProps {
 export const DiscoverBacklogCard: FunctionComponent<
   DiscoverBacklogCardProps
 > = ({ count, oldestEntry, onNavigateToDiscover }) => (
-  <div
-    className="flex flex-col items-start cursor-pointer rounded-md bg-surface-container border-surface-container-high border gap-4 p-4 transition-colors hover:bg-surface-container-high"
-    onClick={onNavigateToDiscover}
-    role="button"
-    tabIndex={0}
-  >
+  <div className="flex flex-col items-start rounded-md bg-surface-container border-surface-container-high border gap-4 p-4">
     <div className="flex items-end gap-4 max-w-full min-w-0">
       {oldestEntry && (
         <img
@@ -70,7 +65,7 @@ export const DiscoverBacklogCard: FunctionComponent<
       </div>
     </div>
 
-    <Button variant="ghost" className="shrink-0">
+    <Button variant="ghost" className="shrink-0" onClick={onNavigateToDiscover}>
       Continue discovering
       <ChevronRight />
     </Button>

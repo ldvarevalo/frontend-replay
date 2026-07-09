@@ -62,7 +62,7 @@ describe('DiscoverBacklogCard', () => {
       />
     );
 
-    screen.getByText('23').closest('div')!.click();
+    screen.getByRole('button', { name: /Continue discovering/ }).click();
 
     expect(handleNavigateToDiscoverMock).toHaveBeenCalledTimes(1);
   });

@@ -6,10 +6,12 @@ const Bar: FunctionComponent<{ className?: string }> = ({ className = '' }) => (
   />
 );
 
+const SKELETON_BARS = 4;
+
 export const AnalyticsSkeleton: FunctionComponent = () => (
   <div className="space-y-6">
     <div className="grid grid-cols-2 gap-3">
-      {[...Array(4)].map((_, i) => (
+      {[...Array(SKELETON_BARS)].map((_, i) => (
         <Bar key={i} className="h-20" />
       ))}
     </div>

@@ -18,6 +18,7 @@ interface HabitRowData {
   label: string;
   value: string;
   hint?: string;
+  showProgress?: boolean;
 }
 
 /**
@@ -45,6 +46,7 @@ export const HabitsList: FunctionComponent<HabitsListProps> = ({
       label: 'Completion Rate',
       value: `${completionRate}%`,
       hint: 'Full Albums',
+      showProgress: true,
     },
   ];
 
@@ -82,7 +84,7 @@ export const HabitsList: FunctionComponent<HabitsListProps> = ({
                   </Typography>
                 </div>
               </div>
-              {row.label === 'Completion Rate' && (
+              {row.showProgress && (
                 <div className="mt-4 ml-7 h-1.5 w-full rounded-full bg-primary-container/30">
                   <div
                     className="h-full rounded-full bg-primary transition-all"
