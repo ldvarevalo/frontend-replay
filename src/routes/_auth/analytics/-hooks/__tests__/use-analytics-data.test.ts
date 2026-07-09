@@ -23,8 +23,10 @@ beforeEach(() => {
 
   setRepositories({
     releases: {
-      findByQuery: async () => ({ results: [],
-totalPages: 0 }),
+      findByQuery: async () => ({
+        results: [],
+        totalPages: 0,
+      }),
       create: async () => '',
       findById: async () => ({
         id: '',
@@ -62,9 +64,11 @@ totalPages: 0 }),
       findByRelease: async () => [],
     },
     stats: {
-      findStats: async () => ({ totalReleases: 0,
-thisMonth: 0,
-wantToBuy: 0 }),
+      findStats: async () => ({
+        totalReleases: 0,
+        thisMonth: 0,
+        wantToBuy: 0,
+      }),
     },
     artists: {
       findByName: async () => null,
