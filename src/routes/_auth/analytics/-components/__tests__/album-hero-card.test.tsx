@@ -1,7 +1,7 @@
 import { render, screen } from '@test-utils';
 
 import type { MostListenedAlbum } from '#/types/domain';
-import { MostListenedCard } from '../most-listened-card';
+import { AlbumHeroCard } from '../album-hero-card';
 
 /**
  * Mocks
@@ -17,7 +17,7 @@ afterEach(() => {
  * Tests
  */
 
-describe('MostListenedCard', () => {
+describe('AlbumHeroCard', () => {
   const MOST_LISTENED_ALBUM_MOCK: MostListenedAlbum = {
     id: 'A.ALBUM.ID',
     coverUrl: 'A.COVER.URL',
@@ -29,22 +29,26 @@ describe('MostListenedCard', () => {
 
   it('should render album details', () => {
     render(
-      <MostListenedCard
+      <AlbumHeroCard
         album={MOST_LISTENED_ALBUM_MOCK}
         onViewAlbum={handleViewAlbumMock}
       />
     );
 
+    expect(screen.getByText('MOST LISTENED ALBUM')).toBeInTheDocument();
     expect(screen.getByText('A.ALBUM.TITLE')).toBeInTheDocument();
     expect(screen.getByText('AN.ARTIST.NAME')).toBeInTheDocument();
-    expect(screen.getByText('5 listening sessions')).toBeInTheDocument();
-    expect(screen.getByText('2h 15m total')).toBeInTheDocument();
+    expect(screen.getByText('5')).toBeInTheDocument();
+    expect(screen.getByText('sessions')).toBeInTheDocument();
+    expect(screen.getByText('2h 15m')).toBeInTheDocument();
+    expect(screen.getByText('total time')).toBeInTheDocument();
     expect(screen.getByText('View album')).toBeInTheDocument();
+    expect(screen.getByRole('img')).toHaveAttribute('src', 'A.COVER.URL');
   });
 
   it('should call onViewAlbum when CTA is clicked', () => {
     render(
-      <MostListenedCard
+      <AlbumHeroCard
         album={MOST_LISTENED_ALBUM_MOCK}
         onViewAlbum={handleViewAlbumMock}
       />
@@ -53,13 +57,5 @@ describe('MostListenedCard', () => {
     screen.getByText('View album').click();
 
     expect(handleViewAlbumMock).toHaveBeenCalledWith('A.ALBUM.ID');
-  });
-
-  it('should not render when album is null', () => {
-    const { container } = render(
-      <MostListenedCard album={null} onViewAlbum={handleViewAlbumMock} />
-    );
-
-    expect(container.innerHTML).toBe('');
   });
 });

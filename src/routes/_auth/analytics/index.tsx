@@ -2,13 +2,13 @@ import { useState, type FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Button } from '#/components/ui/button';
 import { Typography } from '#/components/ui/typography';
+import { AlbumHeroCard } from './-components/album-hero-card';
 import { AnalyticsEmptyState } from './-components/analytics-empty-state';
 import { AnalyticsSkeleton } from './-components/analytics-skeleton';
 import { DiscoverBacklogCard } from './-components/discover-backlog-card';
 import { FallbackBanner } from './-components/fallback-banner';
 import { HabitsList } from './-components/habits-list';
 import { MetricCards } from './-components/metric-cards';
-import { MostListenedCard } from './-components/most-listened-card';
 import { PeriodSelector } from './-components/period-selector';
 import { TopArtists } from './-components/top-artists';
 import { TopGenres } from './-components/top-genres';
@@ -120,6 +120,13 @@ const AnalyticsPage: FunctionComponent = () => {
 
       {isFallback && activePeriod && <FallbackBanner period={activePeriod} />}
 
+      {data.mostListenedAlbum && (
+        <AlbumHeroCard
+          album={data.mostListenedAlbum}
+          onViewAlbum={id => navigate({ to: `/album/${id}` })}
+        />
+      )}
+
       <MetricCards
         listenedAlbums={data.listenedAlbums}
         listeningTimeSeconds={data.listeningTimeSeconds}
@@ -132,13 +139,6 @@ const AnalyticsPage: FunctionComponent = () => {
         oldestEntry={data.discoverBacklog.oldestEntry}
         onNavigateToDiscover={() => navigate({ to: '/collection' })}
       />
-
-      {data.mostListenedAlbum && (
-        <MostListenedCard
-          album={data.mostListenedAlbum}
-          onViewAlbum={id => navigate({ to: `/album/${id}` })}
-        />
-      )}
 
       <div className="grid grid-cols-2 gap-4">
         <TopArtists artists={data.topArtists} />

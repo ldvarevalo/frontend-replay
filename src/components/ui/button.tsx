@@ -35,10 +35,61 @@ const buttonVariants = cva(
           'size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg',
         'icon-lg': 'size-9',
       },
+      theme: {
+        dark: '',
+        light: '',
+      },
     },
+    compoundVariants: [
+      {
+        variant: 'default',
+        theme: 'light',
+        className: 'bg-primary text-primary-foreground hover:bg-primary/80',
+      },
+      {
+        variant: 'primary',
+        theme: 'light',
+        className:
+          'border border-primary bg-primary/15 text-primary hover:bg-primary/25',
+      },
+      {
+        variant: 'outline',
+        theme: 'light',
+        className:
+          'border border-surface/30 bg-white/70 text-surface hover:bg-white/90',
+      },
+      {
+        variant: 'secondary',
+        theme: 'light',
+        className:
+          'border border-surface/20 bg-white/10 text-surface backdrop-blur-sm hover:bg-white/20 aria-expanded:bg-white/20',
+      },
+      {
+        variant: 'ghost',
+        theme: 'light',
+        className: 'text-surface/70 hover:bg-white/15 hover:text-surface',
+      },
+      {
+        variant: 'destructive',
+        theme: 'light',
+        className:
+          'border border-destructive/30 bg-destructive/10 text-destructive hover:bg-destructive/20',
+      },
+      {
+        variant: 'link',
+        theme: 'light',
+        className: 'text-primary',
+      },
+      {
+        variant: 'text',
+        theme: 'light',
+        className: 'text-surface/60 hover:text-surface',
+      },
+    ],
     defaultVariants: {
       variant: 'default',
       size: 'default',
+      theme: 'dark',
     },
   }
 );
@@ -47,6 +98,7 @@ const Button = ({
   className,
   variant = 'default',
   size = 'default',
+  theme = 'dark',
   ...props
 }: ButtonPrimitive.Props &
   VariantProps<typeof buttonVariants>): React.JSX.Element => (
@@ -56,6 +108,7 @@ const Button = ({
       buttonVariants({
         variant,
         size,
+        theme,
         className,
       })
     )}
