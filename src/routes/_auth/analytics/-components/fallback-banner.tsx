@@ -2,16 +2,16 @@ import type { FunctionComponent } from 'react';
 import { Info } from 'lucide-react';
 import type { Period } from '../-helpers/get-period-dates';
 
+interface FallbackBannerProps {
+  period: Period;
+}
+
 const PERIOD_LABELS: Record<Period, string> = {
   'this-month': 'This Month',
   'last-month': 'Last Month',
   'this-year': 'This Year',
   'all-time': 'All Time',
 };
-
-interface FallbackBannerProps {
-  period: Period;
-}
 
 export const FallbackBanner: FunctionComponent<FallbackBannerProps> = ({
   period,
