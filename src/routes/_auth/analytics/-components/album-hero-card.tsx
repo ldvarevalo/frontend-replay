@@ -95,15 +95,19 @@ export const AlbumHeroCard: FunctionComponent<AlbumHeroCardProps> = ({
               family="heading"
               size="md"
               weight="bold"
-              className={cn(isLight ? 'text-surface' : 'text-on-primary-container', 'max-w-full')}
+              className={cn(
+                isLight ? 'text-surface' : 'text-on-primary-container',
+                'max-w-full'
+              )}
             >
               {album.title}
             </Typography>
             <Typography
               size="xs"
-              className={
-                cn(isLight ? 'text-surface/80' : 'text-on-primary-container/80', 'max-w-full')
-              }
+              className={cn(
+                isLight ? 'text-surface/80' : 'text-on-primary-container/80',
+                'max-w-full'
+              )}
             >
               {album.artist}
             </Typography>

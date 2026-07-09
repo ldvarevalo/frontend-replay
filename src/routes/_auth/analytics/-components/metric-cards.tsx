@@ -35,15 +35,20 @@ const MetricCard: FunctionComponent<MetricCardProps> = ({
   value,
   label,
 }) => (
-  <div className="flex min-h-30 flex-col items-center justify-center rounded-sm bg-primary-container p-4">
-    <Icon className="size-5 text-secondary-brand mb-4" />
-    <Typography family="heading" size="md" className="text-center">
+  <div className="flex min-h-30 flex-col items-center justify-around rounded-sm bg-surface-container-lowest p-4">
+    <Icon className="size-5 text-tertiary mb-6" />
+    <Typography
+      as="span"
+      family="heading"
+      size="md"
+      weight="bold"
+      className="mb-1 text-center text-nowrap"
+    >
       {value}
     </Typography>
     <Typography
       size="2xs"
-      transform="uppercase"
-      tracking="wider"
+      tracking="tight"
       weight="medium"
       className="text-center"
     >
@@ -62,7 +67,7 @@ export const MetricCards: FunctionComponent<MetricCardsProps> = ({
   addedToWant,
   markedOwned,
 }) => (
-  <div className="grid grid-cols-2 gap-1">
+  <div className="grid grid-cols-4 gap-1">
     <MetricCard icon={Disc3} value={listenedAlbums} label="Albums listened" />
     <MetricCard
       icon={Clock}
