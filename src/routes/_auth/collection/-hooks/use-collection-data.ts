@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from '@tanstack/react-router';
 import { useUser } from '#/core/auth';
 import { useRepositories } from '#/repositories/hooks';
 import type { CollectionAlbum, CollectionStatus } from '#/types/domain';
@@ -29,8 +30,10 @@ export const useCollectionData = (): CollectionData => {
     enabled: !!user,
   });
 
+  const [searchParams] = useSearchParams();
+  const initialTab = searchParams.has('want') ? 'WANT' : 'ALL';
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('ALL');
+  const [activeTab, setActiveTab] = useState(initialTab);
 
   const filteredAlbums = allAlbums.filter(album => {
     if (activeTab === 'LISTENED') {
