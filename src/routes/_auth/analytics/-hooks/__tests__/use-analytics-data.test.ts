@@ -48,6 +48,8 @@ beforeEach(() => {
     musicSearch: { search: async () => [] },
     userReleases: {
       findRecent: async () => [],
+      findDailyPick: async () => null,
+      findOldestListened: async () => null,
       findUpNext: async () => [],
       findAllByUser: async () => [],
       create: async () => {},

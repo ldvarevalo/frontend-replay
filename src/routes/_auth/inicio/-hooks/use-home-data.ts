@@ -56,7 +56,10 @@ export const useHomeData = (): HomeData => {
 
   return {
     stats: statsData ?? EMPTY_STATS,
+    dailyPick: null,
     albums: albumsData ?? [],
+    rediscover: null,
     upNext: upNextData ? shuffleArray(upNextData) : [],
+    wantToBuyCount: 0,
   };
 };

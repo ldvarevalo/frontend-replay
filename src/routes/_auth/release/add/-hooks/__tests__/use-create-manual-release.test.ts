@@ -45,6 +45,8 @@ const mockGenres = {
 
 const mockUserReleases = {
   findRecent: vi.fn().mockResolvedValue([]),
+  findDailyPick: vi.fn().mockResolvedValue(null),
+  findOldestListened: vi.fn().mockResolvedValue(null),
   findUpNext: vi.fn().mockResolvedValue([]),
   findAllByUser: vi.fn().mockResolvedValue([]),
   create: vi.fn().mockResolvedValue(undefined),

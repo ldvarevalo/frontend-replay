@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type {
   Album,
+  AlbumWithDate,
   CollectionAlbum,
   CollectionStatus,
   PriorityLevel,
@@ -115,6 +116,20 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
     }
 
     return (data ?? []).map(mapToAlbum);
+  }
+
+  async findDailyPick(
+    _userId: string
+  ): Promise<AlbumWithDate | null> {
+    // ponytail: stub — daily pick logic pending backend support
+    return null;
+  }
+
+  async findOldestListened(
+    _userId: string
+  ): Promise<Album | null> {
+    // ponytail: stub — oldest listened logic pending backend support
+    return null;
   }
 
   async findUpNext(userId: string, limit: number): Promise<Album[]> {

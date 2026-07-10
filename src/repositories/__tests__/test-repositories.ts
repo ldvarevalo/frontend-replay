@@ -1,6 +1,7 @@
 import type {
   Album,
   AlbumDetail,
+  AlbumWithDate,
   CollectionAlbum,
   HomeStats,
   Track,
@@ -41,6 +42,8 @@ const createNoopRepositories = (): Repositories => {
     },
     userReleases: {
       findRecent: async (): Promise<Album[]> => [],
+      findDailyPick: async (): Promise<AlbumWithDate | null> => null,
+      findOldestListened: async (): Promise<Album | null> => null,
       findUpNext: async (): Promise<Album[]> => [],
       findAllByUser: async (): Promise<CollectionAlbum[]> => [],
       create: async () => {},

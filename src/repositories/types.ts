@@ -1,6 +1,7 @@
 import type {
   Album,
   AlbumDetail,
+  AlbumWithDate,
   AnalyticsData,
   CollectionAlbum,
   CollectionStatus,
@@ -78,6 +79,8 @@ export interface GenresRepository {
 
 export interface UserReleasesRepository {
   findRecent(userId: string, limit: number): Promise<Album[]>;
+  findDailyPick(userId: string): Promise<AlbumWithDate | null>;
+  findOldestListened(userId: string): Promise<Album | null>;
   findUpNext(userId: string, limit: number): Promise<Album[]>;
   findAllByUser(userId: string): Promise<CollectionAlbum[]>;
   create(data: {

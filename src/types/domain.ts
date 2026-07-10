@@ -13,6 +13,10 @@ export interface Album {
   artist: string;
 }
 
+export interface AlbumWithDate extends Album {
+  createdAt: string;
+}
+
 export interface Track {
   id: string;
   title: string;
@@ -29,8 +33,11 @@ export interface HomeStats {
 
 export interface HomeData {
   stats: HomeStats;
+  dailyPick: AlbumWithDate | null;
   albums: Album[];
+  rediscover: Album | null;
   upNext: Album[];
+  wantToBuyCount: number;
 }
 
 export interface BacklogEntry {
