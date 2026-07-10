@@ -38,6 +38,7 @@ export interface HomeData {
   rediscover: Album | null;
   upNext: Album[];
   wantToBuyCount: number;
+  handleShowAnother: () => void;
 }
 
 export interface BacklogEntry {
