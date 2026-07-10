@@ -84,6 +84,9 @@ const CollectionPage: FunctionComponent = () => {
  */
 
 export const Route = createFileRoute('/_auth/collection/')({
+  validateSearch: (search: Record<string, string | undefined>) => ({
+    want: search.want,
+  }),
   component: CollectionPage,
   loader: () => ({
     pageHeader: {
