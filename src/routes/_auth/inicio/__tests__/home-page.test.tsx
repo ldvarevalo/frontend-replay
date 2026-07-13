@@ -29,6 +29,7 @@ const MOCK_ALBUMS = [
     coverUrl: '',
     title: 'A.RECENT.ALBUM',
     artist: 'AN.ARTIST',
+    listenedAt: '2024-06-01T00:00:00Z',
   },
 ];
 

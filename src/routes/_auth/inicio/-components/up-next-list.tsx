@@ -11,13 +11,13 @@ export const UpNextList: FunctionComponent<UpNextListProps> = ({
   albums,
   onAlbumClick,
 }) => (
-  <div className="space-y-3">
+  <div className="space-y-2">
     {albums.map(album => (
       <button
         key={album.id}
         type="button"
         onClick={() => onAlbumClick(album)}
-        className="flex w-full items-center gap-3 rounded-sm border border-outline-variant bg-surface-container-low p-3 text-left transition-opacity hover:opacity-80"
+        className="flex w-full items-center gap-3 rounded-sm bg-surface-container-lowest p-3 text-left transition-opacity hover:opacity-80"
       >
         <div className="size-14 flex-shrink-0 overflow-hidden rounded-sm bg-muted">
           <img

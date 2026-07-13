@@ -17,6 +17,10 @@ export interface AlbumWithDate extends Album {
   createdAt: string;
 }
 
+export interface AlbumWithListenedAt extends Album {
+  listenedAt: string;
+}
+
 export interface Track {
   id: string;
   title: string;
@@ -34,7 +38,7 @@ export interface HomeStats {
 export interface HomeData {
   stats: HomeStats;
   dailyPick: AlbumWithDate | null;
-  albums: Album[];
+  albums: AlbumWithListenedAt[];
   rediscover: Album | null;
   upNext: Album[];
   wantToBuyCount: number;

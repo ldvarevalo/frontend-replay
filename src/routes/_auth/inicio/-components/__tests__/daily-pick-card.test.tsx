@@ -24,7 +24,7 @@ describe('DailyPickCard', () => {
     expect(screen.getByText('AN.ALBUM.TITLE')).toBeInTheDocument();
     expect(screen.getByText('AN.ARTIST.NAME')).toBeInTheDocument();
     expect(screen.getByText(/Added.*ago/)).toBeInTheDocument();
-    expect(screen.getByText('Listen today →')).toBeInTheDocument();
+    expect(screen.getByText('Listen today')).toBeInTheDocument();
     expect(screen.getByText('Show another')).toBeInTheDocument();
   });
 
@@ -39,7 +39,7 @@ describe('DailyPickCard', () => {
       />
     );
 
-    fireEvent.click(screen.getByText('Listen today →'));
+    fireEvent.click(screen.getByText('Listen today'));
     expect(handleListenTodayMock).toHaveBeenCalledTimes(1);
   });
 

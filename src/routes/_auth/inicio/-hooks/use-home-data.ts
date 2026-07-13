@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { useUser } from '#/core/auth';
 import { useRepositories } from '#/repositories/hooks';
 import type { HomeData, HomeStats } from '#/types/domain';
@@ -33,6 +33,7 @@ export const useHomeData = (): HomeData => {
     queryKey: ['home-daily-pick', userId, dailyPickOffset],
     queryFn: () => userReleases.findDailyPick(user!.id),
     enabled: !!user,
+    placeholderData: keepPreviousData,
   });
 
   const { data: albumsData } = useQuery({

@@ -19,9 +19,7 @@ const MOCK_ALBUMS = [
 
 describe('UpNextList', () => {
   it('should render all albums', () => {
-    render(
-      <UpNextList albums={MOCK_ALBUMS} onAlbumClick={vi.fn()} />
-    );
+    render(<UpNextList albums={MOCK_ALBUMS} onAlbumClick={vi.fn()} />);
 
     expect(screen.getByText('AN.ALBUM.TITLE')).toBeInTheDocument();
     expect(screen.getByText('ANOTHER.ALBUM')).toBeInTheDocument();

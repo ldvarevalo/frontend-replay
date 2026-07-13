@@ -2,6 +2,7 @@ import type { FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { SectionHeader } from '#/components/section-header';
 import { Typography } from '#/components/ui/typography';
+import { BannerCta } from './-components/banner-cta';
 import { DailyPickCard } from './-components/daily-pick-card';
 import { RecentlyListenedCard } from './-components/recently-listened-card';
 import { RediscoverCard } from './-components/rediscover-card';
@@ -34,10 +35,17 @@ export const HomePage: FunctionComponent = () => {
           onShowAnother={handleShowAnother}
         />
       )}
+
       <StatsCard
         totalReleases={stats.totalReleases}
         thisMonth={stats.thisMonth}
       />
+
+      <BannerCta
+        count={wantToBuyCount}
+        onClick={() => navigate({ to: '/collection?want' })}
+      />
+
       <SectionHeader title="Recently Listened" />
       <div className="grid grid-cols-2 gap-4">
         {albums.map(album => (
@@ -46,10 +54,12 @@ export const HomePage: FunctionComponent = () => {
             coverUrl={album.coverUrl}
             title={album.title}
             artist={album.artist}
+            listenedAt={album.listenedAt}
             onClick={() => navigate({ to: `/album/${album.id}` })}
           />
         ))}
       </div>
+
       {rediscover && (
         <>
           <SectionHeader title="Rediscover" />
@@ -61,11 +71,7 @@ export const HomePage: FunctionComponent = () => {
           />
         </>
       )}
-      <SectionHeader
-        title="Wishlist"
-        linkLabel={`${wantToBuyCount} records waiting`}
-        onLinkClick={() => navigate({ to: '/collection?want' })}
-      />
+
       <SectionHeader title="Up Next" />
       {upNext.length > 0 ? (
         <UpNextList

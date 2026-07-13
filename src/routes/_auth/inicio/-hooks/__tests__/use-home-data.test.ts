@@ -1,7 +1,12 @@
 import { renderHook, waitFor } from '@test-utils';
 import * as authModule from '#/core/auth/auth-context';
 import { setRepositories } from '#/repositories/instance';
-import type { Album, AlbumWithDate, HomeStats } from '#/types/domain';
+import type {
+  Album,
+  AlbumWithDate,
+  AlbumWithListenedAt,
+  HomeStats,
+} from '#/types/domain';
 import { useHomeData } from '../use-home-data';
 
 const useUserMock = vi.spyOn(authModule, 'useUser');
@@ -26,26 +31,30 @@ const MOCK_RECENT = [
     coverUrl: '',
     title: 'A.RECENT.ALBUM',
     artist: 'AN.ARTIST',
+    listenedAt: '2024-06-01T00:00:00Z',
   },
   {
     id: 'A.RECENT.TWO',
     coverUrl: '',
     title: 'ANOTHER.RECENT',
     artist: 'ANOTHER.ARTIST',
+    listenedAt: '2024-06-01T00:00:00Z',
   },
   {
     id: 'A.RECENT.THREE',
     coverUrl: '',
     title: 'A.THIRD.ALBUM',
     artist: 'A.THIRD.ARTIST',
+    listenedAt: '2024-06-01T00:00:00Z',
   },
   {
     id: 'A.RECENT.FOUR',
     coverUrl: '',
     title: 'A.FOURTH.ALBUM',
     artist: 'A.FOURTH.ARTIST',
+    listenedAt: '2024-06-01T00:00:00Z',
   },
-] as const satisfies Album[];
+] as const satisfies AlbumWithListenedAt[];
 
 const MOCK_REDISCOVER = {
   id: 'A.REDISCOVER.ID',
