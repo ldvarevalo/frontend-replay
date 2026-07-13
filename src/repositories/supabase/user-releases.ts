@@ -1,6 +1,8 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type {
   Album,
+  AlbumWithDate,
+  AlbumWithListenedAt,
   CollectionAlbum,
   CollectionStatus,
   PriorityLevel,
@@ -14,6 +16,7 @@ import type { UserReleasesRepository } from '../types';
 const RECENT_ALBUM_SELECT = `
   release_id,
   status,
+  listened_at,
   releases!inner (
     id,
     title,
@@ -39,6 +42,21 @@ const ALL_FIELDS_SELECT = `
     title,
     cover_url,
     release_year,
+    release_artists!inner (
+      artists!inner (
+        name
+      )
+    )
+  )
+`;
+
+const DAILY_PICK_SELECT = `
+  created_at,
+  release_id,
+  releases!inner (
+    id,
+    title,
+    cover_url,
     release_artists!inner (
       artists!inner (
         name
@@ -87,6 +105,32 @@ const mapToAlbum = (row: Record<string, unknown>): Album => {
   };
 };
 
+const mapToAlbumWithDate = (row: Record<string, unknown>): AlbumWithDate => {
+  const releases = row.releases as Record<string, unknown>;
+
+  return {
+    id: releases.id as string,
+    coverUrl: (releases.cover_url as string) ?? '',
+    title: releases.title as string,
+    artist: getArtistName(releases),
+    createdAt: row.created_at as string,
+  };
+};
+
+const mapToAlbumWithListenedAt = (
+  row: Record<string, unknown>
+): AlbumWithListenedAt => {
+  const releases = row.releases as Record<string, unknown>;
+
+  return {
+    id: releases.id as string,
+    coverUrl: (releases.cover_url as string) ?? '',
+    title: releases.title as string,
+    artist: getArtistName(releases),
+    listenedAt: row.listened_at as string,
+  };
+};
+
 /**
  * SupabaseUserReleasesRepository
  */
@@ -98,7 +142,10 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
     this.supabase = supabase;
   }
 
-  async findRecent(userId: string, limit: number): Promise<Album[]> {
+  async findRecent(
+    userId: string,
+    limit: number
+  ): Promise<AlbumWithListenedAt[]> {
     const { data, error } = await this.supabase
       .from('user_releases')
       .select(RECENT_ALBUM_SELECT)
@@ -114,7 +161,67 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
       throw error;
     }
 
-    return (data ?? []).map(mapToAlbum);
+    return (data ?? []).map(mapToAlbumWithListenedAt);
+  }
+
+  async findDailyPick(userId: string): Promise<AlbumWithDate | null> {
+    const { count } = await this.supabase
+      .from('user_releases')
+      .select('*', {
+        count: 'exact',
+        head: true,
+      })
+      .eq('user_id', userId)
+      .eq('status', 'discover')
+      .eq('is_listened', false);
+
+    if (!count || count === 0) {
+      return null;
+    }
+
+    const offset = Math.floor(Math.random() * count);
+
+    const { data, error } = await this.supabase
+      .from('user_releases')
+      .select(DAILY_PICK_SELECT)
+      .eq('user_id', userId)
+      .eq('status', 'discover')
+      .eq('is_listened', false)
+      .order('created_at', { ascending: true })
+      .range(offset, offset);
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+      return null;
+    }
+
+    return mapToAlbumWithDate(data[0]);
+  }
+
+  async findOldestListened(userId: string): Promise<Album | null> {
+    const { data, error } = await this.supabase
+      .from('user_releases')
+      .select(RECENT_ALBUM_SELECT)
+      .eq('user_id', userId)
+      .eq('is_listened', true)
+      .order('listened_at', {
+        ascending: true,
+        nullsFirst: false,
+      })
+      .limit(1);
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+      return null;
+    }
+
+    return mapToAlbum(data[0]);
   }
 
   async findUpNext(userId: string, limit: number): Promise<Album[]> {
@@ -123,7 +230,7 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
       .select(RECENT_ALBUM_SELECT)
       .eq('user_id', userId)
       .eq('is_listened', false)
-      .in('status', ['discover', 'owned'])
+      .eq('status', 'owned')
       .order('archived_at', {
         ascending: true,
         nullsFirst: true,

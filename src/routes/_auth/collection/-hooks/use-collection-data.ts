@@ -19,7 +19,9 @@ const STATUS_MAP: Record<string, CollectionStatus> = {
   OWNED: 'owned',
 };
 
-export const useCollectionData = (): CollectionData => {
+export const useCollectionData = (
+  initialTab: string = 'ALL'
+): CollectionData => {
   const user = useUser();
   const { userReleases } = useRepositories();
 
@@ -30,7 +32,7 @@ export const useCollectionData = (): CollectionData => {
   });
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('ALL');
+  const [activeTab, setActiveTab] = useState(initialTab);
 
   const filteredAlbums = allAlbums.filter(album => {
     if (activeTab === 'LISTENED') {

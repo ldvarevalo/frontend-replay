@@ -1,5 +1,9 @@
 import type { FunctionComponent } from 'react';
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import {
+  createFileRoute,
+  useNavigate,
+  useSearch,
+} from '@tanstack/react-router';
 import { SearchBar } from '#/components/search-bar';
 import { Typography } from '#/components/ui/typography';
 import { CollectionAlbumGrid } from './-components/collection-album-grid';
@@ -39,13 +43,14 @@ const TABS = [
 
 const CollectionPage: FunctionComponent = () => {
   const navigate = useNavigate();
+  const { want } = useSearch({ from: '/_auth/collection/' });
   const {
     filteredAlbums,
     searchQuery,
     setSearchQuery,
     activeTab,
     setActiveTab,
-  } = useCollectionData();
+  } = useCollectionData(want !== undefined ? 'WANT' : 'ALL');
 
   return (
     <main className="page-wrap space-y-6 py-6">
@@ -84,6 +89,9 @@ const CollectionPage: FunctionComponent = () => {
  */
 
 export const Route = createFileRoute('/_auth/collection/')({
+  validateSearch: (search: Record<string, string | undefined>) => ({
+    want: search.want,
+  }),
   component: CollectionPage,
   loader: () => ({
     pageHeader: {
