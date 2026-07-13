@@ -49,6 +49,9 @@ export const AlbumDiscoverSection: FunctionComponent<
   const { mutate: logSession, isPending } = useLogListeningSession(albumId);
   const [selectedScope, setSelectedScope] =
     useState<ListeningScope>('full_release');
+  const [isLogSessionOpen, setIsLogSessionOpen] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
 
   const handleSave = (): void => {
     logSession(
@@ -56,6 +59,7 @@ export const AlbumDiscoverSection: FunctionComponent<
       {
         onSuccess: () => {
           setHasLoggedSession(true);
+          setIsLogSessionOpen(false);
         },
       }
     );
@@ -103,21 +107,31 @@ export const AlbumDiscoverSection: FunctionComponent<
         <>
           <section className="space-y-2">
             {hasLoggedSession && lastSessionScope && lastSessionListenedAt ? (
-              <div className="flex items-center gap-3 bg-surface-container-high px-4 py-3">
-                <Headphones className="size-5 text-tertiary" />
-                <div className="flex flex-col">
-                  <Typography size="xs" className="text-on-surface-variant">
-                    Last listened {formatDate(lastSessionListenedAt)}
-                  </Typography>
-                  <Typography
-                    family="heading"
-                    size="lg"
-                    className="text-tertiary"
-                  >
-                    {getListeningScopeLabel(lastSessionScope)}
-                  </Typography>
+              <>
+                <Typography
+                  size="sm"
+                  uppercase
+                  className="text-on-surface-variant"
+                >
+                  LISTENING SESSIONS
+                </Typography>
+
+                <div className="flex items-center gap-3 bg-surface-container-high px-4 py-3">
+                  <Headphones className="size-5 text-tertiary" />
+                  <div className="flex flex-col">
+                    <Typography size="xs" className="text-on-surface-variant">
+                      Last listened {formatDate(lastSessionListenedAt)}
+                    </Typography>
+                    <Typography
+                      family="heading"
+                      size="lg"
+                      className="text-tertiary"
+                    >
+                      {getListeningScopeLabel(lastSessionScope)}
+                    </Typography>
+                  </div>
                 </div>
-              </div>
+              </>
             ) : (
               <Typography
                 size="sm"
@@ -128,7 +142,7 @@ export const AlbumDiscoverSection: FunctionComponent<
               </Typography>
             )}
 
-            <Dialog>
+            <Dialog open={isLogSessionOpen} onOpenChange={setIsLogSessionOpen}>
               <DialogTrigger
                 render={
                   <Button variant="outline" className="w-full">
@@ -196,7 +210,7 @@ export const AlbumDiscoverSection: FunctionComponent<
               Ready to decide?
             </Typography>
 
-            <Dialog>
+            <Dialog open={isWishlistOpen} onOpenChange={setIsWishlistOpen}>
               <DialogTrigger
                 render={
                   <Button
@@ -220,7 +234,13 @@ export const AlbumDiscoverSection: FunctionComponent<
                   This album will be moved to your Wishlist so you can decide
                   later if it deserves a place in your collection.
                 </Typography>
-                <Button variant="primary" onClick={onAddToWishlist}>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    onAddToWishlist();
+                    setIsWishlistOpen(false);
+                  }}
+                >
                   <Typography size="xs" weight="bold" uppercase>
                     ADD TO WISHLIST
                   </Typography>
@@ -238,7 +258,7 @@ export const AlbumDiscoverSection: FunctionComponent<
               </Typography>
             </Button>
 
-            <Dialog>
+            <Dialog open={isArchiveOpen} onOpenChange={setIsArchiveOpen}>
               <DialogTrigger
                 render={
                   <Button
@@ -261,7 +281,13 @@ export const AlbumDiscoverSection: FunctionComponent<
                 <Typography size="sm" className="text-on-surface-variant">
                   This album will be archived. You can bring it back later.
                 </Typography>
-                <Button variant="primary" onClick={onArchive}>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    onArchive();
+                    setIsArchiveOpen(false);
+                  }}
+                >
                   <Typography size="xs" weight="bold" uppercase>
                     NOT FOR ME
                   </Typography>
