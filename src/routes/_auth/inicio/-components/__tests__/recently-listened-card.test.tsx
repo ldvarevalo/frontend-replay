@@ -2,12 +2,20 @@ import { fireEvent } from '@testing-library/react';
 import { render, screen } from '@test-utils';
 import { RecentlyListenedCard } from '../recently-listened-card';
 
+/**
+ * Mocks
+ */
+
 const MOCK_PROPS = {
   coverUrl: 'https://example.com/cover.jpg',
   title: 'AN.ALBUM.TITLE',
   artist: 'AN.ARTIST.NAME',
   listenedAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
 } as const;
+
+/**
+ * Tests
+ */
 
 describe('RecentlyListenedCard', () => {
   it('should render album title and artist', () => {
