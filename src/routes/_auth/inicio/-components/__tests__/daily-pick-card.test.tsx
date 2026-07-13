@@ -2,6 +2,10 @@ import { fireEvent } from '@testing-library/react';
 import { render, screen } from '@test-utils';
 import { DailyPickCard } from '../daily-pick-card';
 
+/**
+ * Mocks
+ */
+
 const MOCK_ALBUM = {
   id: 'A.DAILY.PICK.ID',
   coverUrl: 'https://example.com/cover.jpg',
@@ -9,6 +13,10 @@ const MOCK_ALBUM = {
   artist: 'AN.ARTIST.NAME',
   createdAt: '2024-01-15T00:00:00Z',
 } as const;
+
+/**
+ * Tests
+ */
 
 describe('DailyPickCard', () => {
   it('should render album info and relative date', () => {
