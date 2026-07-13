@@ -51,6 +51,14 @@ const AlbumDetailPage: FunctionComponent = () => {
   ];
   const { sessions, isLoading: sessionsLoading } = useAlbumSessions(id);
 
+  if (isLoading) {
+    return (
+      <main className="page-wrap flex items-center justify-center py-20">
+        <Typography className="text-on-surface-variant">Loading...</Typography>
+      </main>
+    );
+  }
+
   if (!id || isError || !album) {
     return (
       <main className="page-wrap flex items-center justify-center py-20">
@@ -69,14 +77,6 @@ const AlbumDetailPage: FunctionComponent = () => {
               : (error?.message ?? 'The album could not be loaded.')}
           </Typography>
         </div>
-      </main>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <main className="page-wrap flex items-center justify-center py-20">
-        <Typography className="text-on-surface-variant">Loading...</Typography>
       </main>
     );
   }
