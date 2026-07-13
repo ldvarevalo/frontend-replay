@@ -129,10 +129,9 @@ export const AlbumDiscoverSection: FunctionComponent<
               <DialogTrigger
                 render={
                   <Button
-                    variant="secondary"
+                    variant="outline"
                     className="w-full"
                   >
-                    <Headphones className="size-4" />
                       {hasLoggedSession
                         ? 'LOG ANOTHER SESSION'
                         : 'LOG LISTENING SESSION'}
@@ -141,7 +140,7 @@ export const AlbumDiscoverSection: FunctionComponent<
               />
               <DialogContent position="bottom" showCloseButton={false}>
                 <DialogHeader>
-                  <Typography family="heading" size="lg">
+                  <Typography as="p" family="heading" size="xl" weight="bold">
                     Have you listened to this album?
                   </Typography>
                 </DialogHeader>
@@ -173,7 +172,7 @@ export const AlbumDiscoverSection: FunctionComponent<
 
                 <Button
                   variant="primary"
-                  className="w-full"
+                  className="w-full mt-8"
                   onClick={handleSave}
                   disabled={isPending}
                 >

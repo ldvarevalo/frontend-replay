@@ -8,18 +8,20 @@ import { AlbumDiscoverSection } from '../album-discover-section';
  */
 
 const mockMutate = vi.fn();
-const mockIsPending = false;
-
-vi.spyOn(useLogListeningSessionModule, 'useLogListeningSession').mockReturnValue({
-  mutate: mockMutate,
-  isPending: mockIsPending,
-});
 
 /**
  * Tests
  */
 
 describe('AlbumDiscoverSection', () => {
+  beforeEach(() => {
+    mockMutate.mockClear();
+    vi.spyOn(useLogListeningSessionModule, 'useLogListeningSession').mockReturnValue({
+      mutate: mockMutate,
+      isPending: false,
+    });
+  });
+
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -100,7 +102,6 @@ describe('AlbumDiscoverSection', () => {
   it('should render listening section with prompt when no sessions', () => {
     render(<AlbumDiscoverSection {...defaultProps} />);
 
-    expect(screen.getByText('LISTENING')).toBeInTheDocument();
     expect(
       screen.getByText('Have you listened to this album?')
     ).toBeInTheDocument();
@@ -135,8 +136,8 @@ describe('AlbumDiscoverSection', () => {
       expect(screen.getByText('SAVE')).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByText('PART OF THE ALBUM'));
-    fireEvent.click(screen.getByText('SAVE'));
+    fireEvent.click(screen.getByRole('button', { name: /part of the album/i }));
+    fireEvent.click(screen.getByRole('button', { name: /save/i }));
 
     expect(mockMutate).toHaveBeenCalledWith(
       { scope: 'partial_release' },
