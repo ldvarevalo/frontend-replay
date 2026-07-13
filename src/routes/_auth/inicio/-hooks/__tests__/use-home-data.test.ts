@@ -9,7 +9,15 @@ import type {
 } from '#/types/domain';
 import { useHomeData } from '../use-home-data';
 
+/**
+ * Mocks
+ */
+
 const useUserMock = vi.spyOn(authModule, 'useUser');
+
+/**
+ * Constants
+ */
 
 const MOCK_STATS = {
   totalReleases: 100,
