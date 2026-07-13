@@ -2,6 +2,10 @@ import { fireEvent } from '@testing-library/react';
 import { render, screen } from '@test-utils';
 import { UpNextList } from '../up-next-list';
 
+/**
+ * Mocks
+ */
+
 const MOCK_ALBUMS = [
   {
     id: 'A.ALBUM.ONE',
@@ -16,6 +20,10 @@ const MOCK_ALBUMS = [
     artist: 'ANOTHER.ARTIST',
   },
 ];
+
+/**
+ * Tests
+ */
 
 describe('UpNextList', () => {
   it('should render all albums', () => {
