@@ -1,4 +1,4 @@
-# Crate — Frontend
+# Replay — Frontend
 
 Music collection manager. React + TanStack Router + Tailwind CSS v4 + @base-ui/react.
 

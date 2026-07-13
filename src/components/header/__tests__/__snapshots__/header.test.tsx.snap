@@ -16,7 +16,7 @@ exports[`Header > should render logo link 1`] = `
             class="text-foreground no-underline"
             href="/inicio"
           >
-            Crate
+            Replay
           </a>
         </h2>
       </div>

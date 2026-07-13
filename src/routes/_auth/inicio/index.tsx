@@ -95,7 +95,7 @@ export const Route = createFileRoute('/_auth/inicio/')({
   component: HomePage,
   loader: () => ({
     pageHeader: {
-      title: 'Crate',
+      title: 'Replay',
     },
   }),
 });

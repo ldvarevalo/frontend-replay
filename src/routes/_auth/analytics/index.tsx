@@ -163,7 +163,7 @@ export const Route = createFileRoute('/_auth/analytics/')({
   component: AnalyticsPage,
   loader: () => ({
     pageHeader: {
-      title: 'Crate',
+      title: 'Replay',
     },
   }),
 });

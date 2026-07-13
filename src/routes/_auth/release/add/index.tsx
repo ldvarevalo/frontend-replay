@@ -138,7 +138,7 @@ export const Route = createFileRoute('/_auth/release/add/')({
   component: AddReleasePage,
   loader: () => ({
     pageHeader: {
-      title: 'Crate',
+      title: 'Replay',
     },
   }),
 });

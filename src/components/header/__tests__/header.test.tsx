@@ -14,13 +14,13 @@ const usePageHeaderMock = vi.spyOn(pageHeaderModule, 'usePageHeader');
 
 describe('Header', () => {
   beforeEach(() => {
-    usePageHeaderMock.mockReturnValue({ title: 'Crate' });
+    usePageHeaderMock.mockReturnValue({ title: 'Replay' });
   });
 
   it('should render logo link', () => {
     render(<Header />);
 
-    expect(screen.getByText('Crate')).toBeInTheDocument();
+    expect(screen.getByText('Replay')).toBeInTheDocument();
     expect(document.body).toMatchSnapshot();
   });
 

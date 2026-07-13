@@ -1,5 +1,5 @@
 {
-  "projectName": "frontend-crate",
+  "projectName": "frontend-replay",
   "mode": "file-router",
   "typescript": true,
   "packageManager": "yarn",

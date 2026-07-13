@@ -95,7 +95,7 @@ export const Route = createFileRoute('/_auth/collection/')({
   component: CollectionPage,
   loader: () => ({
     pageHeader: {
-      title: 'Crate',
+      title: 'Replay',
     },
   }),
 });
