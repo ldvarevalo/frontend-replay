@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import type { FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
@@ -138,8 +137,6 @@ const AlbumDetailPage: FunctionComponent = () => {
             albumId={id}
             addedAt={album.addedAt}
             archivedAt={album.archivedAt}
-            lastSessionScope={sessions[0]?.scope ?? null}
-            lastSessionListenedAt={sessions[0]?.listenedAt ?? null}
             onAddToWishlist={() =>
               setStatus({
                 releaseId: id,

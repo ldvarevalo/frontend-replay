@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { useState } from 'react';
 import type { FunctionComponent } from 'react';
 import { Calendar, Compass, Headphones, Star, X } from 'lucide-react';
@@ -11,6 +12,7 @@ import {
 import { Typography } from '#/components/ui/typography';
 import { formatDate } from '#/core/helpers/format-date';
 import { getListeningScopeLabel } from '#/core/helpers/listening-scope-labels/listening-scope-labels';
+import { useAlbumSessions } from '#/routes/_auth/album/-hooks/use-album-sessions';
 import { useLogListeningSession } from '#/routes/_auth/album/{-$id}/session/-hooks/use-log-listening-session';
 import type { ListeningScope } from '#/types/domain';
 
@@ -22,8 +24,6 @@ interface AlbumDiscoverSectionProps {
   albumId: string;
   addedAt: string | null;
   archivedAt: string | null;
-  lastSessionScope: ListeningScope | null;
-  lastSessionListenedAt: string | null;
   onAddToWishlist: () => void;
   onArchive: () => void;
   onUnarchive: () => void;
@@ -39,31 +39,34 @@ export const AlbumDiscoverSection: FunctionComponent<
   albumId,
   addedAt,
   archivedAt,
-  lastSessionScope,
-  lastSessionListenedAt,
   onAddToWishlist,
   onArchive,
   onUnarchive,
 }) => {
-  const [hasLoggedSession, setHasLoggedSession] = useState(false);
   const { mutate: logSession, isPending } = useLogListeningSession(albumId);
+  const { sessions } = useAlbumSessions(albumId);
   const [selectedScope, setSelectedScope] =
     useState<ListeningScope>('full_release');
   const [isLogSessionOpen, setIsLogSessionOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
 
+  const lastSessionScope = (sessions[0]?.scope ??
+    null) as ListeningScope | null;
+  const lastSessionListenedAt = sessions[0]?.listenedAt ?? null;
+
   const handleSave = (): void => {
     logSession(
       { scope: selectedScope },
       {
         onSuccess: () => {
-          setHasLoggedSession(true);
           setIsLogSessionOpen(false);
         },
       }
     );
   };
+
+  const hasLoggedSession = sessions.length > 0;
 
   return (
     <>
@@ -113,7 +116,7 @@ export const AlbumDiscoverSection: FunctionComponent<
                   uppercase
                   className="text-on-surface-variant"
                 >
-                  LISTENING SESSIONS
+                  LISTENING SESSIONS ({sessions.length})
                 </Typography>
 
                 <div className="flex items-center gap-3 bg-surface-container-high px-4 py-3">
