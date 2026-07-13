@@ -6,8 +6,8 @@ import { Typography } from '#/components/ui/typography';
  */
 
 interface StatsCardProps {
-  totalReleases: number;
-  thisMonth: number;
+  collectionCount: number;
+  listeningHours: number;
 }
 
 /**
@@ -15,8 +15,8 @@ interface StatsCardProps {
  */
 
 export const StatsCard: FunctionComponent<StatsCardProps> = ({
-  totalReleases,
-  thisMonth,
+  collectionCount,
+  listeningHours,
 }) => (
   <div className="grid grid-cols-2 gap-4 rounded-sm bg-secondary p-4">
     <div className="flex flex-col gap-1">
@@ -26,10 +26,10 @@ export const StatsCard: FunctionComponent<StatsCardProps> = ({
         tracking="wider"
         weight="medium"
       >
-        TOTAL RELEASES
+        Collection
       </Typography>
-      <Typography family="heading" size="2xl">
-        {totalReleases.toLocaleString()}
+      <Typography as="h6" family="heading" size="xl">
+        {collectionCount.toLocaleString()} albums
       </Typography>
     </div>
     <div className="flex flex-col gap-1">
@@ -39,10 +39,10 @@ export const StatsCard: FunctionComponent<StatsCardProps> = ({
         tracking="wider"
         weight="medium"
       >
-        THIS MONTH
+        This month
       </Typography>
-      <Typography family="heading" size="2xl">
-        {thisMonth}
+      <Typography as="h6" family="heading" size="xl">
+        {listeningHours}h listening
       </Typography>
     </div>
   </div>

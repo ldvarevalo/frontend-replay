@@ -2,6 +2,29 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type { HomeStats } from '#/types/domain';
 import type { StatsRepository } from '../types';
 
+/** Helpers */
+
+const getFirstOfMonth = (): string =>
+  new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString();
+
+const sumListeningSeconds = async (
+  supabase: SupabaseClient,
+  releaseIds: string[],
+  since: string
+): Promise<number> => {
+  const { data, error } = await supabase
+    .from('listening_sessions')
+    .select('duration_seconds')
+    .in('user_release_id', releaseIds)
+    .gte('listened_at', since);
+
+  if (error) {
+    throw error;
+  }
+
+  return (data ?? []).reduce((sum, s) => sum + (s.duration_seconds ?? 0), 0);
+};
+
 /**
  * SupabaseStatsRepository
  */
@@ -14,16 +37,9 @@ export class SupabaseStatsRepository implements StatsRepository {
   }
 
   async findStats(userId: string): Promise<HomeStats> {
-    const now = new Date();
-    const firstOfMonth = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      1
-    ).toISOString();
-
     const { data, error } = await this.supabase
       .from('user_releases')
-      .select('id, status, created_at')
+      .select('id, status')
       .eq('user_id', userId)
       .is('archived_at', null);
 
@@ -32,17 +48,17 @@ export class SupabaseStatsRepository implements StatsRepository {
     }
 
     const rows = data ?? [];
-
-    const totalReleases = rows.filter(r => r.status === 'owned').length;
-
-    const thisMonth = rows.filter(r => r.created_at >= firstOfMonth).length;
-
-    const wantToBuy = rows.filter(r => r.status === 'want').length;
+    const releaseIds = rows.map(r => r.id);
+    const totalSeconds = await sumListeningSeconds(
+      this.supabase,
+      releaseIds,
+      getFirstOfMonth()
+    );
 
     return {
-      totalReleases,
-      thisMonth,
-      wantToBuy,
+      totalReleases: rows.filter(r => r.status === 'owned').length,
+      listeningTimeHours: Math.round(totalSeconds / 3600),
+      wantToBuy: rows.filter(r => r.status === 'want').length,
     };
   }
 }

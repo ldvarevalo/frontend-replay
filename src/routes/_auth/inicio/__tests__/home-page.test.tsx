@@ -11,7 +11,7 @@ const TEST_USER: AuthUser = {
 
 const MOCK_STATS = {
   totalReleases: 100,
-  thisMonth: 5,
+  listeningTimeHours: 5,
   wantToBuy: 3,
 };
 

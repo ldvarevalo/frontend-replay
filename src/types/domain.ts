@@ -31,7 +31,7 @@ export interface Track {
 
 export interface HomeStats {
   totalReleases: number;
-  thisMonth: number;
+  listeningTimeHours: number;
   wantToBuy: number;
 }
 

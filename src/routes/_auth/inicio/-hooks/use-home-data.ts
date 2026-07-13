@@ -8,7 +8,7 @@ import type { HomeData, HomeStats } from '#/types/domain';
 
 const EMPTY_STATS: HomeStats = {
   totalReleases: 0,
-  thisMonth: 0,
+  listeningTimeHours: 0,
   wantToBuy: 0,
 };
 

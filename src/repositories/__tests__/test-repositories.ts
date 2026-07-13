@@ -63,7 +63,7 @@ const createNoopRepositories = (): Repositories => {
     stats: {
       findStats: async (): Promise<HomeStats> => ({
         totalReleases: 0,
-        thisMonth: 0,
+        listeningTimeHours: 0,
         wantToBuy: 0,
       }),
     },

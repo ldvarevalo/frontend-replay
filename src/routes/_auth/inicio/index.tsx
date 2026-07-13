@@ -37,8 +37,8 @@ export const HomePage: FunctionComponent = () => {
       )}
 
       <StatsCard
-        totalReleases={stats.totalReleases}
-        thisMonth={stats.thisMonth}
+        collectionCount={stats.totalReleases}
+        listeningHours={stats.listeningTimeHours}
       />
 
       <BannerCta

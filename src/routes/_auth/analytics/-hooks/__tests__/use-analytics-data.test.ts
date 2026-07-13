@@ -68,7 +68,7 @@ beforeEach(() => {
     stats: {
       findStats: async () => ({
         totalReleases: 0,
-        thisMonth: 0,
+        listeningTimeHours: 0,
         wantToBuy: 0,
       }),
     },

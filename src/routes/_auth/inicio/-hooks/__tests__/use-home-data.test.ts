@@ -13,7 +13,7 @@ const useUserMock = vi.spyOn(authModule, 'useUser');
 
 const MOCK_STATS = {
   totalReleases: 100,
-  thisMonth: 5,
+  listeningTimeHours: 5,
   wantToBuy: 3,
 } as const satisfies HomeStats;
 
