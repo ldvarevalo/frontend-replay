@@ -134,8 +134,11 @@ const AlbumDetailPage: FunctionComponent = () => {
 
         {album.status === 'discover' && (
           <AlbumDiscoverSection
+            albumId={id}
             addedAt={album.addedAt}
             archivedAt={album.archivedAt}
+            lastSessionScope={sessions[0]?.scope ?? null}
+            lastSessionListenedAt={sessions[0]?.listenedAt ?? null}
             onAddToWishlist={() =>
               setStatus({
                 releaseId: id,

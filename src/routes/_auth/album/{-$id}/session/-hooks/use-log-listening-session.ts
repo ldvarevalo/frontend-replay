@@ -12,7 +12,10 @@ interface UseLogListeningSessionData {
 }
 
 interface UseLogListeningSessionHook {
-  mutate: (data: UseLogListeningSessionData) => void;
+  mutate: (
+    data: UseLogListeningSessionData,
+    options?: { onSuccess?: () => void }
+  ) => void;
   isPending: boolean;
 }
 
