@@ -46,8 +46,7 @@ export const AlbumDiscoverSection: FunctionComponent<
   onUnarchive,
 }) => {
   const [hasLoggedSession, setHasLoggedSession] = useState(false);
-  const { mutate: logSession, isPending } =
-    useLogListeningSession(albumId);
+  const { mutate: logSession, isPending } = useLogListeningSession(albumId);
   const [selectedScope, setSelectedScope] =
     useState<ListeningScope>('full_release');
 
@@ -120,7 +119,11 @@ export const AlbumDiscoverSection: FunctionComponent<
                 </div>
               </div>
             ) : (
-              <Typography size="sm" uppercase className="text-on-surface-variant">
+              <Typography
+                size="sm"
+                uppercase
+                className="text-on-surface-variant"
+              >
                 Have you listened to this album?
               </Typography>
             )}
@@ -128,13 +131,10 @@ export const AlbumDiscoverSection: FunctionComponent<
             <Dialog>
               <DialogTrigger
                 render={
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                  >
-                      {hasLoggedSession
-                        ? 'LOG ANOTHER SESSION'
-                        : 'LOG LISTENING SESSION'}
+                  <Button variant="outline" className="w-full">
+                    {hasLoggedSession
+                      ? 'LOG ANOTHER SESSION'
+                      : 'LOG LISTENING SESSION'}
                   </Button>
                 }
               />
@@ -159,7 +159,9 @@ export const AlbumDiscoverSection: FunctionComponent<
                   </Button>
                   <Button
                     variant={
-                      selectedScope === 'partial_release' ? 'primary' : 'outline'
+                      selectedScope === 'partial_release'
+                        ? 'primary'
+                        : 'outline'
                     }
                     className="flex-1"
                     onClick={() => setSelectedScope('partial_release')}

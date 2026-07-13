@@ -16,7 +16,10 @@ const mockMutate = vi.fn();
 describe('AlbumDiscoverSection', () => {
   beforeEach(() => {
     mockMutate.mockClear();
-    vi.spyOn(useLogListeningSessionModule, 'useLogListeningSession').mockReturnValue({
+    vi.spyOn(
+      useLogListeningSessionModule,
+      'useLogListeningSession'
+    ).mockReturnValue({
       mutate: mockMutate,
       isPending: false,
     });
@@ -46,9 +49,7 @@ describe('AlbumDiscoverSection', () => {
   });
 
   it('should hide date section when addedAt is null', () => {
-    render(
-      <AlbumDiscoverSection {...defaultProps} addedAt={null} />
-    );
+    render(<AlbumDiscoverSection {...defaultProps} addedAt={null} />);
 
     expect(screen.queryByText('DISCOVER')).not.toBeInTheDocument();
   });
@@ -105,9 +106,7 @@ describe('AlbumDiscoverSection', () => {
     expect(
       screen.getByText('Have you listened to this album?')
     ).toBeInTheDocument();
-    expect(
-      screen.getByText('LOG LISTENING SESSION')
-    ).toBeInTheDocument();
+    expect(screen.getByText('LOG LISTENING SESSION')).toBeInTheDocument();
   });
 
   it('should open compact dialog and show scope toggle buttons', async () => {
@@ -116,14 +115,10 @@ describe('AlbumDiscoverSection', () => {
     fireEvent.click(screen.getByText('LOG LISTENING SESSION'));
 
     await waitFor(() => {
-      expect(
-        screen.getByText('FULL ALBUM')
-      ).toBeInTheDocument();
+      expect(screen.getByText('FULL ALBUM')).toBeInTheDocument();
     });
 
-    expect(
-      screen.getByText('PART OF THE ALBUM')
-    ).toBeInTheDocument();
+    expect(screen.getByText('PART OF THE ALBUM')).toBeInTheDocument();
     expect(screen.getByText('SAVE')).toBeInTheDocument();
   });
 
