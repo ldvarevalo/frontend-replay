@@ -2,10 +2,18 @@ import type { FunctionComponent } from 'react';
 import { Typography } from '#/components/ui/typography';
 import type { Album } from '#/types/domain';
 
+/**
+ * Types
+ */
+
 export interface UpNextListProps {
   albums: Album[];
   onAlbumClick: (album: Album) => void;
 }
+
+/**
+ * UpNextList
+ */
 
 export const UpNextList: FunctionComponent<UpNextListProps> = ({
   albums,
@@ -19,7 +27,7 @@ export const UpNextList: FunctionComponent<UpNextListProps> = ({
         onClick={() => onAlbumClick(album)}
         className="flex w-full items-center gap-3 rounded-sm bg-surface-container-lowest p-3 text-left transition-opacity hover:opacity-80"
       >
-        <div className="size-14 flex-shrink-0 overflow-hidden rounded-sm bg-muted">
+        <div className="size-14 shrink-0 overflow-hidden rounded-sm bg-muted">
           <img
             src={album.coverUrl}
             alt={album.title}
