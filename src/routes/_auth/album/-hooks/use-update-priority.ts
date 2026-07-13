@@ -38,7 +38,10 @@ export const useUpdatePriority = (): UseUpdatePriorityHook => {
         payload.priority
       );
     },
-    onSuccess: () => {
+    onSuccess: (_data, payload) => {
+      queryClient.invalidateQueries({
+        queryKey: ['album', payload.releaseId],
+      });
       queryClient.invalidateQueries({ queryKey: ['collection'] });
     },
   });

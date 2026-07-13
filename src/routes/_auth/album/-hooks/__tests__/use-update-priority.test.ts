@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@test-utils';
 import * as authModule from '#/core/auth/auth-context';
 import { setRepositories } from '#/repositories/instance';
@@ -140,6 +141,24 @@ describe('useUpdatePriority', () => {
         'A.USER.ID',
         'low'
       );
+    });
+  });
+
+  it('should invalidate the album query after a successful update', async () => {
+    const queryClient = renderHook(() => useQueryClient()).result.current;
+    const albumKey = ['album', 'A.RELEASE.ID', 'A.USER.ID'];
+
+    queryClient.setQueryData(albumKey, { priority: 'low' });
+
+    const { result } = renderHook(() => useUpdatePriority());
+
+    result.current.mutate({
+      releaseId: 'A.RELEASE.ID',
+      priority: 'high',
+    });
+
+    await waitFor(() => {
+      expect(queryClient.getQueryState(albumKey)?.isInvalidated).toBe(true);
     });
   });
 });
