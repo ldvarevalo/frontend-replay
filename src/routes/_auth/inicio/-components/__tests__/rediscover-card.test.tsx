@@ -2,11 +2,19 @@ import { fireEvent } from '@testing-library/react';
 import { render, screen } from '@test-utils';
 import { RediscoverCard } from '../rediscover-card';
 
+/**
+ * Mocks
+ */
+
 const MOCK_PROPS = {
   coverUrl: 'https://example.com/cover.jpg',
   title: 'AN.OLD.ALBUM',
   artist: 'AN.OLD.ARTIST',
 } as const;
+
+/**
+ * Tests
+ */
 
 describe('RediscoverCard', () => {
   it('should render album title and artist', () => {
