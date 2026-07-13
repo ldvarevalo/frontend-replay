@@ -1,22 +1,47 @@
 import { fireEvent } from '@testing-library/react';
 import { render, screen, waitFor } from '@test-utils';
+import * as useLogListeningSessionModule from '#/routes/_auth/album/{-$id}/session/-hooks/use-log-listening-session';
 import { AlbumDiscoverSection } from '../album-discover-section';
+
+/**
+ * Mocks
+ */
+
+const mockMutate = vi.fn();
 
 /**
  * Tests
  */
 
 describe('AlbumDiscoverSection', () => {
+  beforeEach(() => {
+    mockMutate.mockClear();
+    vi.spyOn(
+      useLogListeningSessionModule,
+      'useLogListeningSession'
+    ).mockReturnValue({
+      mutate: mockMutate,
+      isPending: false,
+    });
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  const defaultProps = {
+    albumId: 'TEST.ALBUM.ID',
+    addedAt: '2026-06-15T10:00:00Z',
+    archivedAt: null,
+    lastSessionScope: null,
+    lastSessionListenedAt: null,
+    onAddToWishlist: vi.fn(),
+    onArchive: vi.fn(),
+    onUnarchive: vi.fn(),
+  };
+
   it('should render DISCOVER label and formatted date when addedAt is provided', () => {
-    render(
-      <AlbumDiscoverSection
-        addedAt="2026-06-15T10:00:00Z"
-        archivedAt={null}
-        onAddToWishlist={vi.fn()}
-        onArchive={vi.fn()}
-        onUnarchive={vi.fn()}
-      />
-    );
+    render(<AlbumDiscoverSection {...defaultProps} />);
 
     expect(screen.getByText('DISCOVER')).toBeInTheDocument();
     expect(screen.getByText('Added')).toBeInTheDocument();
@@ -24,15 +49,7 @@ describe('AlbumDiscoverSection', () => {
   });
 
   it('should hide date section when addedAt is null', () => {
-    render(
-      <AlbumDiscoverSection
-        addedAt={null}
-        archivedAt={null}
-        onAddToWishlist={vi.fn()}
-        onArchive={vi.fn()}
-        onUnarchive={vi.fn()}
-      />
-    );
+    render(<AlbumDiscoverSection {...defaultProps} addedAt={null} />);
 
     expect(screen.queryByText('DISCOVER')).not.toBeInTheDocument();
   });
@@ -40,11 +57,9 @@ describe('AlbumDiscoverSection', () => {
   it('should render archived notice when archivedAt is set', () => {
     render(
       <AlbumDiscoverSection
+        {...defaultProps}
         addedAt={null}
         archivedAt="2026-07-01T10:00:00Z"
-        onAddToWishlist={vi.fn()}
-        onArchive={vi.fn()}
-        onUnarchive={vi.fn()}
       />
     );
 
@@ -57,11 +72,9 @@ describe('AlbumDiscoverSection', () => {
   it('should hide decision actions when archived', () => {
     render(
       <AlbumDiscoverSection
+        {...defaultProps}
         addedAt={null}
         archivedAt="2026-07-01T10:00:00Z"
-        onAddToWishlist={vi.fn()}
-        onArchive={vi.fn()}
-        onUnarchive={vi.fn()}
       />
     );
 
@@ -75,10 +88,9 @@ describe('AlbumDiscoverSection', () => {
 
     render(
       <AlbumDiscoverSection
+        {...defaultProps}
         addedAt={null}
         archivedAt="2026-07-01T10:00:00Z"
-        onAddToWishlist={vi.fn()}
-        onArchive={vi.fn()}
         onUnarchive={handleUnarchiveMock}
       />
     );
@@ -88,51 +100,43 @@ describe('AlbumDiscoverSection', () => {
     expect(handleUnarchiveMock).toHaveBeenCalledTimes(1);
   });
 
-  it('should open dialog and call onAddToWishlist on confirm', async () => {
-    const handleAddToWishlistMock = vi.fn();
+  it('should render listening section with prompt when no sessions', () => {
+    render(<AlbumDiscoverSection {...defaultProps} />);
 
-    render(
-      <AlbumDiscoverSection
-        addedAt={null}
-        archivedAt={null}
-        onAddToWishlist={handleAddToWishlistMock}
-        onArchive={vi.fn()}
-        onUnarchive={vi.fn()}
-      />
-    );
-
-    fireEvent.click(screen.getByText('ADD TO WISHLIST'));
-
-    await waitFor(() => {
-      expect(screen.getByText('Add to Wishlist?')).toBeInTheDocument();
-    });
-
-    fireEvent.click(screen.getByText('Add to Wishlist'));
-
-    expect(handleAddToWishlistMock).toHaveBeenCalledTimes(1);
+    expect(
+      screen.getByText('Have you listened to this album?')
+    ).toBeInTheDocument();
+    expect(screen.getByText('LOG LISTENING SESSION')).toBeInTheDocument();
   });
 
-  it('should open dialog and call onArchive on confirm', async () => {
-    const handleArchiveMock = vi.fn();
+  it('should open compact dialog and show scope toggle buttons', async () => {
+    render(<AlbumDiscoverSection {...defaultProps} />);
 
-    render(
-      <AlbumDiscoverSection
-        addedAt={null}
-        archivedAt={null}
-        onAddToWishlist={vi.fn()}
-        onArchive={handleArchiveMock}
-        onUnarchive={vi.fn()}
-      />
-    );
-
-    fireEvent.click(screen.getByText('NOT FOR ME'));
+    fireEvent.click(screen.getByText('LOG LISTENING SESSION'));
 
     await waitFor(() => {
-      expect(screen.getByText('Not for Me?')).toBeInTheDocument();
+      expect(screen.getByText('FULL ALBUM')).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByText('Not for Me'));
+    expect(screen.getByText('PART OF THE ALBUM')).toBeInTheDocument();
+    expect(screen.getByText('SAVE')).toBeInTheDocument();
+  });
 
-    expect(handleArchiveMock).toHaveBeenCalledTimes(1);
+  it('should call logSession with selected scope on save', async () => {
+    render(<AlbumDiscoverSection {...defaultProps} />);
+
+    fireEvent.click(screen.getByText('LOG LISTENING SESSION'));
+
+    await waitFor(() => {
+      expect(screen.getByText('SAVE')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /part of the album/i }));
+    fireEvent.click(screen.getByRole('button', { name: /save/i }));
+
+    expect(mockMutate).toHaveBeenCalledWith(
+      { scope: 'partial_release' },
+      expect.objectContaining({ onSuccess: expect.any(Function) })
+    );
   });
 });

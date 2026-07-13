@@ -1,23 +1,27 @@
+/* eslint-disable complexity */
+import { useState } from 'react';
 import type { FunctionComponent } from 'react';
-import { Calendar, Compass, Star, X } from 'lucide-react';
+import { Calendar, Compass, Headphones, Star, X } from 'lucide-react';
 import { Button } from '#/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from '#/components/ui/dialog';
 import { Typography } from '#/components/ui/typography';
 import { formatDate } from '#/core/helpers/format-date';
+import { getListeningScopeLabel } from '#/core/helpers/listening-scope-labels/listening-scope-labels';
+import { useAlbumSessions } from '#/routes/_auth/album/-hooks/use-album-sessions';
+import { useLogListeningSession } from '#/routes/_auth/album/{-$id}/session/-hooks/use-log-listening-session';
+import type { ListeningScope } from '#/types/domain';
 
 /**
  * Types
  */
 
 interface AlbumDiscoverSectionProps {
+  albumId: string;
   addedAt: string | null;
   archivedAt: string | null;
   onAddToWishlist: () => void;
@@ -31,123 +35,271 @@ interface AlbumDiscoverSectionProps {
 
 export const AlbumDiscoverSection: FunctionComponent<
   AlbumDiscoverSectionProps
-> = ({ addedAt, archivedAt, onAddToWishlist, onArchive, onUnarchive }) => (
-  <>
-    {addedAt && (
-      <section className="space-y-2">
-        <Typography
-          size="xs"
-          transform="uppercase"
-          className="text-on-surface-variant"
-        >
-          DISCOVER
-        </Typography>
-        <div className="flex items-center gap-3 bg-surface-container-high px-4 py-3">
-          <Calendar className="size-5 text-tertiary" />
-          <div className="flex flex-col">
-            <Typography size="xs" className="text-on-surface-variant">
-              Added
-            </Typography>
-            <Typography family="heading" size="lg" className="text-tertiary">
-              {formatDate(addedAt)}
-            </Typography>
-          </div>
-        </div>
-      </section>
-    )}
+> = ({
+  albumId,
+  addedAt,
+  archivedAt,
+  onAddToWishlist,
+  onArchive,
+  onUnarchive,
+}) => {
+  const { mutate: logSession, isPending } = useLogListeningSession(albumId);
+  const { sessions } = useAlbumSessions(albumId);
+  const [selectedScope, setSelectedScope] =
+    useState<ListeningScope>('full_release');
+  const [isLogSessionOpen, setIsLogSessionOpen] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  const [isArchiveOpen, setIsArchiveOpen] = useState(false);
 
-    {archivedAt && (
-      <section className="space-y-4 rounded-lg border border-outline/20 bg-surface-container-low p-4">
-        <Typography size="sm" className="text-on-surface-variant">
-          You marked this album as Not for Me.
-        </Typography>
-        <Button variant="outline" onClick={onUnarchive}>
-          <Typography size="xs" transform="uppercase">
-            BRING BACK
-          </Typography>
-        </Button>
-      </section>
-    )}
+  const lastSessionScope = (sessions[0]?.scope ??
+    null) as ListeningScope | null;
+  const lastSessionListenedAt = sessions[0]?.listenedAt ?? null;
 
-    {!archivedAt && (
-      <>
-        <div className="h-px bg-outline/20 my-8" />
+  const handleSave = (): void => {
+    logSession(
+      { scope: selectedScope },
+      {
+        onSuccess: () => {
+          setIsLogSessionOpen(false);
+        },
+      }
+    );
+  };
 
+  const hasLoggedSession = sessions.length > 0;
+
+  return (
+    <>
+      {addedAt && (
         <section className="space-y-2">
           <Typography
             size="xs"
-            className="text-center text-on-surface-variant mb-4"
+            transform="uppercase"
+            className="text-on-surface-variant"
           >
-            Ready to decide?
+            DISCOVER
           </Typography>
+          <div className="flex items-center gap-3 bg-surface-container-high px-4 py-3">
+            <Calendar className="size-5 text-tertiary" />
+            <div className="flex flex-col">
+              <Typography size="xs" className="text-on-surface-variant">
+                Added
+              </Typography>
+              <Typography family="heading" size="lg" className="text-tertiary">
+                {formatDate(addedAt)}
+              </Typography>
+            </div>
+          </div>
+        </section>
+      )}
 
-          <Dialog>
-            <DialogTrigger
-              render={
+      {archivedAt && (
+        <section className="space-y-4 rounded-lg border border-outline/20 bg-surface-container-low p-4">
+          <Typography size="sm" className="text-on-surface-variant">
+            You marked this album as Not for Me.
+          </Typography>
+          <Button variant="outline" onClick={onUnarchive}>
+            <Typography size="xs" transform="uppercase">
+              BRING BACK
+            </Typography>
+          </Button>
+        </section>
+      )}
+
+      {!archivedAt && (
+        <>
+          <section className="space-y-2">
+            {hasLoggedSession && lastSessionScope && lastSessionListenedAt ? (
+              <>
+                <Typography
+                  size="sm"
+                  uppercase
+                  className="text-on-surface-variant"
+                >
+                  LISTENING SESSIONS ({sessions.length})
+                </Typography>
+
+                <div className="flex items-center gap-3 bg-surface-container-high px-4 py-3">
+                  <Headphones className="size-5 text-tertiary" />
+                  <div className="flex flex-col">
+                    <Typography size="xs" className="text-on-surface-variant">
+                      Last listened {formatDate(lastSessionListenedAt)}
+                    </Typography>
+                    <Typography
+                      family="heading"
+                      size="lg"
+                      className="text-tertiary"
+                    >
+                      {getListeningScopeLabel(lastSessionScope)}
+                    </Typography>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <Typography
+                size="sm"
+                uppercase
+                className="text-on-surface-variant"
+              >
+                Have you listened to this album?
+              </Typography>
+            )}
+
+            <Dialog open={isLogSessionOpen} onOpenChange={setIsLogSessionOpen}>
+              <DialogTrigger
+                render={
+                  <Button variant="outline" className="w-full">
+                    {hasLoggedSession
+                      ? 'LOG ANOTHER SESSION'
+                      : 'LOG LISTENING SESSION'}
+                  </Button>
+                }
+              />
+              <DialogContent position="bottom" showCloseButton={false}>
+                <DialogHeader>
+                  <Typography as="p" family="heading" size="xl" weight="bold">
+                    Have you listened to this album?
+                  </Typography>
+                </DialogHeader>
+
+                <div className="flex gap-2">
+                  <Button
+                    variant={
+                      selectedScope === 'full_release' ? 'primary' : 'outline'
+                    }
+                    className="flex-1"
+                    onClick={() => setSelectedScope('full_release')}
+                  >
+                    <Typography size="xs" weight="bold">
+                      FULL ALBUM
+                    </Typography>
+                  </Button>
+                  <Button
+                    variant={
+                      selectedScope === 'partial_release'
+                        ? 'primary'
+                        : 'outline'
+                    }
+                    className="flex-1"
+                    onClick={() => setSelectedScope('partial_release')}
+                  >
+                    <Typography size="xs" weight="bold">
+                      PART OF THE ALBUM
+                    </Typography>
+                  </Button>
+                </div>
+
                 <Button
                   variant="primary"
-                  className="w-full gap-4 justify-start pl-8"
+                  className="w-full mt-8"
+                  onClick={handleSave}
+                  disabled={isPending}
                 >
-                  <Star className="size-4" />
+                  <Typography size="xs" weight="bold" uppercase>
+                    SAVE
+                  </Typography>
+                </Button>
+              </DialogContent>
+            </Dialog>
+          </section>
+
+          <div className="h-px bg-outline/20 my-8" />
+
+          <section className="space-y-2">
+            <Typography
+              size="xs"
+              className="text-center text-on-surface-variant mb-4"
+            >
+              Ready to decide?
+            </Typography>
+
+            <Dialog open={isWishlistOpen} onOpenChange={setIsWishlistOpen}>
+              <DialogTrigger
+                render={
+                  <Button
+                    variant="primary"
+                    className="w-full gap-4 justify-start pl-8"
+                  >
+                    <Star className="size-4" />
+                    <Typography size="xs" weight="bold" uppercase>
+                      ADD TO WISHLIST
+                    </Typography>
+                  </Button>
+                }
+              />
+              <DialogContent>
+                <DialogHeader>
+                  <Typography family="heading" size="lg">
+                    Add to Wishlist?
+                  </Typography>
+                </DialogHeader>
+                <Typography size="sm" className="text-on-surface-variant">
+                  This album will be moved to your Wishlist so you can decide
+                  later if it deserves a place in your collection.
+                </Typography>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    onAddToWishlist();
+                    setIsWishlistOpen(false);
+                  }}
+                >
                   <Typography size="xs" weight="bold" uppercase>
                     ADD TO WISHLIST
                   </Typography>
                 </Button>
-              }
-            />
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add to Wishlist?</DialogTitle>
-                <DialogDescription>
-                  This album will be moved to your Wishlist so you can decide
-                  later if it deserves a place in your collection.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <Button variant="primary" onClick={onAddToWishlist}>
-                  Add to Wishlist
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+              </DialogContent>
+            </Dialog>
 
-          <Button variant="outline" className="w-full gap-4 justify-start pl-8">
-            <Compass className="size-4" />
-            <Typography size="xs" weight="bold" uppercase>
-              STILL EXPLORING
-            </Typography>
-          </Button>
+            <Button
+              variant="outline"
+              className="w-full gap-4 justify-start pl-8"
+            >
+              <Compass className="size-4" />
+              <Typography size="xs" weight="bold" uppercase>
+                STILL EXPLORING
+              </Typography>
+            </Button>
 
-          <Dialog>
-            <DialogTrigger
-              render={
+            <Dialog open={isArchiveOpen} onOpenChange={setIsArchiveOpen}>
+              <DialogTrigger
+                render={
+                  <Button
+                    variant="outline"
+                    className="w-full gap-4 justify-start pl-8"
+                  >
+                    <X className="size-4" />
+                    <Typography size="xs" weight="bold" uppercase>
+                      NOT FOR ME
+                    </Typography>
+                  </Button>
+                }
+              />
+              <DialogContent>
+                <DialogHeader>
+                  <Typography family="heading" size="lg">
+                    Not for Me?
+                  </Typography>
+                </DialogHeader>
+                <Typography size="sm" className="text-on-surface-variant">
+                  This album will be archived. You can bring it back later.
+                </Typography>
                 <Button
-                  variant="outline"
-                  className="w-full gap-4 justify-start pl-8"
+                  variant="primary"
+                  onClick={() => {
+                    onArchive();
+                    setIsArchiveOpen(false);
+                  }}
                 >
-                  <X className="size-4" />
                   <Typography size="xs" weight="bold" uppercase>
                     NOT FOR ME
                   </Typography>
                 </Button>
-              }
-            />
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Not for Me?</DialogTitle>
-                <DialogDescription>
-                  This album will be archived. You can bring it back later.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <Button variant="primary" onClick={onArchive}>
-                  Not for Me
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </section>
-      </>
-    )}
-  </>
-);
+              </DialogContent>
+            </Dialog>
+          </section>
+        </>
+      )}
+    </>
+  );
+};

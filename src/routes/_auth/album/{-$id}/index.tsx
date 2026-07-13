@@ -134,6 +134,7 @@ const AlbumDetailPage: FunctionComponent = () => {
 
         {album.status === 'discover' && (
           <AlbumDiscoverSection
+            albumId={id}
             addedAt={album.addedAt}
             archivedAt={album.archivedAt}
             onAddToWishlist={() =>

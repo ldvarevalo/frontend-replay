@@ -49,39 +49,51 @@ const DialogContent = ({
   className,
   children,
   showCloseButton = true,
+  position = 'center',
   ...props
 }: DialogPrimitive.Popup.Props & {
   showCloseButton?: boolean;
-}): React.ReactElement => (
-  <DialogPortal>
-    <DialogOverlay />
-    <DialogPrimitive.Popup
-      data-slot="dialog-content"
-      className={cn(
-        'fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-surface p-4 text-sm text-on-surface shadow-2xl duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
-        className
-      )}
-      {...props}
-    >
-      {children}
-      {showCloseButton && (
-        <DialogPrimitive.Close
-          data-slot="dialog-close"
-          render={
-            <Button
-              variant="ghost"
-              className="absolute top-2 right-2"
-              size="icon-sm"
-            />
-          }
-        >
-          <XIcon />
-          <span className="sr-only">Close</span>
-        </DialogPrimitive.Close>
-      )}
-    </DialogPrimitive.Popup>
-  </DialogPortal>
-);
+  position?: 'center' | 'bottom';
+}): React.ReactElement => {
+  const isBottom = position === 'bottom';
+
+  return (
+    <DialogPortal>
+      <DialogOverlay />
+      <DialogPrimitive.Popup
+        data-slot="dialog-content"
+        className={cn(
+          'fixed z-50 grid w-full gap-4 bg-surface p-4 text-sm text-on-surface shadow-2xl duration-100 outline-none',
+          isBottom
+            ? 'bottom-0 left-0 right-0 rounded-t-xl data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom'
+            : 'top-1/2 left-1/2 max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 rounded-xl sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95',
+          className
+        )}
+        {...props}
+      >
+        {isBottom && (
+          <div className="mx-auto mb-2 h-1 w-10 rounded-full bg-on-surface-variant/30" />
+        )}
+        {children}
+        {!isBottom && showCloseButton && (
+          <DialogPrimitive.Close
+            data-slot="dialog-close"
+            render={
+              <Button
+                variant="ghost"
+                className="absolute top-2 right-2"
+                size="icon-sm"
+              />
+            }
+          >
+            <XIcon />
+            <span className="sr-only">Close</span>
+          </DialogPrimitive.Close>
+        )}
+      </DialogPrimitive.Popup>
+    </DialogPortal>
+  );
+};
 
 const DialogHeader = ({
   className,
@@ -89,7 +101,7 @@ const DialogHeader = ({
 }: React.ComponentProps<'div'>): React.ReactElement => (
   <div
     data-slot="dialog-header"
-    className={cn('flex flex-col gap-2 mt-10', className)}
+    className={cn('flex flex-col gap-2 mt-10 mb-8', className)}
     {...props}
   />
 );
