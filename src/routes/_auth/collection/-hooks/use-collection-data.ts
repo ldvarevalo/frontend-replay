@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useSearch } from '@tanstack/react-router';
 import { useUser } from '#/core/auth';
 import { useRepositories } from '#/repositories/hooks';
 import type { CollectionAlbum, CollectionStatus } from '#/types/domain';
@@ -20,7 +19,9 @@ const STATUS_MAP: Record<string, CollectionStatus> = {
   OWNED: 'owned',
 };
 
-export const useCollectionData = (): CollectionData => {
+export const useCollectionData = (
+  initialTab: string = 'ALL'
+): CollectionData => {
   const user = useUser();
   const { userReleases } = useRepositories();
 
@@ -30,8 +31,6 @@ export const useCollectionData = (): CollectionData => {
     enabled: !!user,
   });
 
-  const { want } = useSearch({ from: '/_auth/collection/' });
-  const initialTab = want !== undefined ? 'WANT' : 'ALL';
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState(initialTab);
 

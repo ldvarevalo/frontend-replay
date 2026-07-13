@@ -3,6 +3,12 @@ import type { HomeStats } from '#/types/domain';
 import type { StatsRepository } from '../types';
 
 /**
+ * Constants
+ */
+
+const SECONDS_PER_HOUR = 3600;
+
+/**
  * Helpers
  */
 
@@ -59,7 +65,7 @@ export class SupabaseStatsRepository implements StatsRepository {
 
     return {
       totalReleases: rows.filter(row => row.status === 'owned').length,
-      listeningTimeHours: Math.round(totalSeconds / 3600),
+      listeningTimeHours: Math.round(totalSeconds / SECONDS_PER_HOUR),
       wantToBuy: rows.filter(row => row.status === 'want').length,
     };
   }
