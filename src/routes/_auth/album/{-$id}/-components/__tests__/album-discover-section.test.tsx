@@ -1,5 +1,6 @@
 import { fireEvent } from '@testing-library/react';
 import { render, screen, waitFor } from '@test-utils';
+import * as useLogListeningSessionModule from '#/routes/_auth/album/{-$id}/session/-hooks/use-log-listening-session';
 import { AlbumDiscoverSection } from '../album-discover-section';
 
 /**
@@ -8,8 +9,6 @@ import { AlbumDiscoverSection } from '../album-discover-section';
 
 const mockMutate = vi.fn();
 const mockIsPending = false;
-
-import * as useLogListeningSessionModule from '#/routes/_auth/album/{-$id}/session/-hooks/use-log-listening-session';
 
 vi.spyOn(useLogListeningSessionModule, 'useLogListeningSession').mockReturnValue({
   mutate: mockMutate,

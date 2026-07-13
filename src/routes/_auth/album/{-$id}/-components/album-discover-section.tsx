@@ -51,7 +51,7 @@ export const AlbumDiscoverSection: FunctionComponent<
   const [selectedScope, setSelectedScope] =
     useState<ListeningScope>('full_release');
 
-  const handleSave = () => {
+  const handleSave = (): void => {
     logSession(
       { scope: selectedScope },
       {
@@ -103,14 +103,6 @@ export const AlbumDiscoverSection: FunctionComponent<
       {!archivedAt && (
         <>
           <section className="space-y-2">
-            <Typography
-              size="xs"
-              transform="uppercase"
-              className="text-on-surface-variant"
-            >
-              LISTENING
-            </Typography>
-
             {hasLoggedSession && lastSessionScope && lastSessionListenedAt ? (
               <div className="flex items-center gap-3 bg-surface-container-high px-4 py-3">
                 <Headphones className="size-5 text-tertiary" />
@@ -128,7 +120,7 @@ export const AlbumDiscoverSection: FunctionComponent<
                 </div>
               </div>
             ) : (
-              <Typography size="sm" className="text-on-surface-variant">
+              <Typography size="sm" uppercase className="text-on-surface-variant">
                 Have you listened to this album?
               </Typography>
             )}
@@ -138,7 +130,7 @@ export const AlbumDiscoverSection: FunctionComponent<
                 render={
                   <Button
                     variant="secondary"
-                    className="w-full gap-4 justify-start pl-8"
+                    className="w-full"
                   >
                     <Headphones className="size-4" />
                       {hasLoggedSession
