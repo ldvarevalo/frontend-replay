@@ -1,29 +1,40 @@
-# Crate
+# Replay
 
 [![CI](https://github.com/ldvarevalo/frontend-crate/actions/workflows/ci.yml/badge.svg)](https://github.com/ldvarevalo/frontend-crate/actions/workflows/ci.yml)
 
-Aplicación de descubrimiento musical. Actualmente maquetada con datos mock — a futuro se conectará con un backend.
+Aplicación de descubrimiento musical. Conectada con replay-service (backend propio) y Supabase para datos y autenticación.
 
-![Home page mobile viewport](https://github.com/ldvarevalo/frontend-crate/releases/download/untagged-579291b112f8023eaae9/home-page-mobile-viewport.png)
+![Home page mobile viewport](https://github.com/ldvarevalo/frontend-replay/releases/download/untagged-08a2b7d580e5bf101cfe/home.png)
 
 ## Stack
 
-- React + TypeScript
-- TanStack Router (file-based routing)
+- React 19 + TypeScript
+- TanStack Router (file-based routing, auto code splitting)
+- TanStack React Query (data fetching + cache)
 - Tailwind CSS v4
 - shadcn/ui (base-nova style)
+- Supabase (auth + backend, migrando a replay-service)
 - Vitest
 
 ## Comandos
 
 ```bash
-yarn dev        # Dev server
-yarn build      # Build producción
-yarn lint       # ESLint
-yarn typescript # TypeScript check
-yarn test       # Tests
+yarn dev          # Dev server (port 3000)
+yarn build        # Build producción
+yarn preview      # Preview build
+yarn lint         # ESLint
+yarn lint:fix     # ESLint auto-fix
+yarn format       # Prettier + lint
+yarn typescript   # TypeScript check
+yarn test         # Tests
+yarn test:watch   # Tests en watch mode
+yarn test:cov     # Tests con coverage
 ```
 
-## Estado
+## Rutas
 
-Esta es una maqueta funcional. Los datos son mock y no persisten. La conexión con el backend se implementará en una fase posterior.
+- `/` — Home / inicio
+- `/album/:id` — Detalle de álbum
+- `/collection` — Colección del usuario
+- `/release` — Lanzamientos
+- `/analytics` — Analíticas
