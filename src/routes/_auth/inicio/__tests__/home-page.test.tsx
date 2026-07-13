@@ -4,6 +4,10 @@ import { createTestRepositories } from '#/repositories/__tests__/test-repositori
 import { setRepositories } from '#/repositories/instance';
 import { HomePage } from '../index';
 
+/**
+ * Mocks
+ */
+
 const TEST_USER: AuthUser = {
   id: 'test-user',
   email: 'test@test.com',
@@ -48,6 +52,10 @@ const MOCK_UP_NEXT = [
     artist: 'AN.ARTIST',
   },
 ];
+
+/**
+ * Tests
+ */
 
 describe('HomePage', () => {
   beforeEach(() => {
