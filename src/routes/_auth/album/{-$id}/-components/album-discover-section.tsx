@@ -137,15 +137,13 @@ export const AlbumDiscoverSection: FunctionComponent<
               <DialogTrigger
                 render={
                   <Button
-                    variant="text"
+                    variant="secondary"
                     className="w-full gap-4 justify-start pl-8"
                   >
                     <Headphones className="size-4" />
-                    <Typography size="xs" weight="bold" uppercase>
                       {hasLoggedSession
                         ? 'LOG ANOTHER SESSION'
                         : 'LOG LISTENING SESSION'}
-                    </Typography>
                   </Button>
                 }
               />
