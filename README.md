@@ -4,7 +4,9 @@
 
 Aplicación de descubrimiento musical. Conectada con replay-service (backend propio) y Supabase para datos y autenticación.
 
-![Home page mobile viewport](https://github.com/ldvarevalo/frontend-replay/releases/download/untagged-08a2b7d580e5bf101cfe/home.png)
+| Home | Analytics |
+| ---- | ---- |
+| <img src="https://github.com/ldvarevalo/frontend-replay/releases/download/untagged-08a2b7d580e5bf101cfe/home-1.png" width="300" alt="Alt text"> | <img src="https://github.com/ldvarevalo/frontend-replay/releases/download/untagged-08a2b7d580e5bf101cfe/analytics.png" width="300" alt="Alt text"> |
 
 ## Stack
 
