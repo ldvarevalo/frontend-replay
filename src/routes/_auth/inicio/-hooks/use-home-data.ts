@@ -4,7 +4,9 @@ import { useUser } from '#/core/auth';
 import { useRepositories } from '#/repositories/hooks';
 import type { HomeData, HomeStats } from '#/types/domain';
 
-/** Constants */
+/**
+ * Constants
+ */
 
 const EMPTY_STATS: HomeStats = {
   totalReleases: 0,
@@ -15,7 +17,9 @@ const EMPTY_STATS: HomeStats = {
 const RECENT_ALBUMS_LIMIT = 4;
 const UP_NEXT_LIMIT = 6;
 
-/** UseHomeData */
+/**
+ * useHomeData
+ */
 
 export const useHomeData = (): HomeData => {
   const user = useUser();
