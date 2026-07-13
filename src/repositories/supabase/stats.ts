@@ -2,7 +2,9 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type { HomeStats } from '#/types/domain';
 import type { StatsRepository } from '../types';
 
-/** Helpers */
+/**
+ * Helpers
+ */
 
 const getFirstOfMonth = (): string =>
   new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString();
@@ -56,9 +58,9 @@ export class SupabaseStatsRepository implements StatsRepository {
     );
 
     return {
-      totalReleases: rows.filter(r => r.status === 'owned').length,
+      totalReleases: rows.filter(row => row.status === 'owned').length,
       listeningTimeHours: Math.round(totalSeconds / 3600),
-      wantToBuy: rows.filter(r => r.status === 'want').length,
+      wantToBuy: rows.filter(row => row.status === 'want').length,
     };
   }
 }
