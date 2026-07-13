@@ -52,8 +52,14 @@ export const AlbumDiscoverSection: FunctionComponent<
     useState<ListeningScope>('full_release');
 
   const handleSave = () => {
-    logSession({ scope: selectedScope });
-    setHasLoggedSession(true);
+    logSession(
+      { scope: selectedScope },
+      {
+        onSuccess: () => {
+          setHasLoggedSession(true);
+        },
+      }
+    );
   };
 
   return (
