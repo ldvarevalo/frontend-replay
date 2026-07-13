@@ -124,6 +124,7 @@ export interface ManualEntryData {
 
 export type ListeningScope =
   | 'full_release'
+  | 'partial_release'
   | 'side_a'
   | 'side_b'
   | 'side_c'

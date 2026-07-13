@@ -15,6 +15,7 @@ export interface SideOption {
 
 export const LISTENING_SCOPE_LABELS: Record<ListeningScope, string> = {
   full_release: 'Full Album',
+  partial_release: 'Part of the Album',
   side_a: 'Side A',
   side_b: 'Side B',
   side_c: 'Side C',
