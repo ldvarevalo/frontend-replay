@@ -21,5 +21,5 @@ export const usePageHeader = <
   const matches = useRouterState().matches;
   const loaderData = matches[matches.length - 1]?.loaderData as T | undefined;
 
-  return loaderData?.pageHeader ?? { title: '' };
+  return loaderData?.pageHeader ?? { title: 'Replay' };
 };

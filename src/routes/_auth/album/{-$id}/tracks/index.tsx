@@ -173,7 +173,6 @@ export const Route = createFileRoute('/_auth/album/{-$id}/tracks/')({
   component: TracksPage,
   loader: () => ({
     pageHeader: {
-      title: 'Crate',
       onBack: () => router.history.back(),
     },
   }),

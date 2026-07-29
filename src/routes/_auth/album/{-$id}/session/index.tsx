@@ -219,7 +219,6 @@ export const Route = createFileRoute('/_auth/album/{-$id}/session/')({
   component: SessionPage,
   loader: async ({ params }) => ({
     pageHeader: {
-      title: 'Crate',
       onBack: () =>
         router.navigate({
           to: '/album/{-$contentId}',

@@ -31,3 +31,7 @@ if (rootElement && !rootElement.innerHTML) {
     </StrictMode>
   );
 }
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}

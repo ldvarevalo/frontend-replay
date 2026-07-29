@@ -1,6 +1,6 @@
-# UI Spec — Frontend Crate
+# UI Spec — Frontend Replay
 
-Documento de referencia de implementación para todas las pantallas de **Crate**.
+Documento de referencia de implementación para todas las pantallas de **Replay**.
 Refleja exclusivamente lo que existe en el codebase — no especulación de diseño.
 
 ---
