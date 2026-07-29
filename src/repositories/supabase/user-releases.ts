@@ -231,10 +231,7 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
       .eq('user_id', userId)
       .eq('is_listened', false)
       .eq('status', 'owned')
-      .order('archived_at', {
-        ascending: true,
-        nullsFirst: true,
-      })
+      .order('created_at', { ascending: true })
       .limit(limit);
 
     if (error) {
