@@ -3,6 +3,7 @@ import type { FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { AlbumHero } from '#/components/album-hero';
 import { Typography } from '#/components/ui/typography';
+import { router } from '#/router';
 import { AlbumTags } from '../-components/album-tags';
 import { useAlbumData } from '../-hooks/use-album-data';
 import { useAlbumSessions } from '../-hooks/use-album-sessions';
@@ -157,4 +158,9 @@ const AlbumDetailPage: FunctionComponent = () => {
 
 export const Route = createFileRoute('/_auth/album/{-$id}/')({
   component: AlbumDetailPage,
+  loader: () => ({
+    pageHeader: {
+      onBack: () => router.history.back(),
+    },
+  }),
 });
