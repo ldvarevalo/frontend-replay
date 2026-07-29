@@ -7,7 +7,7 @@ import type { ManualEntryData } from '#/types/domain';
  * Types
  */
 
-interface UseCreateManualReleaseResult {
+interface UseCreateManualReleaseHook {
   mutate: (data: ManualEntryData) => void;
   mutateAsync: (data: ManualEntryData) => Promise<void>;
   isPending: boolean;
@@ -18,7 +18,7 @@ interface UseCreateManualReleaseResult {
  * UseCreateManualRelease
  */
 
-export const useCreateManualRelease = (): UseCreateManualReleaseResult => {
+export const useCreateManualRelease = (): UseCreateManualReleaseHook => {
   const queryClient = useQueryClient();
   const user = useUser();
   const { releases, artists, genres, userReleases } = useRepositories();
@@ -55,27 +55,43 @@ export const useCreateManualRelease = (): UseCreateManualReleaseResult => {
         return genres.create(name);
       };
 
-      const releaseId = await releases.create({
-        title: data.title,
-        coverUrl: data.artworkUrl || undefined,
-        releaseYear: data.year || undefined,
-      });
+      const existingRelease = await releases.findByTitleAndArtist(
+        data.title,
+        data.artist
+      );
 
-      const artistId = await findOrCreateArtist(data.artist);
+      const releaseId =
+        existingRelease ??
+        (await releases.create({
+          title: data.title,
+          coverUrl: data.artworkUrl || undefined,
+          releaseYear: data.year || undefined,
+        }));
 
-      await releases.linkArtist(releaseId, artistId);
+      if (!existingRelease) {
+        const artistId = await findOrCreateArtist(data.artist);
 
-      const genreId = await findOrCreateGenre(data.genre);
+        await releases.linkArtist(releaseId, artistId);
 
-      if (genreId) {
-        await releases.linkGenre(releaseId, genreId);
+        const genreId = await findOrCreateGenre(data.genre);
+
+        if (genreId) {
+          await releases.linkGenre(releaseId, genreId);
+        }
       }
 
-      await userReleases.create({
-        userId: user.id,
+      const existingUserRelease = await userReleases.findByRelease(
         releaseId,
-        status: data.status,
-      });
+        user.id
+      );
+
+      if (!existingUserRelease) {
+        await userReleases.create({
+          userId: user.id,
+          releaseId,
+          status: data.status,
+        });
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['search-releases'] });
