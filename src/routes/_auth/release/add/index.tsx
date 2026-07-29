@@ -81,10 +81,15 @@ export const AddReleasePage: FunctionComponent = () => {
   const isValid = values.title.trim() !== '' && values.artist.trim() !== '';
 
   const handleSubmit = async (): Promise<void> => {
-    await mutateAsync(values);
+    const { releaseId, reused } = await mutateAsync(values);
 
     setValues(INITIAL_VALUES);
-    navigate({ to: '/collection' });
+
+    if (reused) {
+      navigate({ to: `/album/${releaseId}` });
+    } else {
+      navigate({ to: '/collection' });
+    }
   };
 
   return (

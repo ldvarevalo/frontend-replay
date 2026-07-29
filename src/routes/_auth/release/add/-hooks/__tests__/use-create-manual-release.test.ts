@@ -257,4 +257,50 @@ describe('useCreateManualRelease', () => {
     );
     expect(userReleasesWithExisting.create).not.toHaveBeenCalled();
   });
+
+  it('should return reused=false and the new releaseId when creating a new release', async () => {
+    setRepositories(
+      createTestRepositories({
+        releases: mockReleases,
+        artists: mockArtists,
+        genres: mockGenres,
+        userReleases: mockUserReleases,
+      })
+    );
+
+    const { result } = renderHook(() => useCreateManualRelease());
+
+    const returned = await result.current.mutateAsync(mockEntry);
+
+    expect(returned).toEqual({
+      releaseId: mockReleaseId,
+      reused: false,
+    });
+  });
+
+  it('should return reused=true and the existing releaseId when reusing', async () => {
+    const existingReleaseId = 'release-existing-3';
+    const releasesWithExisting = {
+      ...mockReleases,
+      findByTitleAndArtist: vi.fn().mockResolvedValue(existingReleaseId),
+    };
+
+    setRepositories(
+      createTestRepositories({
+        releases: releasesWithExisting,
+        artists: mockArtists,
+        genres: mockGenres,
+        userReleases: mockUserReleases,
+      })
+    );
+
+    const { result } = renderHook(() => useCreateManualRelease());
+
+    const returned = await result.current.mutateAsync(mockEntry);
+
+    expect(returned).toEqual({
+      releaseId: existingReleaseId,
+      reused: true,
+    });
+  });
 });

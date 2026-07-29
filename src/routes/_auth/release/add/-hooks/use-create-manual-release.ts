@@ -9,7 +9,9 @@ import type { ManualEntryData } from '#/types/domain';
 
 interface UseCreateManualReleaseHook {
   mutate: (data: ManualEntryData) => void;
-  mutateAsync: (data: ManualEntryData) => Promise<void>;
+  mutateAsync: (
+    data: ManualEntryData
+  ) => Promise<{ releaseId: string; reused: boolean }>;
   isPending: boolean;
   error: Error | null;
 }
@@ -85,7 +87,9 @@ export const useCreateManualRelease = (): UseCreateManualReleaseHook => {
   };
 
   const { mutate, mutateAsync, isPending, error } = useMutation({
-    mutationFn: async (data: ManualEntryData): Promise<void> => {
+    mutationFn: async (
+      data: ManualEntryData
+    ): Promise<{ releaseId: string; reused: boolean }> => {
       if (!user) {
         throw new Error('User not authenticated');
       }
@@ -119,6 +123,11 @@ export const useCreateManualRelease = (): UseCreateManualReleaseHook => {
           status: data.status,
         });
       }
+
+      return {
+        releaseId,
+        reused: existingRelease !== null,
+      };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['search-releases'] });
