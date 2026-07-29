@@ -25,6 +25,7 @@ const mockGenreId = 'genre-uuid-1';
 const mockReleases = {
   findByQuery: async () => ({ results: [],
 totalPages: 0 }),
+  findByTitleAndArtist: vi.fn().mockResolvedValue(null),
   create: vi.fn().mockResolvedValue(mockReleaseId),
   findById: vi.fn(),
   linkArtist: vi.fn().mockResolvedValue(undefined),
@@ -166,5 +167,94 @@ describe('useCreateManualRelease', () => {
 
     expect(artistsWithExisting.findByName).toHaveBeenCalledWith('Test Artist');
     expect(artistsWithExisting.create).not.toHaveBeenCalled();
+  });
+
+  it('should reuse existing release without calling create when findByTitleAndArtist returns id', async () => {
+    const existingReleaseId = 'release-existing-1';
+    const releasesWithExisting = {
+      ...mockReleases,
+      findByTitleAndArtist: vi.fn().mockResolvedValue(existingReleaseId),
+    };
+
+    setRepositories(
+      createTestRepositories({
+        releases: releasesWithExisting,
+        artists: mockArtists,
+        genres: mockGenres,
+        userReleases: mockUserReleases,
+      })
+    );
+
+    const { result } = renderHook(() => useCreateManualRelease());
+
+    await result.current.mutateAsync(mockEntry);
+
+    expect(releasesWithExisting.findByTitleAndArtist).toHaveBeenCalledWith(
+      'Test Album',
+      'Test Artist'
+    );
+    expect(releasesWithExisting.create).not.toHaveBeenCalled();
+    expect(releasesWithExisting.linkArtist).not.toHaveBeenCalled();
+    expect(releasesWithExisting.linkGenre).not.toHaveBeenCalled();
+    expect(mockUserReleases.create).toHaveBeenCalledWith({
+      userId: expect.any(String),
+      releaseId: existingReleaseId,
+      status: 'want',
+    });
+  });
+
+  it('should trim title and artist before calling findByTitleAndArtist', async () => {
+    setRepositories(
+      createTestRepositories({
+        releases: mockReleases,
+        artists: mockArtists,
+        genres: mockGenres,
+        userReleases: mockUserReleases,
+      })
+    );
+
+    const { result } = renderHook(() => useCreateManualRelease());
+
+    await result.current.mutateAsync({
+      ...mockEntry,
+      title: '  Test Album  ',
+      artist: '  Test Artist  ',
+    });
+
+    expect(mockReleases.findByTitleAndArtist).toHaveBeenCalledWith(
+      'Test Album',
+      'Test Artist'
+    );
+  });
+
+  it('should skip user_releases create when user already has the release', async () => {
+    const existingReleaseId = 'release-existing-2';
+    const releasesWithExisting = {
+      ...mockReleases,
+      findByTitleAndArtist: vi.fn().mockResolvedValue(existingReleaseId),
+    };
+    const userReleasesWithExisting = {
+      ...mockUserReleases,
+      findByRelease: vi.fn().mockResolvedValue({ id: 'user-release-1' }),
+    };
+
+    setRepositories(
+      createTestRepositories({
+        releases: releasesWithExisting,
+        artists: mockArtists,
+        genres: mockGenres,
+        userReleases: userReleasesWithExisting,
+      })
+    );
+
+    const { result } = renderHook(() => useCreateManualRelease());
+
+    await result.current.mutateAsync(mockEntry);
+
+    expect(userReleasesWithExisting.findByRelease).toHaveBeenCalledWith(
+      existingReleaseId,
+      expect.any(String)
+    );
+    expect(userReleasesWithExisting.create).not.toHaveBeenCalled();
   });
 });

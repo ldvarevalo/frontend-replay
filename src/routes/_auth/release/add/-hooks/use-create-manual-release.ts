@@ -14,6 +14,62 @@ interface UseCreateManualReleaseHook {
   error: Error | null;
 }
 
+interface LinkDeps {
+  releases: ReturnType<typeof useRepositories>['releases'];
+  artists: ReturnType<typeof useRepositories>['artists'];
+  genres: ReturnType<typeof useRepositories>['genres'];
+}
+
+/**
+ * Helpers
+ */
+
+const findOrCreateArtist = async (
+  artists: LinkDeps['artists'],
+  name: string
+): Promise<string> => {
+  const existing = await artists.findByName(name);
+
+  if (existing) {
+    return existing;
+  }
+
+  return artists.create(name);
+};
+
+const findOrCreateGenre = async (
+  genres: LinkDeps['genres'],
+  name: string
+): Promise<string | null> => {
+  if (!name.trim()) {
+    return null;
+  }
+
+  const existing = await genres.findByName(name);
+
+  if (existing) {
+    return existing;
+  }
+
+  return genres.create(name);
+};
+
+const linkNewReleaseMetadata = async (
+  deps: LinkDeps,
+  releaseId: string,
+  data: ManualEntryData
+): Promise<void> => {
+  const artistId = await findOrCreateArtist(deps.artists, data.artist);
+
+  await deps.releases.linkArtist(releaseId, artistId);
+
+  const genreId = await findOrCreateGenre(deps.genres, data.genre);
+
+  if (genreId) {
+    await deps.releases.linkGenre(releaseId, genreId);
+  }
+};
+
 /**
  * UseCreateManualRelease
  */
@@ -22,6 +78,11 @@ export const useCreateManualRelease = (): UseCreateManualReleaseHook => {
   const queryClient = useQueryClient();
   const user = useUser();
   const { releases, artists, genres, userReleases } = useRepositories();
+  const deps: LinkDeps = {
+    releases,
+    artists,
+    genres,
+  };
 
   const { mutate, mutateAsync, isPending, error } = useMutation({
     mutationFn: async (data: ManualEntryData): Promise<void> => {
@@ -29,35 +90,9 @@ export const useCreateManualRelease = (): UseCreateManualReleaseHook => {
         throw new Error('User not authenticated');
       }
 
-      const findOrCreateArtist = async (name: string): Promise<string> => {
-        const existing = await artists.findByName(name);
-
-        if (existing) {
-          return existing;
-        }
-
-        return artists.create(name);
-      };
-
-      const findOrCreateGenre = async (
-        name: string
-      ): Promise<string | null> => {
-        if (!name.trim()) {
-          return null;
-        }
-
-        const existing = await genres.findByName(name);
-
-        if (existing) {
-          return existing;
-        }
-
-        return genres.create(name);
-      };
-
       const existingRelease = await releases.findByTitleAndArtist(
-        data.title,
-        data.artist
+        data.title.trim(),
+        data.artist.trim()
       );
 
       const releaseId =
@@ -69,15 +104,7 @@ export const useCreateManualRelease = (): UseCreateManualReleaseHook => {
         }));
 
       if (!existingRelease) {
-        const artistId = await findOrCreateArtist(data.artist);
-
-        await releases.linkArtist(releaseId, artistId);
-
-        const genreId = await findOrCreateGenre(data.genre);
-
-        if (genreId) {
-          await releases.linkGenre(releaseId, genreId);
-        }
+        await linkNewReleaseMetadata(deps, releaseId, data);
       }
 
       const existingUserRelease = await userReleases.findByRelease(
