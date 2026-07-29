@@ -136,9 +136,4 @@ export const AddReleasePage: FunctionComponent = () => {
 
 export const Route = createFileRoute('/_auth/release/add/')({
   component: AddReleasePage,
-  loader: () => ({
-    pageHeader: {
-      title: 'Replay',
-    },
-  }),
 });

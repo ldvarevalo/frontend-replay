@@ -93,9 +93,4 @@ export const HomePage: FunctionComponent = () => {
 
 export const Route = createFileRoute('/_auth/inicio/')({
   component: HomePage,
-  loader: () => ({
-    pageHeader: {
-      title: 'Replay',
-    },
-  }),
 });

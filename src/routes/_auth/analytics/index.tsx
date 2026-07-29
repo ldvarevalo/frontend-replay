@@ -161,9 +161,4 @@ const AnalyticsPage: FunctionComponent = () => {
 
 export const Route = createFileRoute('/_auth/analytics/')({
   component: AnalyticsPage,
-  loader: () => ({
-    pageHeader: {
-      title: 'Replay',
-    },
-  }),
 });

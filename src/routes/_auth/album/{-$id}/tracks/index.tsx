@@ -5,7 +5,6 @@ import { AlbumHero } from '#/components/album-hero';
 import { Button } from '#/components/ui/button';
 import { Typography } from '#/components/ui/typography';
 import type { TrackInput } from '#/repositories/types';
-import { router } from '#/router';
 import { AddTracksDialog } from './-components/add-tracks-dialog';
 import { TracksEmptyState } from './-components/tracks-empty-state';
 import { TracksList } from './-components/tracks-list';
@@ -171,10 +170,4 @@ const TracksPage: FunctionComponent = () => {
 
 export const Route = createFileRoute('/_auth/album/{-$id}/tracks/')({
   component: TracksPage,
-  loader: () => ({
-    pageHeader: {
-      title: 'Replay',
-      onBack: () => router.history.back(),
-    },
-  }),
 });
