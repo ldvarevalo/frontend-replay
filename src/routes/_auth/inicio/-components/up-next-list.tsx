@@ -20,12 +20,18 @@ export const UpNextList: FunctionComponent<UpNextListProps> = ({
   onAlbumClick,
 }) => (
   <div className="space-y-2">
-    {albums.map(album => (
+    {albums.map((album, i) => (
       <button
         key={album.id}
         type="button"
         onClick={() => onAlbumClick(album)}
-        className="flex w-full items-center gap-3 rounded-sm bg-surface-container-lowest p-3 text-left transition-opacity hover:opacity-80"
+        className="flex w-full items-center gap-3 rounded-sm p-3 text-left transition-opacity hover:opacity-80"
+        style={{
+          backgroundColor:
+            i < 4
+              ? `color-mix(in oklch, var(--color-violet) ${Math.max(0, 100 - Math.round((i * 100) / 2))}%, var(--color-surface-container-lowest))`
+              : 'var(--color-surface-container-lowest)',
+        }}
       >
         <div className="size-14 shrink-0 overflow-hidden rounded-sm bg-muted">
           <img
