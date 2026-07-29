@@ -3,7 +3,6 @@ import { useEffect, useMemo, useState, type FunctionComponent } from 'react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { AlbumHero } from '#/components/album-hero';
 import { Typography } from '#/components/ui/typography';
-import { router } from '#/router';
 import type { ListeningScope, SourceFormat } from '#/types/domain';
 import { ActionButtons } from './-components/action-buttons';
 import { DurationInput } from './-components/duration-input';
@@ -217,13 +216,9 @@ const SessionPage: FunctionComponent = () => {
 
 export const Route = createFileRoute('/_auth/album/{-$id}/session/')({
   component: SessionPage,
-  loader: async ({ params }) => ({
+  loader: async () => ({
     pageHeader: {
-      onBack: () =>
-        router.navigate({
-          to: '/album/{-$contentId}',
-          params: { contentId: params.id },
-        }),
+      onBack: () => window.history.back(),
     },
   }),
 });
