@@ -103,6 +103,7 @@ describe('useHomeData', () => {
           results: [],
           totalPages: 0,
         }),
+        findByTitleAndArtist: async () => null,
         create: async () => '',
         findById: async () => ({
           id: '',

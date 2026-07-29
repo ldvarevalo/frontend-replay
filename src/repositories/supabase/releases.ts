@@ -143,6 +143,24 @@ export class SupabaseReleasesRepository implements ReleasesRepository {
     };
   }
 
+  async findByTitleAndArtist(
+    title: string,
+    artist: string
+  ): Promise<string | null> {
+    const { data, error } = await this.supabase
+      .from('releases_search')
+      .select('id')
+      .ilike('title', title.trim())
+      .ilike('primary_artist_name', artist.trim())
+      .maybeSingle();
+
+    if (error) {
+      throw error;
+    }
+
+    return data?.id ?? null;
+  }
+
   async create(data: {
     title: string;
     coverUrl?: string;
