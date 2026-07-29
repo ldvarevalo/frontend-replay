@@ -13,6 +13,7 @@
   --color-primary: #bbc3ff;
   --color-primary-container: #3d5afe;
   --color-on-primary-container: #ffffff;
+  --color-violet: #7c4dff;
 
   /* On Surface */
   --color-on-surface: #ffffff;
@@ -70,6 +71,7 @@
   --color-primary: #bbc3ff;
   --color-primary-container: #3d5afe;
   --color-on-primary-container: #ffffff;
+  --color-violet: #7c4dff;
   --color-on-surface: #ffffff;
   --color-on-surface-variant: #a8a8a8;
   --color-destructive: #ef4444;
@@ -120,7 +122,7 @@
     background: linear-gradient(
       135deg,
       var(--color-primary-container),
-      #7c4dff
+      var(--color-violet)
     );
   }
 
