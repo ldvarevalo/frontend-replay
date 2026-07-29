@@ -34,6 +34,7 @@ const setup = (
     linkArtist: vi.fn(),
     linkGenre: vi.fn(),
     findById: vi.fn(),
+    findByTitleAndArtist: vi.fn().mockResolvedValue(null),
   };
   const musicSearch = {
     search: vi.fn(async () => remoteResults),

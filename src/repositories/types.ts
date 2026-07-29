@@ -52,6 +52,7 @@ export interface ReleasesRepository {
     page: number,
     pageSize: number
   ): Promise<SearchResults>;
+  findByTitleAndArtist(title: string, artist: string): Promise<string | null>;
   create(data: {
     title: string;
     coverUrl?: string;

@@ -20,6 +20,7 @@ const createNoopRepositories = (): Repositories => {
         results: [],
         totalPages: 0,
       }),
+      findByTitleAndArtist: async (): Promise<string | null> => null,
       create: async () => '',
       findById: async (): Promise<AlbumDetail> => ({
         id: '',
