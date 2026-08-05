@@ -126,7 +126,7 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
   }> {
     const { data, error } = await this.supabase
       .from('user_releases')
-      .select('status, created_at, is_listened')
+      .select('status, created_at, updated_at, is_listened')
       .eq('user_id', userId);
 
     if (error) {
@@ -138,15 +138,15 @@ export class SupabaseAnalyticsRepository implements AnalyticsRepository {
     const addedToWant = rows.filter(
       r =>
         r.status === 'want' &&
-        r.created_at >= startDate &&
-        r.created_at <= endDate
+        r.updated_at >= startDate &&
+        r.updated_at <= endDate
     ).length;
 
     const markedOwned = rows.filter(
       r =>
         r.status === 'owned' &&
-        r.created_at >= startDate &&
-        r.created_at <= endDate
+        r.updated_at >= startDate &&
+        r.updated_at <= endDate
     ).length;
 
     return {
