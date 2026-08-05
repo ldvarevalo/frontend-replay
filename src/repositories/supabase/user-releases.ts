@@ -281,6 +281,7 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
         user_id: data.userId,
         release_id: data.releaseId,
         status: data.status,
+        updated_at: new Date().toISOString(),
       },
       {
         onConflict: 'user_id,release_id',
@@ -315,6 +316,7 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
       .update({
         is_listened: true,
         listened_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       })
       .eq('id', userReleaseId);
 
@@ -330,7 +332,10 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
   ): Promise<void> {
     const { error } = await this.supabase
       .from('user_releases')
-      .update({ priority })
+      .update({
+        priority,
+        updated_at: new Date().toISOString(),
+      })
       .eq('release_id', releaseId)
       .eq('user_id', userId);
 
@@ -342,7 +347,10 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
   async archive(releaseId: string, userId: string): Promise<void> {
     const { error } = await this.supabase
       .from('user_releases')
-      .update({ archived_at: new Date().toISOString() })
+      .update({
+        archived_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
       .eq('release_id', releaseId)
       .eq('user_id', userId);
 
@@ -354,7 +362,10 @@ export class SupabaseUserReleasesRepository implements UserReleasesRepository {
   async unarchive(releaseId: string, userId: string): Promise<void> {
     const { error } = await this.supabase
       .from('user_releases')
-      .update({ archived_at: null })
+      .update({
+        archived_at: null,
+        updated_at: new Date().toISOString(),
+      })
       .eq('release_id', releaseId)
       .eq('user_id', userId);
 
