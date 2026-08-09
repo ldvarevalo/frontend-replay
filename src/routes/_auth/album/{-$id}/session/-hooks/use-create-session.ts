@@ -15,7 +15,10 @@ interface UseCreateSessionData {
 }
 
 interface UseCreateSessionHook {
-  mutate: (data: UseCreateSessionData) => void;
+  mutate: (
+    data: UseCreateSessionData,
+    options?: { onSuccess?: () => void }
+  ) => void;
   isPending: boolean;
 }
 
@@ -57,13 +60,23 @@ export const useCreateSession = (
       queryClient.invalidateQueries({
         queryKey: ['album', albumId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['album-sessions', albumId, user?.id],
+      });
       queryClient.invalidateQueries({ queryKey: ['collection'] });
       queryClient.invalidateQueries({ queryKey: ['stats'] });
     },
   });
 
+  const mutateWithCallback = (
+    data: UseCreateSessionData,
+    options?: { onSuccess?: () => void }
+  ): void => {
+    mutate(data, options);
+  };
+
   return {
-    mutate,
+    mutate: mutateWithCallback,
     isPending,
   };
 };
