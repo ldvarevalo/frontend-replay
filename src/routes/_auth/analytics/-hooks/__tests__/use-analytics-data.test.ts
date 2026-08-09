@@ -7,7 +7,7 @@ import { setRepositories } from '#/repositories/instance';
 import { useAnalyticsData } from '../use-analytics-data';
 
 const useUserMock = vi.spyOn(authModule, 'useUser');
-const analyticsFind = vi.fn();
+const analyticsFindMock = vi.fn();
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -24,7 +24,7 @@ beforeEach(() => {
 
   setRepositories(
     createTestRepositories({
-      analytics: { find: analyticsFind },
+      analytics: { find: analyticsFindMock },
     })
   );
 });
@@ -82,7 +82,7 @@ const EMPTY_ANALYTICS_DATA_MOCK = {
 
 describe('useAnalyticsData', () => {
   it('should return data when this-month has sessions', async () => {
-    analyticsFind.mockResolvedValue(ANALYTICS_DATA_MOCK);
+    analyticsFindMock.mockResolvedValue(ANALYTICS_DATA_MOCK);
 
     const { result } = renderHook(() => useAnalyticsData('this-month'));
 
@@ -95,7 +95,7 @@ describe('useAnalyticsData', () => {
   });
 
   it('should fallback to last-month when this-month is empty', async () => {
-    analyticsFind
+    analyticsFindMock
       .mockResolvedValueOnce(EMPTY_ANALYTICS_DATA_MOCK)
       .mockResolvedValueOnce(ANALYTICS_DATA_MOCK);
 
@@ -110,7 +110,7 @@ describe('useAnalyticsData', () => {
   });
 
   it('should return null when all periods are empty', async () => {
-    analyticsFind.mockResolvedValue(EMPTY_ANALYTICS_DATA_MOCK);
+    analyticsFindMock.mockResolvedValue(EMPTY_ANALYTICS_DATA_MOCK);
 
     const { result } = renderHook(() => useAnalyticsData('this-month'));
 
@@ -123,7 +123,7 @@ describe('useAnalyticsData', () => {
   });
 
   it('should not fallback when userSelected is true', async () => {
-    analyticsFind.mockResolvedValue(EMPTY_ANALYTICS_DATA_MOCK);
+    analyticsFindMock.mockResolvedValue(EMPTY_ANALYTICS_DATA_MOCK);
 
     const { result } = renderHook(() => useAnalyticsData('last-month', true));
 
@@ -132,6 +132,6 @@ describe('useAnalyticsData', () => {
     });
 
     expect(result.current.activePeriod).toBeNull();
-    expect(analyticsFind).toHaveBeenCalledTimes(1);
+    expect(analyticsFindMock).toHaveBeenCalledTimes(1);
   });
 });

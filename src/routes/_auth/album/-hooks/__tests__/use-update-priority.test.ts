@@ -10,7 +10,7 @@ import { useUpdatePriority } from '../use-update-priority';
  */
 
 const useUserMock = vi.spyOn(authModule, 'useUser');
-const updatePriority = vi.fn();
+const updatePriorityMock = vi.fn();
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -22,7 +22,7 @@ beforeEach(() => {
 
   setRepositories(
     createTestRepositories({
-      userReleases: { updatePriority },
+      userReleases: { updatePriority: updatePriorityMock },
     })
   );
 });
@@ -32,7 +32,7 @@ beforeEach(() => {
  */
 
 describe('useUpdatePriority', () => {
-  it('should call updatePriority with release ID and priority', async () => {
+  it('should call updatePriorityMock with release ID and priority', async () => {
     const { result } = renderHook(() => useUpdatePriority());
 
     result.current.mutate({
@@ -41,7 +41,7 @@ describe('useUpdatePriority', () => {
     });
 
     await waitFor(() => {
-      expect(updatePriority).toHaveBeenCalledWith(
+      expect(updatePriorityMock).toHaveBeenCalledWith(
         'A.RELEASE.ID',
         'A.USER.ID',
         'high'
@@ -49,7 +49,7 @@ describe('useUpdatePriority', () => {
     });
   });
 
-  it('should call updatePriority with another priority', async () => {
+  it('should call updatePriorityMock with another priority', async () => {
     const { result } = renderHook(() => useUpdatePriority());
 
     result.current.mutate({
@@ -58,7 +58,7 @@ describe('useUpdatePriority', () => {
     });
 
     await waitFor(() => {
-      expect(updatePriority).toHaveBeenCalledWith(
+      expect(updatePriorityMock).toHaveBeenCalledWith(
         'ANOTHER.RELEASE.ID',
         'A.USER.ID',
         'low'

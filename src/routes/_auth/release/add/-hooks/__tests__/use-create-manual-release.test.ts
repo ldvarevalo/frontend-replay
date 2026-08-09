@@ -124,14 +124,14 @@ describe('useCreateManualRelease', () => {
   });
 
   it('should call findByName when artist already exists', async () => {
-    const findByName = vi.fn().mockResolvedValue(mockArtistId);
+    const findByNameMock = vi.fn().mockResolvedValue(mockArtistId);
 
     setRepositories(
       createTestRepositories({
         releases: mockReleases,
         artists: {
           ...mockArtists,
-          findByName,
+          findByName: findByNameMock,
         },
         genres: mockGenres,
         userReleases: mockUserReleases,
@@ -142,19 +142,21 @@ describe('useCreateManualRelease', () => {
 
     await result.current.mutateAsync(mockEntry);
 
-    expect(findByName).toHaveBeenCalledWith('Test Artist');
+    expect(findByNameMock).toHaveBeenCalledWith('Test Artist');
     expect(mockArtists.create).not.toHaveBeenCalled();
   });
 
   it('should reuse existing release without calling create when findByTitleAndArtist returns id', async () => {
     const existingReleaseId = 'release-existing-1';
-    const findByTitleAndArtist = vi.fn().mockResolvedValue(existingReleaseId);
+    const findByTitleAndArtistMock = vi
+      .fn()
+      .mockResolvedValue(existingReleaseId);
 
     setRepositories(
       createTestRepositories({
         releases: {
           ...mockReleases,
-          findByTitleAndArtist,
+          findByTitleAndArtist: findByTitleAndArtistMock,
         },
         artists: mockArtists,
         genres: mockGenres,
@@ -166,7 +168,7 @@ describe('useCreateManualRelease', () => {
 
     await result.current.mutateAsync(mockEntry);
 
-    expect(findByTitleAndArtist).toHaveBeenCalledWith(
+    expect(findByTitleAndArtistMock).toHaveBeenCalledWith(
       'Test Album',
       'Test Artist'
     );
@@ -197,20 +199,24 @@ describe('useCreateManualRelease', () => {
 
   it('should skip user_releases create when user already has the release', async () => {
     const existingReleaseId = 'release-existing-2';
-    const findByTitleAndArtist = vi.fn().mockResolvedValue(existingReleaseId);
-    const findByRelease = vi.fn().mockResolvedValue({ id: 'user-release-1' });
+    const findByTitleAndArtistMock = vi
+      .fn()
+      .mockResolvedValue(existingReleaseId);
+    const findByReleaseMock = vi
+      .fn()
+      .mockResolvedValue({ id: 'user-release-1' });
 
     setRepositories(
       createTestRepositories({
         releases: {
           ...mockReleases,
-          findByTitleAndArtist,
+          findByTitleAndArtist: findByTitleAndArtistMock,
         },
         artists: mockArtists,
         genres: mockGenres,
         userReleases: {
           ...mockUserReleases,
-          findByRelease,
+          findByRelease: findByReleaseMock,
         },
       })
     );
@@ -219,7 +225,7 @@ describe('useCreateManualRelease', () => {
 
     await result.current.mutateAsync(mockEntry);
 
-    expect(findByRelease).toHaveBeenCalledWith(
+    expect(findByReleaseMock).toHaveBeenCalledWith(
       existingReleaseId,
       expect.any(String)
     );
@@ -239,13 +245,15 @@ describe('useCreateManualRelease', () => {
 
   it('should return reused=true and the existing releaseId when reusing', async () => {
     const existingReleaseId = 'release-existing-3';
-    const findByTitleAndArtist = vi.fn().mockResolvedValue(existingReleaseId);
+    const findByTitleAndArtistMock = vi
+      .fn()
+      .mockResolvedValue(existingReleaseId);
 
     setRepositories(
       createTestRepositories({
         releases: {
           ...mockReleases,
-          findByTitleAndArtist,
+          findByTitleAndArtist: findByTitleAndArtistMock,
         },
         artists: mockArtists,
         genres: mockGenres,

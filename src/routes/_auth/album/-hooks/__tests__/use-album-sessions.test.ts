@@ -20,14 +20,14 @@ vi.mock('#/core/auth/auth-context', async () => {
   };
 });
 
-const findByRelease = vi.fn();
+const findByReleaseMock = vi.fn();
 
 beforeEach(() => {
   vi.clearAllMocks();
   setRepositories(
     createTestRepositories({
       sessions: {
-        findByRelease,
+        findByRelease: findByReleaseMock,
       },
     })
   );
@@ -51,7 +51,7 @@ describe('useAlbumSessions', () => {
       },
     ];
 
-    findByRelease.mockResolvedValue(mockSessions);
+    findByReleaseMock.mockResolvedValue(mockSessions);
 
     const { result } = renderHook(() => useAlbumSessions('release-1'));
 
@@ -60,11 +60,11 @@ describe('useAlbumSessions', () => {
     });
 
     expect(result.current.isLoading).toBe(false);
-    expect(findByRelease).toHaveBeenCalledWith('release-1', 'user-1');
+    expect(findByReleaseMock).toHaveBeenCalledWith('release-1', 'user-1');
   });
 
   it('should return empty array when no sessions exist', async () => {
-    findByRelease.mockResolvedValue([]);
+    findByReleaseMock.mockResolvedValue([]);
 
     const { result } = renderHook(() => useAlbumSessions('release-1'));
 
@@ -79,6 +79,6 @@ describe('useAlbumSessions', () => {
     const { result } = renderHook(() => useAlbumSessions(undefined));
 
     expect(result.current.sessions).toEqual([]);
-    expect(findByRelease).not.toHaveBeenCalled();
+    expect(findByReleaseMock).not.toHaveBeenCalled();
   });
 });
