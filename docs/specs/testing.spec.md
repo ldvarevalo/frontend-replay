@@ -174,7 +174,24 @@ beforeEach(() => {
   );
   ```
 - **No-op por default:** los noop methods devuelven `[]`, `null`, `0` o un objeto vacío según el tipo de retorno. Si un test solo necesita que no fallen, basta con `setRepositories(createTestRepositories())` (o nada — `vitest.setup.ts` ya lo hace en `beforeEach`).
-- **Naming de mocks de repo:** `find<By>`, `create`, `update`, etc. — seguir el nombre del método del repositorio en minúsculas. Ante colisión con palabras reservadas (ej. `find` en `analytics.find`), prefijar con el nombre del repo: `analyticsFind`, `sessionsCreate`, etc.
+- **Naming de mocks de repo:** cualquier `vi.fn()` (sea standalone o asignado a una propiedad) lleva sufijo `Mock`:
+  ```tsx
+  // Standalone, con property explícito para no romper la API del repo:
+  const findByReleaseMock = vi.fn();
+  setRepositories(
+    createTestRepositories({
+      sessions: { findByRelease: findByReleaseMock },
+    })
+  );
+
+  // Inline en el override (no requiere sufijo Mock porque no se reusa):
+  setRepositories(
+    createTestRepositories({
+      stats: { findStats: vi.fn().mockResolvedValue(MOCK_STATS) },
+    })
+  );
+  ```
+- **Standalone vs inline:** standalone (con `Mock` suffix) cuando se va a reusar entre tests o necesita asserts cross-test; inline directo en el override cuando es de un solo uso. Ante colisión de nombres con built-ins (ej. `find` en `analytics.find`), prefijar con el nombre del repo: `analyticsFindMock`, `sessionsCreateMock`, etc.
 
 ## Datos mock
 
