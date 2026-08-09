@@ -59,19 +59,19 @@ const MOCK_UP_NEXT = [
 
 describe('HomePage', () => {
   beforeEach(() => {
-    const repos = createTestRepositories();
-
-    setRepositories({
-      ...repos,
-      stats: { findStats: async () => MOCK_STATS },
-      userReleases: {
-        ...repos.userReleases,
-        findRecent: async () => MOCK_ALBUMS,
-        findDailyPick: async () => MOCK_DAILY_PICK,
-        findOldestListened: async () => MOCK_REDISCOVER,
-        findUpNext: async () => MOCK_UP_NEXT,
-      },
-    });
+    setRepositories(
+      createTestRepositories({
+        stats: {
+          findStats: vi.fn().mockResolvedValue(MOCK_STATS),
+        },
+        userReleases: {
+          findRecent: vi.fn().mockResolvedValue(MOCK_ALBUMS),
+          findDailyPick: vi.fn().mockResolvedValue(MOCK_DAILY_PICK),
+          findOldestListened: vi.fn().mockResolvedValue(MOCK_REDISCOVER),
+          findUpNext: vi.fn().mockResolvedValue(MOCK_UP_NEXT),
+        },
+      })
+    );
   });
 
   it('should render Daily Pick section when dailyPick exists', async () => {

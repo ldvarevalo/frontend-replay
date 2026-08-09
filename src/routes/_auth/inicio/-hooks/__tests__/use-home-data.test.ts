@@ -1,5 +1,6 @@
 import { renderHook, waitFor } from '@test-utils';
 import * as authModule from '#/core/auth/auth-context';
+import { createTestRepositories } from '#/repositories/__tests__/test-repositories';
 import { setRepositories } from '#/repositories/instance';
 import type {
   Album,
@@ -97,86 +98,17 @@ describe('useHomeData', () => {
       email: 'user@example.com',
     });
 
-    setRepositories({
-      releases: {
-        findByQuery: async () => ({
-          results: [],
-          totalPages: 0,
-        }),
-        findByTitleAndArtist: async () => null,
-        create: async () => '',
-        findById: async () => ({
-          id: '',
-          coverUrl: '',
-          title: '',
-          artist: '',
-          year: '',
-          genre: '',
-          tracks: [],
-          status: null,
-          isListened: false,
-          priority: null,
-          addedAt: null,
-          archivedAt: null,
-        }),
-        linkArtist: async () => {},
-        linkGenre: async () => {},
-      },
-      musicSearch: {
-        search: async () => [],
-      },
-      userReleases: {
-        findRecent: async () => [...MOCK_RECENT],
-        findDailyPick: async () => MOCK_DAILY_PICK,
-        findOldestListened: async () => MOCK_REDISCOVER,
-        findUpNext: async () => [...MOCK_UP_NEXT],
-        findAllByUser: async () => [],
-        create: async () => {},
-        upsert: async () => {},
-        findByRelease: async () => null,
-        markAsListened: async () => {},
-        updatePriority: async () => {},
-        archive: async () => {},
-        unarchive: async () => {},
-      },
-      tracks: {
-        findRecentByUser: async () => [],
-        createMany: async () => {},
-        findByRelease: async () => [],
-      },
-      stats: {
-        findStats: async () => MOCK_STATS,
-      },
-      artists: {
-        findByName: async () => null,
-        create: async (name: string) => name,
-        search: async () => [],
-      },
-      genres: {
-        findByName: async () => null,
-        create: async (name: string) => name,
-        search: async () => [],
-      },
-      sessions: {
-        create: async () => {},
-        findByRelease: async () => [],
-      },
-      analytics: {
-        find: async () => ({
-          listenedAlbums: 0,
-          listeningTimeSeconds: 0,
-          addedToWant: 0,
-          markedOwned: 0,
-          discoverBacklog: { count: 0 },
-          mostListenedAlbum: undefined,
-          topArtists: [],
-          topGenres: [],
-          peakActivityDay: '',
-          averageSessionSeconds: 0,
-          completionRate: 0,
-        }),
-      },
-    });
+    setRepositories(
+      createTestRepositories({
+        stats: { findStats: vi.fn().mockResolvedValue(MOCK_STATS) },
+        userReleases: {
+          findRecent: vi.fn().mockResolvedValue([...MOCK_RECENT]),
+          findDailyPick: vi.fn().mockResolvedValue(MOCK_DAILY_PICK),
+          findOldestListened: vi.fn().mockResolvedValue(MOCK_REDISCOVER),
+          findUpNext: vi.fn().mockResolvedValue([...MOCK_UP_NEXT]),
+        },
+      })
+    );
   });
 
   it('should return all home data sections', async () => {

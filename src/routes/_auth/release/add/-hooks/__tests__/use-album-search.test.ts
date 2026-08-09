@@ -19,30 +19,23 @@ const setup = (
   localResults: SearchItem[],
   remoteResults: SearchItem[]
 ): void => {
-  const releases = {
-    findByQuery: vi.fn(async () => ({
-      results: localResults.map(r => ({
-        id: r.id,
-        thumbnail: '',
-        title: r.title,
-        artist: r.artist,
-        isAdded: false,
-      })),
-      totalPages: 1,
-    })),
-    create: vi.fn(),
-    linkArtist: vi.fn(),
-    linkGenre: vi.fn(),
-    findById: vi.fn(),
-    findByTitleAndArtist: vi.fn().mockResolvedValue(null),
-  };
-  const musicSearch = {
-    search: vi.fn(async () => remoteResults),
-  };
   setRepositories(
     createTestRepositories({
-      releases,
-      musicSearch,
+      releases: {
+        findByQuery: vi.fn().mockResolvedValue({
+          results: localResults.map(r => ({
+            id: r.id,
+            thumbnail: '',
+            title: r.title,
+            artist: r.artist,
+            isAdded: false,
+          })),
+          totalPages: 1,
+        }),
+      },
+      musicSearch: {
+        search: vi.fn().mockResolvedValue(remoteResults),
+      },
     })
   );
 };

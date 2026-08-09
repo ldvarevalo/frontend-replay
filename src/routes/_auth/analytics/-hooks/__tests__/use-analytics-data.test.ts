@@ -2,11 +2,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { waitFor } from '@testing-library/react';
 import { renderHook } from '@test-utils';
 import * as authModule from '#/core/auth/auth-context';
+import { createTestRepositories } from '#/repositories/__tests__/test-repositories';
 import { setRepositories } from '#/repositories/instance';
 import { useAnalyticsData } from '../use-analytics-data';
 
 const useUserMock = vi.spyOn(authModule, 'useUser');
-const mockAnalyticsFind = vi.fn();
+const analyticsFindMock = vi.fn();
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -21,74 +22,11 @@ beforeEach(() => {
     email: 'user@example.com',
   });
 
-  setRepositories({
-    releases: {
-      findByQuery: async () => ({
-        results: [],
-        totalPages: 0,
-      }),
-      findByTitleAndArtist: async () => null,
-      create: async () => '',
-      findById: async () => ({
-        id: '',
-        coverUrl: '',
-        title: '',
-        artist: '',
-        year: '',
-        genre: '',
-        tracks: [],
-        status: null,
-        isListened: false,
-        priority: null,
-        addedAt: null,
-        archivedAt: null,
-      }),
-      linkArtist: async () => {},
-      linkGenre: async () => {},
-    },
-    musicSearch: { search: async () => [] },
-    userReleases: {
-      findRecent: async () => [],
-      findDailyPick: async () => null,
-      findOldestListened: async () => null,
-      findUpNext: async () => [],
-      findAllByUser: async () => [],
-      create: async () => {},
-      upsert: async () => {},
-      findByRelease: async () => null,
-      markAsListened: async () => {},
-      updatePriority: async () => {},
-      archive: async () => {},
-      unarchive: async () => {},
-    },
-    tracks: {
-      findRecentByUser: async () => [],
-      createMany: async () => {},
-      findByRelease: async () => [],
-    },
-    stats: {
-      findStats: async () => ({
-        totalReleases: 0,
-        listeningTimeHours: 0,
-        wantToBuy: 0,
-      }),
-    },
-    artists: {
-      findByName: async () => null,
-      create: async (name: string) => name,
-      search: async () => [],
-    },
-    genres: {
-      findByName: async () => null,
-      create: async (name: string) => name,
-      search: async () => [],
-    },
-    sessions: {
-      create: async () => {},
-      findByRelease: async () => [],
-    },
-    analytics: { find: mockAnalyticsFind },
-  });
+  setRepositories(
+    createTestRepositories({
+      analytics: { find: analyticsFindMock },
+    })
+  );
 });
 
 /**
@@ -144,7 +82,7 @@ const EMPTY_ANALYTICS_DATA_MOCK = {
 
 describe('useAnalyticsData', () => {
   it('should return data when this-month has sessions', async () => {
-    mockAnalyticsFind.mockResolvedValue(ANALYTICS_DATA_MOCK);
+    analyticsFindMock.mockResolvedValue(ANALYTICS_DATA_MOCK);
 
     const { result } = renderHook(() => useAnalyticsData('this-month'));
 
@@ -157,7 +95,7 @@ describe('useAnalyticsData', () => {
   });
 
   it('should fallback to last-month when this-month is empty', async () => {
-    mockAnalyticsFind
+    analyticsFindMock
       .mockResolvedValueOnce(EMPTY_ANALYTICS_DATA_MOCK)
       .mockResolvedValueOnce(ANALYTICS_DATA_MOCK);
 
@@ -172,7 +110,7 @@ describe('useAnalyticsData', () => {
   });
 
   it('should return null when all periods are empty', async () => {
-    mockAnalyticsFind.mockResolvedValue(EMPTY_ANALYTICS_DATA_MOCK);
+    analyticsFindMock.mockResolvedValue(EMPTY_ANALYTICS_DATA_MOCK);
 
     const { result } = renderHook(() => useAnalyticsData('this-month'));
 
@@ -185,7 +123,7 @@ describe('useAnalyticsData', () => {
   });
 
   it('should not fallback when userSelected is true', async () => {
-    mockAnalyticsFind.mockResolvedValue(EMPTY_ANALYTICS_DATA_MOCK);
+    analyticsFindMock.mockResolvedValue(EMPTY_ANALYTICS_DATA_MOCK);
 
     const { result } = renderHook(() => useAnalyticsData('last-month', true));
 
@@ -194,6 +132,6 @@ describe('useAnalyticsData', () => {
     });
 
     expect(result.current.activePeriod).toBeNull();
-    expect(mockAnalyticsFind).toHaveBeenCalledTimes(1);
+    expect(analyticsFindMock).toHaveBeenCalledTimes(1);
   });
 });
