@@ -126,22 +126,29 @@ const SessionPage: FunctionComponent = () => {
   }
 
   const handleSubmit = (): void => {
-    createSession({
-      scope: activeMode,
-      sourceFormat,
-      duration,
-    });
-
-    navigate({
-      to: '/album/$id',
-      params: { id },
-    });
+    createSession(
+      {
+        scope: activeMode,
+        sourceFormat,
+        duration,
+      },
+      {
+        onSuccess: () => {
+          navigate({
+            to: '/album/$id',
+            params: { id },
+            replace: true,
+          });
+        },
+      }
+    );
   };
 
   const handleCancel = (): void => {
     navigate({
       to: '/album/$id',
       params: { id },
+      replace: true,
     });
   };
 
