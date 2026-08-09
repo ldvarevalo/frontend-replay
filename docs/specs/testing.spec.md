@@ -138,6 +138,44 @@ describe('Component', () => {
 - **`vi.mock`** solo para módulos sin exports reales
 - Sin `vi.mock`/`vi.spyOn` a nivel de módulo externo
 
+## Repository mocks
+
+Para hooks/componentes que consumen repositorios vía `getRepositories()`, usar el helper `createTestRepositories` en `src/repositories/__tests__/test-repositories.ts`. **Nunca** declarar el objeto `Repositories` completo inline.
+
+```tsx
+import { createTestRepositories } from '#/repositories/__tests__/test-repositories';
+import { setRepositories } from '#/repositories/instance';
+
+const findByRelease = vi.fn();
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  setRepositories(
+    createTestRepositories({
+      sessions: {
+        findByRelease,
+      },
+    })
+  );
+});
+```
+
+- **Partial override:** el helper hace merge por repositorio. Declarar solo los métodos que el test necesita; el resto heredan el noop default.
+- **Todos los métodos son `vi.fn()`** — las aserciones `expect(findByRelease).toHaveBeenCalledWith(...)` funcionan sin reasignar manualmente.
+- **Override por método:** para cambiar la respuesta de un solo método, declararlo en el override y dejar que el resto herede:
+  ```tsx
+  setRepositories(
+    createTestRepositories({
+      userReleases: {
+        findRecent: vi.fn().mockResolvedValue(MOCK_RECENT),
+        findDailyPick: vi.fn().mockResolvedValue(MOCK_DAILY_PICK),
+      },
+    })
+  );
+  ```
+- **No-op por default:** los noop methods devuelven `[]`, `null`, `0` o un objeto vacío según el tipo de retorno. Si un test solo necesita que no fallen, basta con `setRepositories(createTestRepositories())` (o nada — `vitest.setup.ts` ya lo hace en `beforeEach`).
+- **Naming de mocks de repo:** `find<By>`, `create`, `update`, etc. — seguir el nombre del método del repositorio en minúsculas. Ante colisión con palabras reservadas (ej. `find` en `analytics.find`), prefijar con el nombre del repo: `analyticsFind`, `sessionsCreate`, etc.
+
 ## Datos mock
 
 ```tsx

@@ -87,7 +87,7 @@ Siempre `import type` para imports solo de tipos (`verbatimModuleSyntax: true`).
 - **Repository DI pattern:** `setRepositories(repos)` / `getRepositories()` en `src/repositories/instance.ts`
   - Tests DEBEN llamar `setRepositories()` antes de usar hooks que acceden a datos
   - `vitest.setup.ts` ya llama `setRepositories(createTestRepositories())` en `beforeEach`
-  - Tests individuales pueden override con `setRepositories({ ... })`
+  - Tests individuales override con `setRepositories(createTestRepositories({ ... }))` (partial override; ver `docs/specs/testing.spec.md`)
   - `useRepositories()` hook en `src/repositories/hooks.ts`
 - **Mock data primero:** hooks locales con datos mock; migrar a queries reales cuando el backend esté listo
 
