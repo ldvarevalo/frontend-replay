@@ -1,5 +1,6 @@
 import { waitFor } from '@testing-library/react';
 import { renderHook } from '@test-utils';
+import { createTestRepositories } from '#/repositories/__tests__/test-repositories';
 import { setRepositories } from '#/repositories/instance';
 import { useAlbumSessions } from '../use-album-sessions';
 
@@ -19,97 +20,17 @@ vi.mock('#/core/auth/auth-context', async () => {
   };
 });
 
-const mockFindByRelease = vi.fn();
+const findByRelease = vi.fn();
 
 beforeEach(() => {
   vi.clearAllMocks();
-  setRepositories({
-    releases: {
-      findByQuery: async () => ({
-        results: [],
-        totalPages: 0,
-      }),
-      findByTitleAndArtist: async () => null,
-      create: async () => '',
-      findById: async () => ({
-        id: '',
-        coverUrl: '',
-        title: '',
-        artist: '',
-        year: '',
-        genre: '',
-        tracks: [],
-        status: null,
-        isListened: false,
-        priority: null,
-        addedAt: null,
-        archivedAt: null,
-      }),
-      linkArtist: async () => {},
-      linkGenre: async () => {},
-    },
-    musicSearch: {
-      search: async () => [],
-    },
-    userReleases: {
-      findRecent: async () => [],
-      findDailyPick: async () => null,
-      findOldestListened: async () => null,
-      findUpNext: async () => [],
-      findAllByUser: async () => [],
-      create: async () => {},
-      upsert: async () => {},
-      findByRelease: async () => null,
-      markAsListened: async () => {},
-      updatePriority: async () => {},
-      archive: async () => {},
-      unarchive: async () => {},
-    },
-    tracks: {
-      findRecentByUser: async () => [],
-      createMany: async () => {},
-      findByRelease: async () => [],
-    },
-    stats: {
-      findStats: async () => ({
-        totalReleases: 0,
-        listeningTimeHours: 0,
-        wantToBuy: 0,
-      }),
-    },
-    artists: {
-      findByName: async () => null,
-      create: async (name: string) => name,
-      search: async () => [],
-    },
-    genres: {
-      findByName: async () => null,
-      create: async (name: string) => name,
-      search: async () => [],
-    },
-    sessions: {
-      create: async () => {},
-      findByRelease: mockFindByRelease,
-    },
-    analytics: {
-      find: async () => ({
-        listenedAlbums: 0,
-        listeningTimeSeconds: 0,
-        addedToWant: 0,
-        markedOwned: 0,
-        discoverBacklog: {
-          count: 0,
-          oldestEntry: undefined,
-        },
-        mostListenedAlbum: undefined,
-        topArtists: [],
-        topGenres: [],
-        peakActivityDay: '',
-        averageSessionSeconds: 0,
-        completionRate: 0,
-      }),
-    },
-  });
+  setRepositories(
+    createTestRepositories({
+      sessions: {
+        findByRelease,
+      },
+    })
+  );
 });
 
 /**
@@ -130,7 +51,7 @@ describe('useAlbumSessions', () => {
       },
     ];
 
-    mockFindByRelease.mockResolvedValue(mockSessions);
+    findByRelease.mockResolvedValue(mockSessions);
 
     const { result } = renderHook(() => useAlbumSessions('release-1'));
 
@@ -139,11 +60,11 @@ describe('useAlbumSessions', () => {
     });
 
     expect(result.current.isLoading).toBe(false);
-    expect(mockFindByRelease).toHaveBeenCalledWith('release-1', 'user-1');
+    expect(findByRelease).toHaveBeenCalledWith('release-1', 'user-1');
   });
 
   it('should return empty array when no sessions exist', async () => {
-    mockFindByRelease.mockResolvedValue([]);
+    findByRelease.mockResolvedValue([]);
 
     const { result } = renderHook(() => useAlbumSessions('release-1'));
 
@@ -158,6 +79,6 @@ describe('useAlbumSessions', () => {
     const { result } = renderHook(() => useAlbumSessions(undefined));
 
     expect(result.current.sessions).toEqual([]);
-    expect(mockFindByRelease).not.toHaveBeenCalled();
+    expect(findByRelease).not.toHaveBeenCalled();
   });
 });
