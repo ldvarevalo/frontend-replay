@@ -94,11 +94,6 @@ export default tseslint.config(
               position: 'before',
             },
             {
-              pattern: '@ticmas-ui/*',
-              group: 'external',
-              position: 'after',
-            },
-            {
               pattern:
                 '@{components,components/**,config,core/**,features/**,pages/**,settings,settings/**,styles/**,test-utils,types,types/**,utils,utils/**}',
               group: 'external',
